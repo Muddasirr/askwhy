@@ -24,7 +24,7 @@ const Dashboard = () => {
     },
     {
       title: "Bias Detection",
-      description: "Identify biased language in headlines",
+      description: "Identify biased language x",
       image: "/images/bias-detection.svg",
       level: "🟡 Intermediate Level",
       duration: "🕒 5 min",
@@ -84,23 +84,34 @@ const Dashboard = () => {
   
 
   return (
-<div className="flex h-[90vh] py-8 px-16 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto">
+<div className="flex h-[90vh] pt-4 px-16 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto">
 {/* Make inner container fill width with 10% padding on each side */}
-<div className="w-full flex flex-col justify-between   space-y-6">
+<div className="w-full flex flex-col  ">
         {/* Header Bar */}
         
 
         {/* Welcome Section */}
-        <div className="flex items-center justify-between bg-[#5F237B] text-white px-12 py-6 rounded-xl shadow-sm">
+        <div className="flex justify-between items-center pb-6">
+          <div>
+            <img src={"/logo.svg"} className="w-[10vw]"/>
+            </div>
+            <div>
+User 1
+            </div>
+        </div>
+
+
+
+        <div className="mb-4 flex h-[18vh] items-center justify-between bg-[#5F237B] text-white px-12 py-8 rounded-xl shadow-sm">
           {/* Div A - Heading + Text */}
 
   <div className="w-[80%] ">
-  <h1 className="font-lato font-extrabold text-[28px] leading-[100%] text-white  mb-2">
+  <h1 className=" font-semibold text-[1.5vw] leading-[100%] text-white  mb-2">
   Welcome to askwhy!
 </h1>
 
-    <p className=" text-[18px] leading-relaxed opacity-90 text-white">
-      A glow up for your brain. How does that sound? We’re here to help. <br/>
+    <p className=" text-[1vw] leading-relaxed opacity-90 text-white w-[75%]">
+      A glow up for your brain. How does that sound? We’re here to help. 
       Turn curiosity into your superpower.{" "}
       <strong>Play. Challenge. Ask Why.</strong> Let’s start your journey with us!
     </p>
@@ -112,7 +123,7 @@ const Dashboard = () => {
           <div className="w-[20%] flex justify-center">
           <Button
   onClick={() => navigate("/M3")}
-  className=" bg-[#FF9348] hover:bg-[#3FCF6C] text-[white]  font-semibold text-[18px] leading-[100%] rounded-[6px] px-[10px] py-[8px] gap-[10px] opacity-100 flex items-center justify-center transition-all duration-200"
+  className=" bg-[#FF9348] hover:bg-[#3FCF6C] text-[white]  font-semibold text-[1vw] leading-[100%] rounded-[6px] px-[10px] py-[8px] gap-[10px] opacity-100 flex items-center justify-center transition-all duration-200"
 >
   Click here to start →
 </Button>
@@ -122,14 +133,14 @@ const Dashboard = () => {
 
 
         {/* All Modules - Phases Section */}
-        <div >
-          <h2 className="text-3xl pb-2 font-semibold text-[#D0193E]">Module Breakdown</h2>
+        <div className="mb-4" >
+          <h2 className="text-[1.5vw] pb-2 font-semibold text-[#D0193E]">Module Breakdown</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
   {phases.map((phase, index) => (
-   <Card className="w-full  bg-white opacity-100 rounded-[12px] border-2 border-gray-200 p-[20px] px-[22px] flex flex-col justify-between gap-[17px] shadow-sm">
+   <Card className="w-full h-[18vh] bg-white opacity-100 rounded-[12px] border-2 border-gray-200 p-[20px] px-[22px] flex flex-col justify-between gap-[17px] shadow-sm">
    <div>
-     <h3 className="font-semibold text-[24px] leading-[100%] text-center text-black mb-4">
+     <h3 className="font-normal text-[1.25vw] leading-[100%] text-center text-black mb-4">
        {phase.title}
      </h3>
  
@@ -161,31 +172,31 @@ const Dashboard = () => {
 
         {/* All Modules - Cards Section */}
         <div >
-          <h2 className="text-3xl pb-2 font-semibold text-[#FF5A5F]">All Modules</h2>
+          <h2 className="text-[1.5vw] pb-2 font-semibold text-[#FF5A5F]">All Modules</h2>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
   {modules.map((mod, index) => (
     <Card
       key={index}
-      className="p-1 w-[100%] rounded-xl shadow-sm cursor-pointer hover:shadow-md transition bg-white"
+      className=" w-[12vw] px-2 pt-2  rounded-xl shadow-sm cursor-pointer hover:shadow-md transition bg-white"
       onClick={() => navigate(mod.path)}
     >
-      <div className="w-[100%]  bg-[#F1F5F9] rounded-md mb-3 overflow-hidden  ">
+      <div className="w-[100%] flex justify-center items-center  bg-[#F1F5F9] rounded-md mb-1 overflow-hidden  ">
         <img
           src="/framee.svg"
           alt={mod.title}
-          className="w-full h-full object-cover"
+          className="w-[100%]  object-cover"
         />
       </div>
 
-      <h4 className="font-semibold text-sm mb-1 text-gray-800 ">
+      <h4 className="font-semibold text-[1vw] mb-1 text-gray-800 ">
         {mod.title}
       </h4>
-      <p className="text-xs text-gray-600 mb-2 leading-snug ">
+      <p className="text-[0.75vw] text-gray-600 mb-1 leading-snug ">
         {mod.description}
       </p>
 
-      <div className="flex items-center justify-between text-[0.7rem] text-gray-500">
+      <div className="flex items-center justify-between text-[0.5vw] text-gray-500">
         <span>{mod.level}</span>
         <span>{mod.duration}</span>
       </div>

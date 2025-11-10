@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, Bookmark } from "lucide-react";
+import { Heart, Bookmark, Clock } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import OpeningModal from "@/components/OpeningModal";
-import ModuleHeader from "@/components/ModuleHeader";
-import { ColumnsPhotoAlbum, RenderPhotoContext, RenderPhotoProps } from "react-photo-album";
+import { ColumnsPhotoAlbum, RenderPhotoContext, RenderPhotoProps, RowsPhotoAlbum } from "react-photo-album";
 import "react-photo-album/columns.css";
 
 interface Post {
@@ -65,6 +64,7 @@ export default function Exercise() {
           const dim = await new Promise<{ w: number; h: number }>((resolve) => {
             const img = new Image();
             img.src = urlData.publicUrl;
+            console.log(img.naturalWidth,img.naturalHeight)
             img.onload = () => resolve({ w: img.naturalWidth || 600, h: img.naturalHeight || 400 });
             img.onerror = () => resolve({ w: 600, h: 400 });
           });
@@ -222,13 +222,13 @@ const CustomPhotoOverlay = (
   const { photo } = context;
   const { onClick } = props;
   const [isHovered, setIsHovered] = useState(false);
-
+  const liked = likedIds.has(Number(photo.key))
+  const saved = savedIds.has(Number(photo.key))
   return (
     <div
       style={{
         position: "relative",
-        width: context.width,
-        height: context.height,
+        
         cursor: "pointer",
       }}
       onMouseEnter={() => setIsHovered(true)}
@@ -239,8 +239,6 @@ const CustomPhotoOverlay = (
         alt={photo.alt}
         style={{
           
-          width: "100%",
-          height: "100%",
           borderRadius: "12px",
           objectFit: "cover",
           transition: "transform 0.3s ease",
@@ -248,53 +246,70 @@ const CustomPhotoOverlay = (
         }}
       />
 
-      {isHovered && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-         
-            display: "flex",
-            justifyContent: "center",
-            gap: "1rem",
+      {/* Overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "1rem",
+          opacity: isHovered ? 1 : 0,
+          transition: "opacity 0.2s ease",
+          pointerEvents: isHovered ? "auto" : "none",
+        }}
+      >
+        {/* Like Button */}
+        <Button
+          size="icon"
+          variant="ghost"
+          className={`bg-white shadow-md hover:bg-gray-100 ${
+            liked ? "text-red-500" : "text-black"
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePostAction(Number(photo.key), "like");
           }}
         >
-          <Button
-            size="icon"
-            variant="ghost"
-            className="text-white"
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePostAction(Number(photo.key), "like");
-            }}
-          >
-            <Heart className="w-5 h-5" />
-          </Button>
+          <Heart
+            className={`w-5 h-5 transition-colors ${
+              liked ? "fill-red-500 text-red-500" : ""
+            }`}
+          />
+        </Button>
 
-          <Button
-            size="icon"
-            variant="ghost"
-            className="text-white"
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePostAction(Number(photo.key), "save");
-            }}
-          >
-            <Bookmark className="w-5 h-5" />
-          </Button>
-        </div>
-      )}
+        {/* Save Button */}
+        <Button
+          size="icon"
+          variant="ghost"
+          className={`bg-white shadow-md hover:bg-gray-100 ${
+            saved ? "text-purple-500" : "text-black"
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePostAction(Number(photo.key), "save");
+          }}
+        >
+          <Bookmark
+            className={`w-5 h-5 transition-colors ${
+              saved ? "fill-purple-500 text-purple-500" : ""
+            }`}
+          />
+        </Button>
+      </div>
     </div>
   );
+  
 };
 
 
   // Main gallery
   return (
-    <div className="min-h-screen bg-[#F8F1E7] flex items-center justify-center py-4  rounded-[24px] shadow-sm">
+    <div className="min-h-screen bg-[#F8F1E7] flex items-center justify-center p-16  rounded-[24px] shadow-sm">
       <OpeningModal showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
       <div className="max-w-7xl w-full ">
-        <ModuleHeader src="/m1.2.svg" />
+        {/* <ModuleHeader  /> */}
 
         <div className="flex justify-end gap-2 mb-8 text-gray-700">
           <span>
@@ -309,19 +324,50 @@ const CustomPhotoOverlay = (
         <h2 className="text-center text-lg font-medium text-gray-700 mb-8">Click to like and save!</h2>
 
         <ColumnsPhotoAlbum
+        spacing={8}
   photos={photos}
+  defaultContainerWidth={600}
+  render={{ photo: CustomPhotoOverlay }}
   columns={(containerWidth) => {
     if (containerWidth < 500) return 2;
     if (containerWidth < 900) return 3;
     if (containerWidth < 1200) return 4;
     return 4;
-  }}
-  spacing={10}
-  render={{ photo: CustomPhotoOverlay }}
-/>
+    
+    }}
+  />
 
 
       </div>
     </div>
   );
 }
+
+
+{/* <ColumnsPhotoAlbum
+spacing={8}
+photos={photos}
+columns={(containerWidth) => {
+if (containerWidth < 500) return 2;
+if (containerWidth < 900) return 3;
+if (containerWidth < 1200) return 4;
+return 4;
+
+}} */}
+{/* <ColumnsPhotoAlbum
+spacing={8}
+photos={photos}
+columns={(containerWidth) => {
+if (containerWidth < 500) return 2;
+if (containerWidth < 900) return 3;
+if (containerWidth < 1200) return 4;
+return 4;
+
+}}
+
+
+
+render={{ photo: CustomPhotoOverlay }}
+
+
+/> */}

@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { CircularProgress } from "@/components/CircularProgress";
+import BehindTheBuzzPage from "./BehindTheBuzzPage";
 
 const Quiz = () => {
   const [searchParams] = useSearchParams();
@@ -218,7 +219,7 @@ const Quiz = () => {
 
       <div className="w-full bg-[#F8F1E7]">
         {isM5Module ? (
-          <ConnectDotsQuiz moduleId={moduleId || ""} />
+          <BehindTheBuzzPage  />
         ) :
          isM4Module ? (
           <>

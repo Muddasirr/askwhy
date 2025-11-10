@@ -11,9 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { CircularProgress } from "@/components/CircularProgress";
 import { useState,useEffect } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 
 
 const FakeFact = ()=> {
@@ -527,31 +525,16 @@ Fake or fact</h1>
 }
 
 
-const PrevArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow"
-    >
-      <ChevronLeft className="h-5 w-5" />
-    </button>
-  );
-};
 
-const NextArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow"
-    >
-      <ChevronRight className="h-5 w-5" />
-    </button>
-  );
-};
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import {  MessageCircle, Share2,  } from "lucide-react"
 
  function Question3Carousel({
   showResult,
@@ -562,68 +545,121 @@ const NextArrow = (props) => {
   carousel3ImageUrl,
   carousel4ImageUrl,
 }) {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-  };
-
   const images = [
     carousel1ImageUrl,
     carousel2ImageUrl,
     carousel3ImageUrl,
     carousel4ImageUrl,
-  ];
-console.log(images)
-  return (
-    <div
-      className={cn(
-        "flex items-center justify-center transition-all duration-500 overflow-hidden",
-        showResult && "animate-fade-out",
-      )}
-    >
-      <div className="max-w-5xl w-full h-[45vh] flex flex-col justify-center">
-        <Slider {...settings}>
-          {images.map((src, i) => (
-            <div
-              key={i}
-              className="relative flex items-center justify-center"
-            >
-              <img
-                src={src}
-                alt={`Carousel image ${i + 1}`}
-                className={cn(
-                  "h-[45vh] w-auto object-contain cursor-pointer rounded-lg transition-all duration-300 mx-auto",
-                  !showResult && "hover:scale-105 hover:shadow-lg",
-                )}
-                onClick={() => handleCarouselClick(i, i === 1)}
-              />
+  ]
 
-              {showResult && selectedCarouselIndex === i && (
-                <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-lg animate-fade-in">
-                  <div
-                    className={cn(
-                      "rounded-full p-6 animate-scale-in",
-                      i === 1 ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
-                    )}
-                  >
-                    {i === 1 ? (
-                      <Check className="w-16 h-16 text-white" strokeWidth={3} />
-                    ) : (
-                      <X className="w-16 h-16 text-white" strokeWidth={3} />
-                    )}
-                  </div>
-                </div>
+  return (
+    <div className="flex justify-center items-center bg-[#f9f9f9] ">
+      <div
+        className={cn(
+          "bg-white rounded-xl shadow-sm border max-w-md w-full overflow-hidden transition-all duration-500",
+          showResult && "animate-fade-out"
+        )}
+      >
+        {/* Header */}
+        <div className="flex items-center gap-3 px-4 pt-4">
+          <div className="bg-[#00B16A] rounded-full w-10 h-10 flex items-center justify-center text-white font-bold text-lg">
+            EW
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-900 text-[15px]">
+              Entertainment Weekly
+            </h2>
+            <p className="text-xs text-gray-500">14 September 2025</p>
+          </div>
+        </div>
+
+        {/* Caption */}
+        <p className="text-sm text-gray-800 px-4 py-3 leading-relaxed">
+          People say it’s just coincidence, but how do you “accidentally” predict major events?
+          Feels less like comedy and more like disclosure.
+        </p>
+
+        {/* Carousel */}
+        <div className="relative">
+          <Carousel className="w-full">
+            <CarouselContent>
+              {images.map(
+                (src, i) =>
+                  src && (
+                    <CarouselItem key={i}>
+                      <div className="relative flex items-center justify-center">
+                        <img
+                          src={src}
+                          alt={`Carousel image ${i + 1}`}
+                          className={cn(
+                            "object-cover w-full max-h-[400px] cursor-pointer transition-all duration-300",
+                            !showResult && "hover:scale-[1.02]"
+                          )}
+                          onClick={() => handleCarouselClick(i, i === 1)}
+                        />
+
+                        {/* ✅ Overlay result check/cross */}
+                        {showResult && selectedCarouselIndex === i && (
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-lg animate-fade-in">
+                            <div
+                              className={cn(
+                                "rounded-full p-6 animate-scale-in",
+                                i === 1 ? "bg-[#4EBD6F]" : "bg-[#B21B1D]"
+                              )}
+                            >
+                              {i === 1 ? (
+                                <Check
+                                  className="w-16 h-16 text-white"
+                                  strokeWidth={3}
+                                />
+                              ) : (
+                                <X
+                                  className="w-16 h-16 text-white"
+                                  strokeWidth={3}
+                                />
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </CarouselItem>
+                  )
               )}
+            </CarouselContent>
+
+            <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md text-black rounded-full p-2 z-10" />
+            <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md text-black rounded-full p-2 z-10" />
+          </Carousel>
+
+          {/* Bottom Overlay Caption */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+            <p className="text-white font-semibold text-center text-sm">
+              The Simpsons Prediction on Queen Elizabeth II’s Death in 2022
+            </p>
+          </div>
+        </div>
+
+        {/* Reaction Bar */}
+        <div className="flex justify-between items-center px-4 py-3 text-sm text-gray-700">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+              <Heart className="w-5 h-5" />
+              <span>13.4K</span>
             </div>
-          ))}
-        </Slider>
+            <div className="flex items-center gap-1">
+              <MessageCircle className="w-5 h-5" />
+              <span>47</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Share2 className="w-5 h-5" />
+              <span>492</span>
+            </div>
+          </div>
+          <Bookmark className="w-5 h-5" />
+        </div>
       </div>
     </div>
-  );
+  )
 }
+
+

@@ -1,7 +1,8 @@
 import BehindTheBuzz from "@/components/BehindTheBuzz";
+import ConnectDotsQuiz from "@/components/ConnectDotsQuiz";
 
 const BehindTheBuzzPage = () => {
-  return <BehindTheBuzz />;
+  return <ConnectDotsQuiz/>
 };
 
 export default BehindTheBuzzPage;

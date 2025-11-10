@@ -3,7 +3,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Module from "./pages/Module";
@@ -15,7 +14,6 @@ import DebateSwitch from "./pages/DebateSwitch";
 import InTheirShoes from "./pages/InTheirShoes";
 import Quiz from "./pages/Quiz";
 import Indexx from "./pages/Indexcopy";
-import Indexcopy from "./pages/Index-copy";
 import PickAndFlickPage from "./pages/PickAndFlickPage";
 import BiasQuizPage from "./pages/BiasQuizPage";
 import ConnectDotsPage from "./pages/ConnectDotsPage";
@@ -42,7 +40,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/onboarding" element={<Onboarding/>}/>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Onboarding/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/module" element={<Module />} />

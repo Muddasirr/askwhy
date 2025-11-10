@@ -135,7 +135,7 @@ const DebateSwitch = () => {
         }),
       });
       const data = await res.json();
-      setLlmArgument(data?.choices?.[0]?.message?.content || "No response");
+      setLlmArgument(data?.choices?.[0]?.message?.content || "XXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     } catch {
       setLlmArgument("⚠️ Unable to fetch AI argument.");
     } finally {
@@ -179,55 +179,55 @@ const DebateSwitch = () => {
   }
 
   return (
-    <main className="min-h-screen bg-[#F8F1E7]">
-  <div>
-    {/* Header Section */}
-    <ModuleHeader/>
-
-    {/* Headline */}
-    <div className="text-center mb-6">
-      <p className="text-xl font-medium text-gray-900 mb-4">Headline #1</p>
-    </div>
-
-    {/* Red Banner */}
-    <div className="bg-[#FF5A5F] text-white text-center py-4 px-6 mb-6 ">
-      <p className="text-xl font-medium">{DEBATE_TOPIC}</p>
-    </div>
-
-    {/* Instruction */}
-    <div className="text-center mb-8">
-      <p className="text-gray-800">
-        Argue in favor of the headline by choosing the best prompt
-      </p>
-    </div>
-
-    {/* Debate Row */}
-   {/* Debate Row */}
-   <div className="flex items-center justify-between mt-10 px-12">
+    <main className="h-[90vh] bg-[#F8F1E7] flex flex-col">
+      {/* Header Section */}
+      <ModuleHeader />
+  
+      {/* Headline */}
+      <div className="text-center">
+        <p className="text-xl font-medium text-gray-900">Headline #1</p>
+      </div>
+      <div className="text-center mb-8">
+        <p className="text-gray-800">
+          Argue in favor of the headline by choosing the best prompt
+        </p>
+      </div>
+  
+      {/* Red Banner */}
+      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 px-6 mb-6 ml-16">
+        <p className="text-xl font-medium">{DEBATE_TOPIC}</p>
+      </div>
+  
+      {/* Debate Row — this now fills all remaining vertical space */}
+      <div className="flex justify-between flex-grow px-12 items-stretch">
   {/* Opponent Side */}
-  <div className="flex items-center gap-6 text-center">
-    <div>
-      <p className="text-sm text-gray-700 font-medium mb-3">Opponent LLM</p>
-      <img src="/u.png" alt="Opponent" className="w-40 h-40 object-contain mb-3" />
+  <div className="flex items-stretch gap-6 text-center">
+    <div className="flex flex-col justify-end">
+      <p className="text-sm text-gray-700 font-medium ">Opponent LLM</p>
+      <img
+        src="/opponent.svg"
+        alt="Opponent"
+        className="w-72 h-full object-contain"
+      />
     </div>
 
     {/* Opponent Argument */}
-    <div className="bg-[#F5F3E8] rounded-[30px] min-h-[200px] w-[280px] flex items-center justify-center shadow-sm">
-      <p className="text-gray-900 text-center text-base px-4">
+    <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[280px] flex items-center justify-center shadow-sm p-4 h-[70%]">
+      <p className="text-gray-900 text-center text-base break-words overflow-hidden">
         {isLoading ? "Thinking..." : llmArgument}
       </p>
     </div>
   </div>
 
   {/* User Side */}
-  <div className="flex items-center gap-6 text-center">
+  <div className="flex items-stretch gap-6 text-center">
     {showUserOptions && (
-      <div className="space-y-2 w-[340px]">
+      <div className="space-y-4 w-[340px] flex flex-col ">
         {userPrompts.map((prompt, index) => (
           <button
             key={index}
             onClick={() => handlePromptClick(index + 1)}
-            className={`w-full bg-white rounded-xl p-2.5 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
+            className={`w-full bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] p-2.5 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
               selectedPrompt === index + 1
                 ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
                 : "hover:bg-gray-50 hover:shadow-md"
@@ -247,20 +247,20 @@ const DebateSwitch = () => {
       </div>
     )}
 
-    <div>
-      <img src="/me.png" alt="You" className="w-40 h-40 object-contain mb-3" />
+    <div className="flex flex-col justify-end items-center h-full">
       <p className="text-sm text-gray-700 font-medium">You</p>
+      <img
+        src="/user.svg"
+        alt="You"
+        className="w-72 h-full object-contain"
+      />
     </div>
   </div>
 </div>
 
-
-
-
-  </div>
-</main>
-
+    </main>
   );
+  
 };
 
 export default DebateSwitch;
@@ -275,7 +275,7 @@ import { Clock } from "lucide-react"
 const ModuleHeader = () => {
     return (
         <>
-            <div className=" p-24 mb-10">
+            <div className=" pt-8 px-16 mb-8">
                 <div className="flex items-center justify-between">
                     {/* Left side: Icon + Module Info */}
                     <div className="flex items-center gap-8">
@@ -315,11 +315,7 @@ One debate, two sides, endless perspectives</p>
             </div>
 
             {/* Instructions */}
-            <h2
-                className=" font-normal text-[27px] leading-[100%] text-center text-[black] mb-6"
-            >
-                Click to narrow down your interests
-            </h2>
+            
         </>)
 }
 

@@ -5,9 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 import BiasQuiz from "@/components/BiasQuiz";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { CircularProgress } from "@/components/CircularProgress";
-import { Clock } from "lucide-react";
+
 
 const SpotTheBias = () => {
   const navigate = useNavigate();

@@ -443,7 +443,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
         onMouseDown={() => handleMouseDown(index)}
         onMouseEnter={() => handleMouseEnter(index)}
         style={combinedStyle}
-        className={`cursor-pointer inline-block transition-all duration-200 px-3 ${
+        className={`cursor-pointer inline-block transition-all duration-200 mx-3 ${
           !wordStyle && !isInCurrentSelection && !isInAnySelection
             ? 'hover:outline hover:outline-2 hover:outline-dashed hover:outline-foreground/40 hover:rounded-lg hover:px-1'
             : ''

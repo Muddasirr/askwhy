@@ -4,8 +4,9 @@ import { BookOpen, Clock, Star, AlarmClock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
-type Screen = "intro" | "roleSelection" | "question";
+type Screen = "intro" | "roleSelection" | "question" | "scenario";
 type Role = {
   title: string;
   subtitle: string;
@@ -112,7 +113,7 @@ const InTheirShoes = () => {
 
   if (currentScreen === "roleSelection") {
     return (
-      <main className="min-h-screen bg-[#F8F1E7] p-8">
+      <main className="h-[90vh] bg-[#F8F1E7] p-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-12">
@@ -154,78 +155,100 @@ const InTheirShoes = () => {
           </div>
 
           {/* Role Cards - Organic Layout */}
-          <div className="relative max-w-6xl mx-auto h-[500px]">
-            {/* Row 1 - Top scattered */}
-            <Card
-              onClick={() => handleRoleSelect(roles[0])}
-              className="absolute top-0 left-[10%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
+          <div className=" flex items-center justify-center bg-[#F9F4EC] px-12">
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full max-w-6xl relative"
+      >
+        <CarouselContent>
+          {[...Array(6)].map((_, i) => (
+            <CarouselItem
+              key={i}
+              className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+              onClick={()=>setCurrentScreen("scenario")}
             >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[0].title}</h3>
-              {roles[0].subtitle && <p className="text-sm text-gray-600">{roles[0].subtitle}</p>}
-            </Card>
+              <RoleCard />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
 
-            <Card
-              onClick={() => handleRoleSelect(roles[1])}
-              className="absolute top-8 left-[32%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[1].title}</h3>
-              {roles[1].subtitle && <p className="text-sm text-gray-600">{roles[1].subtitle}</p>}
-            </Card>
-
-            <Card
-              onClick={() => handleRoleSelect(roles[2])}
-              className="absolute top-0 left-[54%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[2].title}</h3>
-              {roles[2].subtitle && <p className="text-sm text-gray-600">{roles[2].subtitle}</p>}
-            </Card>
-
-            <Card
-              onClick={() => handleRoleSelect(roles[3])}
-              className="absolute top-8 right-[8%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[3].title}</h3>
-              {roles[3].subtitle && <p className="text-sm text-gray-600">{roles[3].subtitle}</p>}
-            </Card>
-
-            {/* Row 2 - Middle scattered */}
-            <Card
-              onClick={() => handleRoleSelect(roles[4])}
-              className="absolute top-[200px] right-[10%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[4].title}</h3>
-              {roles[4].subtitle && <p className="text-sm text-gray-600">{roles[4].subtitle}</p>}
-            </Card>
-
-            {/* Row 3 - Bottom scattered */}
-            <Card
-              onClick={() => handleRoleSelect(roles[5])}
-              className="absolute bottom-0 left-[12%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[5].title}</h3>
-              {roles[5].subtitle && <p className="text-sm text-gray-600">{roles[5].subtitle}</p>}
-            </Card>
-
-            <Card
-              onClick={() => handleRoleSelect(roles[6])}
-              className="absolute bottom-8 left-[38%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[6].title}</h3>
-              {roles[6].subtitle && <p className="text-sm text-gray-600">{roles[6].subtitle}</p>}
-            </Card>
-
-            <Card
-              onClick={() => handleRoleSelect(roles[7])}
-              className="absolute bottom-0 right-[15%] bg-[#F5F3E8] hover:bg-[#EBE8DC] border-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg p-6 flex flex-col items-center justify-center text-center w-48 h-36"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{roles[7].title}</h3>
-              {roles[7].subtitle && <p className="text-sm text-gray-600">{roles[7].subtitle}</p>}
-            </Card>
+        <CarouselPrevious className="bg-white border border-gray-300 shadow-sm hover:scale-105 transition" />
+        <CarouselNext className="bg-[#FF9348] border border-gray-300 shadow-sm hover:scale-105 transition" />
+      </Carousel>
+    </div>
+        </div>
+      </main>
+    );
+  }
+  if (currentScreen === "scenario") {
+    return (
+      <main className="h-[90vh] bg-[#F8F1E7] p-8">
+        <div className="max-w-6xl mx-auto flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-10">
+            {/* Left Side */}
+            <div className="flex items-center gap-5">
+              <div className="relative w-16 h-16 flex items-center justify-center bg-[#FFEBD2] rounded-xl flex-shrink-0">
+                <span className="text-xl font-bold text-[#E67A00]">M3</span>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-1">
+                  In their shoes 👟
+                </h1>
+                <p className="text-gray-700 text-base">
+                  Step into another role, and make their world make sense.
+                </p>
+                <div className="flex items-center gap-2 mt-2 text-gray-900">
+                  <AlarmClock className="w-5 h-5" />
+                  <span className="text-lg font-semibold">02:00</span>
+                </div>
+              </div>
+            </div>
+  
+            {/* Right Side: Polarization Score */}
+            <div className="text-right">
+              <Progress
+                value={98}
+                className="w-64 h-3 mb-2 [&>div]:!bg-[linear-gradient(90deg,#FF5A5F_0%,#E91E8C_50%,#8B5CF6_100%)]"
+              />
+              <p className="text-sm text-gray-600">Polarization Score</p>
+              <p className="text-right text-gray-700 font-semibold text-lg">
+                0/3 Left
+              </p>
+            </div>
+          </div>
+  
+          {/* Scenario Section */}
+          <div className="flex items-center justify-between bg-[#FFF9F4] rounded-2xl shadow-sm p-10">
+            {/* Left: Character Image (using RoleCard) */}
+            <div className="w-1/3 flex justify-center">
+              <RoleCard />
+            </div>
+  
+            {/* Right: Scenario Text */}
+            <div className="w-2/3 flex flex-col items-center text-center px-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-3">
+                Scenario #1
+              </h2>
+              <p className="text-lg text-gray-800 leading-relaxed mb-8 max-w-lg">
+                You post a reel about gender equality. Overnight, your DMs explode
+                — some praise you as a feminist hero, others call you a
+                “man-hater.” Brand sponsors email, saying “keep it less
+                political.”
+              </p>
+              <button className="bg-[#FF9348] text-white font-medium px-6 py-2 rounded-lg hover:opacity-90 transition">
+                Next →
+              </button>
+            </div>
           </div>
         </div>
       </main>
     );
   }
+  
 
   // Question Screen
   return (
@@ -267,106 +290,127 @@ const InTheirShoes = () => {
           <h2 className="text-3xl font-semibold text-gray-900">Scenario #1</h2>
         </div>
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-[400px_1fr] gap-12 items-start">
-          {/* Left: Scenario Card */}
-          <Card className="bg-[#F5F3E8] border-none p-8 shadow-sm">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6 text-center">Scenario #1</h3>
-            <h4 className="text-xl font-semibold text-gray-900 mb-8 text-center">
-              {selectedRole?.title}
-              {selectedRole?.subtitle && (
-                <span className="block text-base text-gray-600 mt-2">{selectedRole.subtitle}</span>
-              )}
-            </h4>
-            <p className="text-base text-gray-800 leading-relaxed text-center">
-              You post a reel about gender equality. Overnight, your DMs explode — some praise you as a feminist hero,
-              others call you a "man-hater." Brand sponsors email, saying "keep it less political."
-            </p>
-          </Card>
+      
+        <div className="flex justify-center items-center bg-[#F9F4EC]">
+  <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 text-center">
+    {/* Question Section */}
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">Question 1</h3>
+    <p className="text-gray-800 mb-8 leading-relaxed">
+      What's the most mindful next move that helps you engage with nuance rather than fuel the divide?
+    </p>
 
-          {/* Right: Question and Answers */}
-          <div className="flex flex-col">
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Question 1</h3>
-              <p className="text-gray-800 mb-8 leading-relaxed">
-                What's the most mindful next move that helps you engage with nuance rather than fuel the divide?
-              </p>
+    {/* Image */}
+    <img
+      src="/Teacher.svg"
+      alt="Teacher"
+      width={120}
+      height={120}
+      className="rounded-md mb-8"
+    />
 
-              {/* Answer Cards - Horizontal Layout */}
-              <div className="grid grid-cols-3 gap-6 mb-8">
-                <Card
-                  onClick={() => handleAnswerSelect("A")}
-                  className={`p-6 cursor-pointer transition-all hover:shadow-md border-2 ${
-                    selectedAnswer === "A" 
-                      ? "bg-[#E8F5E9] border-[#4CAF50]" 
-                      : "bg-white border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <div className="flex flex-col items-start gap-3">
-                    <span className="flex items-center justify-center w-8 h-8 bg-gray-900 text-white rounded font-semibold flex-shrink-0">
-                      A
-                    </span>
-                    <p className="text-sm text-gray-800 leading-relaxed">
-                      Post a calm follow-up explaining that gender equality benefits everyone, not just one side.
-                    </p>
-                  </div>
-                </Card>
-
-                <Card
-                  onClick={() => handleAnswerSelect("B")}
-                  className={`p-6 cursor-pointer transition-all hover:shadow-md border-2 ${
-                    selectedAnswer === "B" 
-                      ? "bg-[#E8F5E9] border-[#4CAF50]" 
-                      : "bg-white border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <div className="flex flex-col items-start gap-3">
-                    <span className="flex items-center justify-center w-8 h-8 bg-gray-900 text-white rounded font-semibold flex-shrink-0">
-                      B
-                    </span>
-                    <p className="text-sm text-gray-800 leading-relaxed">
-                      Host a live Q&A to let both supporters and critics share their views, and clarify your intent.
-                    </p>
-                  </div>
-                </Card>
-
-                <Card
-                  onClick={() => handleAnswerSelect("C")}
-                  className={`p-6 cursor-pointer transition-all hover:shadow-md border-2 ${
-                    selectedAnswer === "C" 
-                      ? "bg-[#E8F5E9] border-[#4CAF50]" 
-                      : "bg-white border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <div className="flex flex-col items-start gap-3">
-                    <span className="flex items-center justify-center w-8 h-8 bg-gray-900 text-white rounded font-semibold flex-shrink-0">
-                      C
-                    </span>
-                    <p className="text-sm text-gray-800 leading-relaxed">
-                      Create a follow-up reel unpacking how polarized reactions form online — showing that outrage is algorithmically rewarded.
-                    </p>
-                  </div>
-                </Card>
-              </div>
-
-              {/* Navigation */}
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">‹ next 1/2›</p>
-                <Button 
-                  onClick={handleNext} 
-                  disabled={!selectedAnswer} 
-                  size="lg"
-                  className="bg-[#C4B5FD] hover:bg-[#B4A3F3] text-gray-900 px-16 rounded-lg disabled:opacity-50"
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          </div>
+    {/* Answer Cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mb-8">
+      <Card
+        onClick={() => handleAnswerSelect("A")}
+        className={`p-2 cursor-pointer transition-all hover:shadow-md border-2 ${
+          selectedAnswer === "A"
+            ? "bg-[#E8F5E9] border-[#4CAF50]"
+            : "bg-[#EDE1D0] border-gray-200 hover:border-gray-300"
+        }`}
+      >
+        <div className="flex flex-col items-start gap-3">
+          <span className="flex items-center justify-center w-8 h-8 bg-[white] text-black rounded-2xl font-normal">
+            A
+          </span>
+          <p className="text-sm text-gray-800 text-left leading-relaxed">
+          Post a calm follow-up explaining that gender equality benefits everyone, not just one side.
+          </p>
         </div>
+      </Card>
+
+      <Card
+        onClick={() => handleAnswerSelect("B")}
+        className={`p-6 cursor-pointer transition-all hover:shadow-md border-2 ${
+          selectedAnswer === "B"
+            ? "bg-[#E8F5E9] border-[#4CAF50]"
+            : "bg-white border-gray-200 hover:border-gray-300"
+        }`}
+      >
+        <div className="flex flex-col items-start gap-3">
+          <span className="flex items-center justify-center w-8 h-8 bg-gray-900 text-white rounded font-semibold">
+            B
+          </span>
+          <p className="text-sm text-gray-800 leading-relaxed">
+            Host a live Q&A to let both supporters and critics share their views, and clarify your intent.
+          </p>
+        </div>
+      </Card>
+
+      <Card
+        onClick={() => handleAnswerSelect("C")}
+        className={`p-6 cursor-pointer transition-all hover:shadow-md border-2 ${
+          selectedAnswer === "C"
+            ? "bg-[#E8F5E9] border-[#4CAF50]"
+            : "bg-white border-gray-200 hover:border-gray-300"
+        }`}
+      >
+        <div className="flex flex-col items-start gap-3">
+          <span className="flex items-center justify-center w-8 h-8 bg-gray-900 text-white rounded font-semibold">
+            C
+          </span>
+          <p className="text-sm text-gray-800 leading-relaxed">
+            Create a follow-up reel unpacking how polarized reactions form online — showing that outrage is algorithmically rewarded.
+          </p>
+        </div>
+      </Card>
+    </div>
+
+    {/* Optional Navigation */}
+    {/* 
+    <div className="flex items-center justify-between w-full">
+      <p className="text-sm text-gray-600">‹ next 1/2›</p>
+      <Button
+        onClick={handleNext}
+        disabled={!selectedAnswer}
+        size="lg"
+        className="bg-[#C4B5FD] hover:bg-[#B4A3F3] text-gray-900 px-16 rounded-lg disabled:opacity-50"
+      >
+        Next
+      </Button>
+    </div> 
+    */}
+  </div>
+</div>
+
       </div>
     </main>
   );
 };
 
 export default InTheirShoes;
+
+
+// components/RoleCard.tsx
+
+function RoleCard() {
+  return (
+    <div className="bg-[white] h-[35vh] border-[3px] border-black rounded-xl shadow-sm p-6 text-center">
+      {/* Top Heading */}
+      <h2 className="text-lg font-semibold mb-2 text-black">Divided Class</h2>
+
+      {/* Image */}
+      <div className="flex justify-center mb-2">
+        <img
+          src="/Teacher.svg" // Replace with your teacher image URL
+          alt="Teacher"
+          width={120}
+          height={120}
+          className="rounded-md"
+        />
+      </div>
+
+      {/* Role */}
+      <p className="text-gray-900 font-medium text-md">Role: Teacher</p>
+    </div>
+  );
+}

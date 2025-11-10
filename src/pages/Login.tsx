@@ -7,15 +7,16 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex h-[90vh] bg-white">
+    <div className="flex h-[100vh] bg-white">
       {/* Left Side */}
-      <div className="flex flex-col  items-start w-1/2 px-16 ">
+      <div className="flex flex-col  items-start w-1/2 p-24 ">
         {/* Logo and Tagline */}
         <div>
           {/* <h1 className="text-[48px] font-bold text-[#A11D8C]">
             askwhy<span className="text-[#D22B8A]">?</span>
           </h1> */}
-          <img src="/logo.svg"/>
+          <img src="/logo.svg"
+          className="w-[60%] object-contain"/>
           <p className="text-[#5E2B9D] text-[20px] font-normal leading-[100%] mt-1 font-gabarito">
   Bridging minds, one question at a time.
 </p>
@@ -23,7 +24,7 @@ const Login = () => {
         </div>
 
         {/* Welcome Section */}
-        <div className="w-full max-w-sm py-32 space-y-6">
+        <div className="w-full max-w-sm py-16 space-y-6">
 
           {/* Email */}
           <div className="space-y-2">
@@ -70,9 +71,9 @@ const Login = () => {
       {/* Right Side */}
       <div className="w-1/2 bg-[#F8F1E7] flex flex-col  items-center relative">
         <img
-          src="/storm.png"
+          src="/onboarding.svg"
           alt="illustration"
-          className="w-[100%] object-contain"
+          className="w-[90%] object-contain"
         />
         
         <p className="absolute bottom-10 text-black text-lg">
