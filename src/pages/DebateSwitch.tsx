@@ -324,7 +324,7 @@ const ClosingModal = () => {
 
   return (
     <div className="p-8">
-<div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
+<div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
               <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
 
               {/* Module Completion Header */}
@@ -336,12 +336,12 @@ const ClosingModal = () => {
 </div>
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-  Module 4: Complete
+  Module 6: Complete
 </h1>
 
 
 <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-✓ 7/7 Score interests narrowed!
+✓ 4/4 Debates switch 
 </p>
 
                   </div>
@@ -354,8 +354,7 @@ const ClosingModal = () => {
               </div>
 
 <div>
-Yikes, 98% polarization! But that’s what we’re here for — to unpack it, learn, and bring the number down together. Lower the score, lower the polarization.... and that's how you win!
-</div>
+<span className="text-[#5F237B]">Keep going,</span> We’re almost there! </div>
               {/* Next Module Button */}
               <Button
                   size="lg"

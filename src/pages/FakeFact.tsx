@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 import { cn } from "@/lib/utils";
-import { Bookmark, Check, Heart, X } from "lucide-react";
+import { Bookmark, Check, ChevronRight, Heart, X } from "lucide-react";
 
 import { useState,useEffect } from "react";
 
@@ -111,8 +111,11 @@ function buildFromTopic(topic, type) {
 
 const FakeFact = ()=> {
   const topic = useSelector((state:RootState)=>state.topics.topics)
-  const topics = [...topic].sort(() => Math.random() - 0.5).slice(0, 4);
+  const uniqueTopics = Array.from(new Set(topic));
 
+  const topics = uniqueTopics
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 8);
   const[game,setGames] = useState<any>([]);
   const fetchfact = async () => {
       const { data, error } = await supabase.from("module3").select("*");
@@ -164,7 +167,7 @@ fetchfact();
     
      
     
-      const totalQuestions = 4; // Hardcoded to 4 questions for this module
+      const totalQuestions = 8; // Hardcoded to 4 questions for this module
     
       const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
     
@@ -210,8 +213,9 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
     }
   }
   const allQuestions = buildAllQuestions([game[0],game[1],game[2],game[3]]);
+  const allQuestions1= buildAllQuestions([game[3],game[0],game[2],game[1]])
   allQuestions.question0 = pickFactAndFake(allQuestions.question0);
-
+  allQuestions1.question0 = pickFactAndFake(allQuestions1.question0)
 
     const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
@@ -219,7 +223,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
       return(
          <ClosingModal/>
     )}
-
+console.log(allQuestions)
   return (
     <div className="p-6 ">
     <div className="bg-[#F8F1E7] px-24 h-[90vh] overflow-hidden flex flex-col">
@@ -326,7 +330,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
       )}
     </div>
   </div>
-): currentQuestionIndex === 1 ? (
+): currentQuestionIndex === 2 ? (
   <div
     className={cn(
       "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
@@ -366,7 +370,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
       </div>
     ))}
   </div>
-) : currentQuestionIndex === 2 ? (
+) : currentQuestionIndex === 4 ? (
   <div
     className={cn(
       "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
@@ -406,12 +410,190 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
       </div>
     ))}
   </div>
-) : currentQuestionIndex === 3 ? (
+) : currentQuestionIndex === 6 ? (
    <Question3Carousel
     showResult={showResult}
     selectedCarouselIndex={selectedCarouselIndex}
     handleCarouselClick={handleCarouselClick}
     carouselImages={allQuestions?.question3} // dynamically passed array
+  />
+) : null}
+ {currentQuestionIndex === 1 && allQuestions.question0 ? (
+  <div
+    className={cn(
+      "flex items-center justify-center gap-24 transition-all duration-500",
+      showResult && "animate-fade-out"
+    )}
+  >
+    {/* Left Image */}
+    <div className="relative flex justify-center max-w-[40%] overflow-visible">
+      <img
+        src={allQuestions1.question0[0].src}
+        alt="Left Post"
+        className={cn(
+          "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+          !showResult && "hover:scale-105 hover:shadow-lg"
+        )}
+        onClick={() =>
+          handlePostClick(
+            `question0-post1`,
+            allQuestions1.question0[0].correct
+          )
+        }
+      />
+
+      {/* Overlay */}
+      {showResult && selectedPost === `question0-post1` && (
+        <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+          <div
+            className={cn(
+              "rounded-full p-6 animate-scale-in",
+              allQuestions1.question0[0].correct
+                ? "bg-[#4EBD6F]"
+                : "bg-[#B21B1D]"
+            )}
+          >
+            {allQuestions1.question0[0].correct ? (
+              <Check className="w-16 h-16 text-white" strokeWidth={3} />
+            ) : (
+              <X className="w-16 h-16 text-white" strokeWidth={3} />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+
+    {/* VS label */}
+    <div className="flex items-center justify-center">
+      <span className="font-semibold text-[13px] leading-[100%] tracking-[0] text-center">
+        VS
+      </span>
+    </div>
+
+    {/* Right Image */}
+    <div className="relative flex justify-center max-w-[40%] overflow-visible">
+      <img
+        src={allQuestions1.question0[1].src}
+        alt="Right Post"
+        className={cn(
+          "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+          !showResult && "hover:scale-105 hover:shadow-lg"
+        )}
+        onClick={() =>
+          handlePostClick(
+            `question0-post2`,
+            allQuestions1.question0[1].correct
+          )
+        }
+      />
+
+      {/* Overlay */}
+      {showResult && selectedPost === `question0-post2` && (
+        <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+          <div
+            className={cn(
+              "rounded-full p-6 animate-scale-in",
+              allQuestions1.question0[1].correct
+                ? "bg-[#4EBD6F]"
+                : "bg-[#B21B1D]"
+            )}
+          >
+            {allQuestions1.question0[1].correct ? (
+              <Check className="w-16 h-16 text-white" strokeWidth={3} />
+            ) : (
+              <X className="w-16 h-16 text-white" strokeWidth={3} />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+): currentQuestionIndex === 3 ? (
+  <div
+    className={cn(
+      "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
+      showResult && "animate-fade-out",
+    )}
+  >
+    {allQuestions1.question1 && allQuestions1?.question1?.map((post, i) => (
+      <div
+        key={i}
+        className="relative flex justify-center max-w-[30%]"
+      >
+        <img
+          src={post.src}
+          alt={`Post ${i + 1}`}
+          className={cn(
+            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            !showResult && "hover:scale-105 hover:shadow-lg",
+          )}
+          onClick={() => handlePostClick(`post1-${i}`, post.correct)}
+        />
+        {showResult && selectedPost === `post1-${i}` && (
+          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+            <div
+              className={cn(
+                "rounded-full p-6 animate-scale-in",
+                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
+              )}
+            >
+              {post.correct ? (
+                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+              ) : (
+                <X className="w-16 h-16 text-white" strokeWidth={3} />
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+) : currentQuestionIndex === 5 ? (
+  <div
+    className={cn(
+      "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
+      showResult && "animate-fade-out",
+    )}
+  >
+    {allQuestions1?.question2 && allQuestions1?.question2?.map((post, i) => (
+      <div
+        key={i}
+        className="relative flex justify-center max-w-[30%]"
+      >
+        <img
+          src={post.src}
+          alt={`Post ${i + 1}`}
+          className={cn(
+            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            !showResult && "hover:scale-105 hover:shadow-lg",
+          )}
+          onClick={() => handlePostClick(`post2-${i}`, post.correct)}
+        />
+        {showResult && selectedPost === `post2-${i}` && (
+          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+            <div
+              className={cn(
+                "rounded-full p-6 animate-scale-in",
+                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
+              )}
+            >
+              {post.correct ? (
+                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+              ) : (
+                <X className="w-16 h-16 text-white" strokeWidth={3} />
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+) : currentQuestionIndex === 7 ? (
+   <Question3Carousel
+    showResult={showResult}
+    selectedCarouselIndex={selectedCarouselIndex}
+    handleCarouselClick={handleCarouselClick}
+    carouselImages={allQuestions1?.question3} // dynamically passed array
   />
 ) : null}
 
@@ -494,7 +676,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import {  MessageCircle, Share2,  } from "lucide-react"
-import  ClosingModal  from "@/components/ClosingModal";
 import OpeningModal from "@/components/OpeningModal";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
@@ -615,15 +796,15 @@ function Question3Carousel({
     </div>
   )
 }
-function ClosingModal () {
-
+const ClosingModal = () => {
+  
   const navigate = useNavigate();
 
 
   return (
     <div className="p-8">
-<div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
+<div className="h-[90vh] flex items-center justify-center rounded-[24px] " style={{ backgroundColor: '#F8F1E7' }}>
+              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7]   text-center">
 
               {/* Module Completion Header */}
               <div className="flex items-center justify-center gap-4 mb-6">
@@ -634,12 +815,12 @@ function ClosingModal () {
 </div>
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-  Module 4: Complete
+  Module 3: Complete
 </h1>
 
 
 <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-✓ 7/7 Score interests narrowed!
+✓ 8/8 facts served! 
 </p>
 
                   </div>
@@ -652,7 +833,8 @@ function ClosingModal () {
               </div>
 
 <div>
-Yikes, 98% polarization! But that’s what we’re here for — to unpack it, learn, and bring the number down together. Lower the score, lower the polarization.... and that's how you win!
+Nice! Your <span className="text-[#D0193E]"> polarization</span> just dropped — looks like you’re already making progress.
+ Keep on asking why & keep on going: <span className="text-[#5F237B]">lower the score, lower the polarization…</span> that’s how you win! 
 </div>
               {/* Next Module Button */}
               <Button
@@ -660,11 +842,12 @@ Yikes, 98% polarization! But that’s what we’re here for — to unpack it, le
                   onClick={() => navigate(`/spotthebias`)}
                   className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
               >
-                  Next Module →
+                  Next Module <ChevronRight/>
               </Button>
           </div>
       </div>
       </div>
   );
 } 
+
 

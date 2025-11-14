@@ -37,6 +37,10 @@ const Interest = () => {
     { id: 7, category: "Technology", title: "Simpson’s Predictions of the real world ", voted: null },
     { id: 8, category: "Pop Culture", title: "Space Technology: 31/Atlas", voted: null },
     { id: 9, category: "Lifestyle", title: "College Degrees: Yes or No?", voted: null },
+    {id:10,category:"Law & Order",title:"Karachi’s E-Challan System",voted:null},
+    {id:11,category:"Space",title:"Netflix Original: The social Dilemma",voted:null},
+    {id:12,category:"Music",title:"Taylor Swift’s new album controversy",voted:null},
+
   ]);
 
   // Module 2 state - Static grid items
@@ -86,8 +90,8 @@ console.log("checkk",topic)
 
 
   // Module 1: Topic Voting - UPDATED UI
-  return (<div className="p-8">
-    <div className="h-[90vh] px-24 rounded-[24px]" style={{ backgroundColor: '#F8F1E7' }}>
+  return (<div className="p-8 ">
+    <div className="h-[90vh] px-24 rounded-[24px] overflow-auto py-2 " style={{ backgroundColor: '#F8F1E7' }}>
       <OpeningModal  src={"/opening11.svg"} showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
@@ -173,19 +177,19 @@ const ClosingModal = () => {
 
   return (
     <div className="p-8">
-<div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
+<div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
+              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl  text-center">
 
               {/* Module Completion Header */}
               <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+              {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
 <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
   –
 </div>
-</div>
-                  <div className="text-left">
+</div> */}
+                  <div className="text-center">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-  Module 4: Complete
+  Module 1: Complete
 </h1>
 
 
@@ -203,8 +207,7 @@ const ClosingModal = () => {
               </div>
 
 <div>
-Yikes, 98% polarization! But that’s what we’re here for — to unpack it, learn, and bring the number down together. Lower the score, lower the polarization.... and that's how you win!
-</div>
+GOOOD JOB! We’ll start calculating from the next module....</div>
               {/* Next Module Button */}
               <Button
                   size="lg"

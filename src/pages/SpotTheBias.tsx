@@ -5,6 +5,7 @@ import BiasQuiz from "@/components/BiasQuiz";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { ChevronRight } from "lucide-react";
 
 // ✅ Moved out so it's not recreated each render
 function ClosingModal() {
@@ -13,10 +14,10 @@ function ClosingModal() {
   return (
     <div className="p-8">
       <div
-        className="h-[90vh] flex items-start justify-center rounded-[24px] pt-8"
+        className="h-[90vh] flex items-center justify-center rounded-[24px] "
         style={{ backgroundColor: "#F8F1E7" }}
       >
-        <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm text-center">
+        <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl text-center">
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="mx-auto w-24 h-24 rounded-full p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
               <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
@@ -28,18 +29,19 @@ function ClosingModal() {
                 Module 4: Complete
               </h1>
               <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-                ✓ 7/7 Score interests narrowed!
+                ✓ 5/5 Thumbnails spotted!
               </p>
             </div>
           </div>
 
           <div className="mt-10 mb-10 flex justify-center items-center">
-            <img src={"/closingg.svg"} className="h-[35vh]" />
+            <img src={"/modulend.svg"} className="h-[35vh]" />
           </div>
 
           <div>
-            Yikes, 98% polarization! But that’s what we’re here for — to unpack it,
-            learn, and bring the number down together.
+          Look at that — <span className="text-[#5F237B]">your score’s low and your thinking’s leveling out. </span>
+            That’s what real awareness looks like. Stay <span className="text-[#D0193E]">curious</span>, stay <span className="text-[#D0193E]">open</span>, and keep the 
+            <span className="text-[#D0193E]"> balance strong.</span>
           </div>
 
           <Button
@@ -47,7 +49,7 @@ function ClosingModal() {
             onClick={() => navigate(`/behind-the-buzz`)}
             className="mt-6 px-8 py-2 rounded-md bg-[#FF9348] text-white text-base"
           >
-            Next Module →
+            Next Module <ChevronRight/>
           </Button>
         </div>
       </div>

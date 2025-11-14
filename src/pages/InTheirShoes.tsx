@@ -8,7 +8,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import OpeningModal from "@/components/OpeningModal";
 import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import ClosingModal from "@/components/ClosingModal";
 type Screen = "intro" | "roleSelection" | "question" | "scenario" | "closing";
 type Role = {
   title: string;
@@ -418,3 +417,54 @@ Step into another role, and make their world make sense.</p>
           
       </>)
 }
+
+ function ClosingModal () {
+
+  const navigate = useNavigate();
+
+
+  return (
+    <div className="p-8">
+<div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
+              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl  text-center">
+
+              {/* Module Completion Header */}
+              <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+<div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
+  –
+</div>
+</div>
+                  <div className="text-left">
+                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
+  Module 7: Complete
+</h1>
+
+
+<p className="text-black font-normal text-[18px] leading-[100%] mt-1">
+8/8 facts served! </p>
+
+                  </div>
+              </div>
+
+              {/* Score Circle */}
+              <div className="mt-10 mb-10 flex justify-center items-center">
+<img src={"/closingg.svg"} className="h-[35vh]" />
+
+              </div>
+
+<div>
+You did it! 🎉 Your polarization score is at its <span className="text-[#5F237B]"> lowest </span> — proof that <span className="text-[#D0193E]">curiosity wins</span> over bias.</div>
+              {/* Next Module Button */}
+              <Button
+                  size="lg"
+                  onClick={() => navigate(`/exercise`)}
+                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
+              >
+                  Next Module <ChevronRight/>
+              </Button>
+          </div>
+      </div>
+      </div>
+  );
+} 

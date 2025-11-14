@@ -332,13 +332,12 @@ Trace the spark that sets your feed on fire!
 </div>
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-  Module 4: Complete
+  Module 5: Complete
 </h1>
 
 
 <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-✓ 7/7 Score interests narrowed!
-</p>
+2/2 motivations behind a creator’s mind figured! </p>
 
                   </div>
               </div>
@@ -350,7 +349,7 @@ Trace the spark that sets your feed on fire!
               </div>
 
 <div>
-Yikes, 98% polarization! But that’s what we’re here for — to unpack it, learn, and bring the number down together. Lower the score, lower the polarization.... and that's how you win!
+You’ve outsmarted polarization and tackled biases! <br/>Your<span className="text-[#FF9348]"> curiosity’s</span> flying.<span className="text-[#5F237B]"> Good Job!</span> 
 </div>
               {/* Next Module Button */}
               <Button

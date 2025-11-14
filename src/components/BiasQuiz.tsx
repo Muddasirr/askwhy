@@ -18,11 +18,20 @@ interface BiasQuizProps {
 // Define biased words/phrases with difficulty levels
 
 const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: BiasQuizProps) => {
-  const biasedPhrases = {
-    [question.Keyword1]: { difficulty: "medium", color: "#E9D5FF" },
-    [question.Keyword2]: { difficulty: "hard", color: "#E9D5FF" },
-    [question.Keyword3]: { difficulty: "hard", color: "#E9D5FF" },
-  };
+  const biasedPhrases: any = {};
+
+if (question.Keyword1) {
+  biasedPhrases[question.Keyword1] = { difficulty: "medium", color: "#E9D5FF" };
+}
+
+if (question.Keyword2) {
+  biasedPhrases[question.Keyword2] = { difficulty: "hard", color: "#E9D5FF" };
+}
+
+if (question.Keyword3!="") {
+  biasedPhrases[question.Keyword3] = { difficulty: "hard", color: "#E9D5FF" };
+}
+
   
   console.log(question)
   const [selections, setSelections] = useState<{ indices: number[], phrase: string, color: string | null }[]>([]);
@@ -334,7 +343,7 @@ src={"/opening14.svg"}
 
             
             {/* Success message - Exact match to image */}
-            {selections.length >= 3 && (
+            {selections.length >= biasedPhrases.length && (
               <div className="flex items-center justify-center gap-2 mt-4">
                 <Star className="w-5 h-5" fill="#FFEB01" stroke="#FFEB01" />
                 <span className="font-medium text-foreground">Good Job</span>
