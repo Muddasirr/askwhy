@@ -500,7 +500,7 @@ const ModuleHeader = () => {
                 {/* Next Module Button */}
                 <Button
                     size="lg"
-                    onClick={() => navigate(`/spotthebias`)}
+                    onClick={() => navigate(`/FakeFact`)}
                     className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
                 >
                     Next Module →

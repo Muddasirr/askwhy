@@ -5,13 +5,16 @@ import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ModuleHeader from "@/components/ModuleHeader";
+import OpeningModal from "@/components/OpeningModal";
 
 const DebateModule = () => {
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [debate,setDebate] = useState<any>({});
 
   useEffect(() => {
+
     const fetchImage = async () => {
       const { data } = supabase.storage
         .from('Thesis')
@@ -23,25 +26,39 @@ const DebateModule = () => {
     };
     
     fetchImage();
+    fetchSpotTheBias()
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+  const fetchSpotTheBias = async () => {
 
-    return () => clearInterval(timer);
-  }, []);
+      const { data, error } = await supabase.from("debate").select("*");
+console.log("let me check",data)
+setDebate(data[0])
+      if (error) {
+        console.error("Error fetching spotthebias:", error);
+        return;
+      }
+  
+    }
+
+
+  
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
-
+  console.log(debate)
+const[showIntroModal,setShowIntroModal] = useState(true);
   return (
     <div className="p-8">
     <main className="h-[90vh] bg-[#F8F1E7] p-2">
+    <OpeningModal
+showIntroModal={showIntroModal}
+moduleId={"M6"}
+setShowIntroModal={setShowIntroModal}
+/>
   <div className="max-w-7xl mx-auto">
     {/* Header Section */}
     <ModuleHeader/>
@@ -49,23 +66,22 @@ const DebateModule = () => {
     {/* Main Content - Two Column Layout */}
     <div className="flex justify-center items-stretch gap-10">
        {/* Right Column - Scenario Card */}
-  <div className="bg-white rounded-lg p-4 shadow-md border border-gray-200 max-w-[420px] flex flex-col justify-between">
+  <div className="bg-white rounded-lg p-4 shadow-md border border-gray-200 max-w-[450px] flex flex-col justify-between">
     <div>
       <p className="text-xs font-medium text-gray-500 mb-2">Scenario 1</p>
-      <h2 className="text-xl font-semibold text-gray-900 mb-3 leading-snug">
-        “AI is an insult to life itself.”
+      <h2 className="text-[16px] font-semibold text-gray-900 mb-3 leading-snug">
+        {debate.Heading}
       </h2>
-      <p className="text-gray-800 mb-1 text-sm leading-relaxed">
-        <span className="font-semibold">Hayao Miyazaki</span> — the legendary Japanese filmmaker once called AI “an insult to life itself.”
-      </p>
+      
       <p className="text-gray-800 mb-3 text-sm leading-relaxed">
-        During a 2016 documentary, after seeing an AI-generated animation that lacked humanity and soul. Nearly a decade later, AI-generated “Ghibli-style” art has gone viral — reviving the same question he raised back then.
+    {debate.Scenario}
       </p>
-      <div className="bg-[#F5F3FF] rounded-md p-3 mb-4">
+      <div className="rounded-md p-3 mb-4">
         <p className="text-xs text-gray-500 mb-1">🧠 The Debate:</p>
         <p className="text-gray-900 font-medium text-sm leading-snug">
-          Was Miyazaki right to call AI an insult to life — or is it actually expanding what life can create?
-        </p>
+{
+  debate.Debate_Question
+}        </p>
       </div>
     </div>
     <div>

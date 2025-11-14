@@ -4,12 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 import { cn } from "@/lib/utils";
 import { Bookmark, Check, Heart, X } from "lucide-react";
-import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { CircularProgress } from "@/components/CircularProgress";
+
 import { useState,useEffect } from "react";
 
 
@@ -68,17 +63,7 @@ const FakeFact = ()=> {
       } = supabase.storage.from("Thesis").getPublicUrl("Modules/TT_6a3.png");
     
       // Get Supabase storage URLs for fourth question (final 3-image comparison)
-      const {
-        data: { publicUrl: post7ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/TT_6a2.png");
     
-      const {
-        data: { publicUrl: post8ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/TT_6a.png");
-    
-      const {
-        data: { publicUrl: post9ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/TT_6a3.png");
     
     
       const [searchParams] = useSearchParams();
@@ -105,47 +90,15 @@ const FakeFact = ()=> {
       const isM4Module = module?.module_number === "M4";
       const isM5Module = module?.module_number === "M5";
     
-      const { data: questions, isLoading } = useQuery({
-        queryKey: ["quiz-questions", moduleId],
-        queryFn: async () => {
-          if (!moduleId) return [];
-          const { data, error } = await supabase
-            .from("quiz_questions")
-            .select("*")
-            .eq("module_id", moduleId)
-            .order("question_number");
+     
     
-          if (error) throw error;
-          return data;
-        },
-        enabled: !!moduleId && !isM4Module,
-      });
+     
     
-      const { data: biasQuestions, isLoading: biasQuestionsLoading } = useQuery({
-        queryKey: ["bias-quiz-questions", moduleId],
-        queryFn: async () => {
-          if (!moduleId) return [];
-          const { data, error } = await supabase
-            .from("bias_quiz_questions")
-            .select("*")
-            .eq("module_id", moduleId)
-            .order("question_number");
-    
-          if (error) throw error;
-          return data;
-        },
-        enabled: !!moduleId && isM4Module,
-      });
-    
-      const currentQuestion = questions?.[currentQuestionIndex];
       const totalQuestions = 4; // Hardcoded to 4 questions for this module
-      const questionsLeft = `${currentQuestionIndex + 1}/${totalQuestions} Left`;
     
-      const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
       const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
     
-      const scrollPrev = () => emblaApi?.scrollPrev();
-      const scrollNext = () => emblaApi?.scrollNext();
+    
     
 const handlePostClick = (postNumber: string, isCorrect: boolean) => {
     if (showResult) return; // Prevent multiple clicks
@@ -181,10 +134,15 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
 
 console.log(currentQuestionIndex===3)
 
-    
+    const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
   return (
     <div className="p-6 ">
     <div className="bg-[#F8F1E7] px-24 h-[90vh] overflow-hidden flex flex-col">
+    <OpeningModal
+          showIntroModal={showIntroModal}
+          moduleId={"M3"}
+          setShowIntroModal={setShowIntroModal}
+        />
       <ModuleHeader />
   
       {currentQuestionIndex < totalQuestions && (
@@ -540,6 +498,7 @@ import {
 } from "@/components/ui/carousel"
 import {  MessageCircle, Share2,  } from "lucide-react"
 import  ClosingModal  from "@/components/ClosingModal";
+import OpeningModal from "@/components/OpeningModal";
 
  function Question3Carousel({
   showResult,

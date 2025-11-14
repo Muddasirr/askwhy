@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { Star, ThumbsUp, Clock, Play, CheckCircle, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TargetCursor from "./animations/TargetCursor";
+import OpeningModal from "./OpeningModal";
 interface BiasQuizProps {
   imageUrl: string;
   headline: string;
@@ -228,154 +229,18 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: B
 
 
   
+        
+  const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
-  if (showIntro) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6" style={{ backgroundColor: '#F8F1E7' }}>
-        <div className="max-w-4xl w-full mx-auto bg-[#FDF8F3] rounded-3xl shadow-sm p-16">
-          {/* Module Header */}
-          <div className="flex items-start gap-6 mb-8">
-            
-            <div>
-            <div className="w-20 h-20 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-  <img
-    src="/m4.png"
-    alt="Module 1"
-    className="w-20 h-20 object-contain"
-  />
-</div>               <p className="text-lg text-gray-600 mb-4">
-                Let's dive into the clues of a bias hunter! Look closely at headlines, YouTube thumbnails, and titles - can you spot the bias? Watch how certain words can make things sound bigger, louder, or more one-sided than they really are.
-              </p>
-              <div className="bg-blue-50 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold text-blue-900 mb-2">For additional reference:</h3>
-                <p className="text-sm text-blue-800">
-                  Bias: "...information, opinions, or decisions are influenced by personal feelings or assumptions instead of facts..."
-                </p>
-              </div>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  Intermediate Level
-                </span>
-                <span className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  02:00
-                </span>
-                <span>Score is calculated in this module</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Walkthrough Video Placeholder */}
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-4">Walkthrough Video</h3>
-            <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <Play className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-500">Video placeholder</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <Button
-              size="lg"
-              onClick={() => {
-                setShowIntro(false);
-                setGameStarted(true);
-              }}
-              className="px-8 py-3 rounded-md bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-lg"
-            >
-              Let's begin →
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (quizComplete) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6" style={{ backgroundColor: '#F8F1E7' }}>
-        <div className="max-w-2xl w-full mx-auto bg-[#FDF8F3] rounded-3xl shadow-sm p-16 text-center">
-          {/* Header with icon and title */}
-          <div className="flex items-center justify-center mb-6">
-            <div className="w-12 h-12 bg-cyan-400 rounded-xl flex items-center justify-center mr-4">
-              <CheckCircle className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-left">
-              <h1 className="text-3xl font-semibold text-black">Module 4: Complete</h1>
-              <p className="text-gray-700 text-sm mt-1">
-                ✓ 1/1 Biased Headlines Spotted! Good Job
-              </p>
-            </div>
-          </div>
-
-          {/* Score section */}
-          <div className="mt-10 mb-10">
-            <p className="text-gray-700 mb-4">Your new score is</p>
-            
-            {/* Circular Progress Bar with gradient */}
-            <div className="mx-auto w-32 h-32 relative mb-6">
-              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
-                {/* Background circle */}
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="50"
-                  stroke="#E5E7EB"
-                  strokeWidth="10"
-                  fill="transparent"
-                />
-                {/* Progress circle with gradient */}
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="50"
-                  stroke="url(#gradient)"
-                  strokeWidth="10"
-                  fill="transparent"
-                  strokeDasharray="314.16"
-                  strokeDashoffset="50.27"
-                  strokeLinecap="round"
-                />
-                {/* Gradient definition */}
-                <defs>
-                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#FF5A5F" />
-                    <stop offset="100%" stopColor="#8A2BE2" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              {/* Percentage text */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-4xl font-semibold text-gray-700">84%</span>
-              </div>
-            </div>
-
-            {/* Motivational message */}
-            <p className="text-gray-600 text-sm leading-relaxed">
-              You've outsmarted polarization and leveled up your perspective!<br />
-              Your curiosity's flying. Good Job!
-            </p>
-          </div>
-
-          <Button
-            size="lg"
-            onClick={() => window.location.href = '/dashboard'}
-            className="mt-6 px-8 py-3 rounded-md bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-base"
-          >
-            Back to Dashboard →
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (<div className="p-6">
 <div className="h-[90vh] px-24 p-8 bg-[#F8F1E7]">
 <ModuleHeader time={timeLeft}/>
-
+<OpeningModal
+          showIntroModal={showIntroModal}
+          moduleId={"M4"}
+          setShowIntroModal={setShowIntroModal}
+        />
       
       <div className="max-w-6xl mx-auto">
         {/* Header - Exact match to image */}
@@ -422,9 +287,10 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: B
 >
   {words.map((word, index) => {
     const isWhitespace = /^\s+$/.test(word);
-    if (isWhitespace) {
-      return <span key={index}>{word}</span>;
-    }
+    // if (isWhitespace) {
+    //   return <span key={index}>{word}</span>;
+    // }
+    if (/^\s+$/.test(word)) return null;
 
     const isInCurrentSelection = currentSelection.includes(index);
     const isInAnySelection = selections.some(sel => sel.indices.includes(index));
@@ -448,19 +314,19 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: B
     };
 
     return (
-      <span
-        key={index}
-        onMouseDown={() => handleMouseDown(index)}
-        onMouseEnter={() => handleMouseEnter(index)}
-        style={combinedStyle}
-        className={`cursor-pointer inline-block transition-all duration-200 mx-3 ${
-          !wordStyle && !isInCurrentSelection && !isInAnySelection
-            ? 'hover:outline hover:outline-2 hover:outline-dashed hover:outline-foreground/40 hover:rounded-lg hover:px-1'
-            : ''
-        }`}
-      >
-        {word}
-      </span>
+    <span
+  key={index}
+  onMouseDown={() => handleMouseDown(index)}
+  onMouseEnter={() => handleMouseEnter(index)}
+  style={combinedStyle}
+  className={`cursor-pointer inline-block transition-all duration-200 px-3 hover:rounded-lg ${
+    !wordStyle && !isInCurrentSelection && !isInAnySelection
+      ? 'hover:outline hover:outline-2 hover:outline-dashed hover:outline-foreground/40 hover:rounded-lg'
+      : ''
+  }`}
+>
+  {word}
+</span>
     );
   })}
 </div>
