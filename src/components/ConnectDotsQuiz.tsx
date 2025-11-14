@@ -156,6 +156,7 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
     <div className="h-[90vh] bg-[#F8F1E7]  flex flex-col items-center">
       <div className=" w-full px-24 rounded-3xl shadow-sm  relative bg-[#F8F1E7] ">
       <OpeningModal
+      src={"/opening15.png"}
           showIntroModal={showIntroModal}
           moduleId={"M5"}
           setShowIntroModal={setShowIntroModal}

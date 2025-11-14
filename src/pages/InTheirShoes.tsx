@@ -173,6 +173,7 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
           showIntroModal={showIntroModal}
           moduleId={"M7"}
           setShowIntroModal={setShowIntroModal}
+          src={"/opening17.png"}
         />        <div className="max-w-7xl mx-auto">
           {/* Header */}
           <ModuleHeader/>

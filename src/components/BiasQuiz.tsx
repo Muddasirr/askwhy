@@ -237,6 +237,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: B
 <div className="h-[90vh] px-24 p-8 bg-[#F8F1E7]">
 <ModuleHeader time={timeLeft}/>
 <OpeningModal
+src={"/opening14.svg"}
           showIntroModal={showIntroModal}
           moduleId={"M4"}
           setShowIntroModal={setShowIntroModal}

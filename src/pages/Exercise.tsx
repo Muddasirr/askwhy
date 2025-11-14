@@ -319,6 +319,7 @@ export default function Exercise() {
           showIntroModal={showIntroModal}
           moduleId={moduleId}
           setShowIntroModal={setShowIntroModal}
+          src={"/opening12.png"}
         />
         <div className="max-w-7xl w-full ">
           <ModuleHeader />

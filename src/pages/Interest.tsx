@@ -89,7 +89,7 @@ console.log("checkk",topic)
   // Module 1: Topic Voting - UPDATED UI
   return (<div className="p-8">
     <div className="h-[90vh] px-24 rounded-[24px]" style={{ backgroundColor: '#F8F1E7' }}>
-      <OpeningModal showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
+      <OpeningModal  src={"/opening11.svg"} showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}

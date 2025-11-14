@@ -23,7 +23,7 @@ const OpeningModal = (props:any)=>{
                       {/* Puzzle Icon */}
                       <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
           <img
-            src="/opening1.svg"
+            src={props.src}
             alt="Module 1"
             className="w-18 h-18 object-contain"
           />

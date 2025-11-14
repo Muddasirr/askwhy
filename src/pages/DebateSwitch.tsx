@@ -179,11 +179,17 @@ const DebateSwitch = () => {
       <ClosingModal/>
     );
   }
+  const[showIntroModal,setShowIntroModal] = useState(true);
 
   return (
    <div className="p-8">
     <main className="h-[90vh] px-24 bg-[#F8F1E7] flex flex-col">
-      {/* Header Section */}
+    <OpeningModal
+          showIntroModal={showIntroModal}
+          moduleId={"M3"}
+          setShowIntroModal={setShowIntroModal}
+          src={"/opening16.png"}
+        />      {/* Header Section */}
       <ModuleHeader />
   
       {/* Headline */}
@@ -275,6 +281,7 @@ export default DebateSwitch;
 import { Clock } from "lucide-react"
 import ModuleHeader from "@/components/ModuleHeader";
 import { Button } from "@/components/ui/button";
+import OpeningModal from "@/components/OpeningModal";
 
 
 

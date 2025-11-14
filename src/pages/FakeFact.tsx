@@ -217,6 +217,7 @@ console.log(allQuestions)
           showIntroModal={showIntroModal}
           moduleId={"M3"}
           setShowIntroModal={setShowIntroModal}
+          src={"/opening13.svg"}
         />
       <ModuleHeader />
   
