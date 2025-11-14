@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -60,10 +61,10 @@ const Login = () => {
 
           {/* Login Button */}
           <Button
-            className="w-[50%] bg-[#FF8C42] hover:bg-[#ff9f66] text-white text-base py-3 rounded-md"
+            className="w-[50%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-base py-3 rounded-md"
             onClick={() => navigate("/dashboard")}
           >
-            Login →
+            Login  <ChevronRight/>
           </Button>
         </div>
       </div>

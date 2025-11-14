@@ -373,7 +373,7 @@ const ModuleHeader = (props:any) => {
                       {/* Puzzle Icon */}
                       <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
                           <img
-                              src={"/characterm.svg"}
+                              src={"/opening14.svg"}
                               alt="Module 1"
                               className="w-25  object-contain"
                           />
@@ -382,10 +382,10 @@ const ModuleHeader = (props:any) => {
                       {/* Module Info */}
                       <div>
                       <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Fake or fact</h1>
+                      Spot the Bias</h1>
 
 <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Is everything not real?!
+What is words echo louder than actions?
 </p>
 
 

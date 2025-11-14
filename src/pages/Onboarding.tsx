@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SplitText from "@/components/animations/SplitText";
+import { ChevronRight } from "lucide-react";
 
 export default function Onboarding() {
   const [step, setStep] = useState(0);
@@ -121,7 +122,7 @@ export default function Onboarding() {
                 transition={{
                   duration: 0.8,
                   ease: "easeOut",
-                  delay: index * 0.1,               
+                  delay: index * 0.11,               
                 }}
               />
             ))}
@@ -134,9 +135,9 @@ export default function Onboarding() {
             </h1>
             <button
               onClick={() => navigate("/login")}
-              className="bg-[#FF7A00] text-white text-lg px-6 py-2 rounded-md hover:bg-[#e86a00] transition"
+              className="bg-[#FF7A00] text-white text-lg flex justify-center items-center px-6 py-2 rounded-md hover:bg-[#e86a00] transition"
             >
-              Click here to start →
+              Click here to start <ChevronRight/>
             </button>
           </div>
         </div>

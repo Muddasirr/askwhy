@@ -217,7 +217,7 @@ console.log(allQuestions)
           showIntroModal={showIntroModal}
           moduleId={"M3"}
           setShowIntroModal={setShowIntroModal}
-          src={"/opening13.svg"}
+          src={"/opening13.png"}
         />
       <ModuleHeader />
   
@@ -434,7 +434,7 @@ const ModuleHeader = () => {
                       {/* Puzzle Icon */}
                       <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
                           <img
-                              src={"/characterm.svg"}
+                              src={"/opening13.png"}
                               alt="Module 1"
                               className="w-25  object-contain"
                           />

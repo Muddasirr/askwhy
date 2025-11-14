@@ -53,7 +53,7 @@ export default function Exercise() {
   const topic = useSelector((state:RootState)=>state.topics.topics)
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 100 });
+      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 50 });
     console.log("data",data)
     console.log("topic",topic)
       if (error) {
@@ -314,7 +314,7 @@ export default function Exercise() {
     >
       <div className="p-8">
       {/* Your existing gallery content goes here */}
-      <div className="min-h-screen bg-[#F8F1E7] flex items-center  py-8 px-32 rounded-[24px] shadow-sm">
+      <div className="min-h-screen bg-[#F8F1E7] flex   py-8 px-32 rounded-[24px] shadow-sm">
         <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={moduleId}
@@ -415,7 +415,7 @@ const ModuleHeader = () => {
                         {/* Puzzle Icon */}
                         <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
                             <img
-                                src={"/characterm.svg"}
+                                src={"/opening12.png"}
                                 alt="Module 1"
                                 className="w-25  object-contain"
                             />
@@ -424,10 +424,10 @@ const ModuleHeader = () => {
                         {/* Module Info */}
                         <div>
                         <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-  Fake or fact</h1>
+                        Pick & Flick</h1>
   
   <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-  Is everything not real?!
+  Let's help you build a feed
   </p>
   
   
