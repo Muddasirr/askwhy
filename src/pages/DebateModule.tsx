@@ -15,17 +15,16 @@ const DebateModule = () => {
 
   useEffect(() => {
 
-    const fetchImage = async () => {
+    const fetchImage = async (code) => {
       const { data } = supabase.storage
         .from('Thesis')
-        .getPublicUrl('Modules/IG_4a.png');
+        .getPublicUrl(`Modules/${code}.png`);
       
       if (data?.publicUrl) {
         setImageUrl(data.publicUrl);
       }
     };
     
-    fetchImage();
     fetchSpotTheBias()
   }, []);
 
@@ -33,7 +32,12 @@ const DebateModule = () => {
 
       const { data, error } = await supabase.from("debate").select("*");
 console.log("let me check",data)
+const { data:link } = supabase.storage
+        .from('Thesis')
+        .getPublicUrl(`Modules/${data[0].Image}.png`);
 setDebate(data[0])
+setImageUrl(link.publicUrl)
+
       if (error) {
         console.error("Error fetching spotthebias:", error);
         return;
@@ -101,6 +105,7 @@ setShowIntroModal={setShowIntroModal}
       alt="AI is an insult to life itself - Miyazaki's predictions come true"
       className="h-full max-h-[60vh] w-auto object-contain"
     />
+    {imageUrl}
   </div>
 
  

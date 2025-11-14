@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
-const DEBATE_TOPIC = `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
-     louder struggles?"`;
+
 
 const DebateSwitch = () => {
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState(90);
+  const [timeLeft, setTimeLeft] = useState(10);
   const [figureImageUrl, setFigureImageUrl] = useState<string>("");
   const [llmArgument, setLlmArgument] = useState<string>("Thinking...");
   const [userPrompts, setUserPrompts] = useState<string[]>([]);
@@ -19,11 +18,12 @@ const DebateSwitch = () => {
   const [round, setRound] = useState(1);
   const [showUserOptions, setShowUserOptions] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-
+  const DEBATE_TOPIC = `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
+  louder struggles?"`;
   // Timer
   useEffect(() => {
     if (timeLeft <= 0) {
-  //    setIsCompleted(true);
+      setIsCompleted(true);
       return;
     }
     const timer = setInterval(() => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)), 1000);
@@ -31,6 +31,7 @@ const DebateSwitch = () => {
   }, [timeLeft]);
 
   // Load image
+  console.log(timeLeft)
  
 
   // Initialize
@@ -90,7 +91,7 @@ const DebateSwitch = () => {
           messages: [
             {
               role: "system",
-              content: `Return ONLY a JSON array of 3 short strings arguing IN FAVOR of ${DEBATE_TOPIC}.`,
+              content: `Return ONLY a JSON array of 3 short strings of maximum 10 words arguing IN FAVOR of ${DEBATE_TOPIC}.`,
             },
           ],
           temperature: 0.8,
@@ -162,27 +163,11 @@ const DebateSwitch = () => {
       .toString()
       .padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
 
-  if (isCompleted) {
-    return (
-      // <main className="min-h-screen flex items-center justify-center  bg-[#F8F1E7]">
-      //   <div className="max-w-2xl flex items-center justify-center text-center space-y-6">
-      //     <h1 className="text-4xl font-semibold text-gray-900">⏰ Debate Over</h1>
-      //     <p className="text-lg text-gray-700">Great job! You've completed the debate.</p>
-      //     <button
-      //       onClick={() => navigate("/debate/final")}
-      //       className="px-6 py-3 bg-[#8B5CF6] text-white rounded-lg hover:bg-[#7C3AED] transition-colors"
-      //     >
-      //       Next Module →
-      //     </button>
-      //   </div>
-      // </main>
-      <ClosingModal/>
-    );
-  }
+ 
   const[showIntroModal,setShowIntroModal] = useState(true);
 
   return (
-   <div className="p-8">
+    isCompleted)?(<ClosingModal/>):(<div className="p-8">
     <main className="h-[90vh] px-24 bg-[#F8F1E7] flex flex-col">
     <OpeningModal
           showIntroModal={showIntroModal}
@@ -268,8 +253,8 @@ const DebateSwitch = () => {
 </div>
 
     </main>
-    </div> 
-  );
+    </div>) 
+  
   
 };
 
@@ -292,7 +277,7 @@ const ModuleHeader = () => {
                       {/* Puzzle Icon */}
                       <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
                           <img
-                              src={"/opening16.svg"}
+                              src={"/opening16.png"}
                               alt="Module 1"
                               className="w-25  object-contain"
                           />

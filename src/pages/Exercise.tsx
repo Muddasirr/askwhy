@@ -40,6 +40,7 @@ export default function Exercise() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const moduleId = searchParams.get("id") || "M1";
+  const [isLoading, setIsLoading] = useState(true);
 
   const [showIntroModal, setShowIntroModal] = useState(true);
   const [allPosts, setAllPosts] = useState<Post[]>([]);
@@ -104,6 +105,7 @@ export default function Exercise() {
       const shuffled = filtered.sort(() => Math.random() - 0.5);
       setAllPosts(shuffled);
       setVisiblePosts(shuffled.slice(0, MAX_VISIBLE));
+      setIsLoading(false);
     };
   
     fetchImages();
@@ -329,7 +331,27 @@ export default function Exercise() {
         />
         <div className="max-w-7xl w-full ">
           <ModuleHeader />
-
+          {isLoading?( <motion.div
+        key="loading-screen"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.6 }}
+        className="min-h-screen flex  justify-center bg-[#F8F1E7]"
+      >
+        <div className="text-center">
+          <img
+            src="/loading.svg" // replace with the actual path to the uploaded character image
+            alt="Loading character"
+            className="w-24 h-24 mb-4"
+          />
+          <p className="text-xl font-semibold">Scanning pixels... Just a min</p>
+          <div className="flex justify-center items-center mt-4">
+            <div className="w-16 h-2 bg-gradient-to-r from-pink-500 to-red-500 rounded-full animate-pulse"></div>
+          </div>
+          <p className="mt-2">Please wait while we prepare the feed!</p>
+        </div>
+      </motion.div>):(<div>
           <div className="flex justify-end gap-2 mb-8 text-gray-700">
             <span>
               {likesCount}/{MAX_LIKES} Likes
@@ -355,6 +377,7 @@ export default function Exercise() {
               return 4;
             }}
           />
+          </div>)}
         </div>
       </div>
       </div>

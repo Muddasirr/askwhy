@@ -232,7 +232,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: B
         
   const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
-
+console.log("imagecode",question?.Image_Code)
   return (<div className="p-6">
 <div className="h-[90vh] px-24 p-8 bg-[#F8F1E7]">
 <ModuleHeader time={timeLeft}/>
@@ -263,7 +263,7 @@ src={"/opening14.svg"}
     {/* Thumbnail */}
     <div className="rounded-lg overflow-hidden">
       <img
-        src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Module/${question?.Image_Code}`}
+        src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${question?.Image_Code}.png`}
         alt={`Question ${questionNumber}`}
         className="w-[60%] h-[60%] object-cover mx-auto"
         />
