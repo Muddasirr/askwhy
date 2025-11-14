@@ -79,7 +79,6 @@ function buildFromTopic(topic, type) {
   }
   const toUrl = (code:any) =>{
     
-    console.log("check",code)
     if(code.split("_")[0].toUpperCase()=="CAR"){
       return supabase.storage
       .from("Thesis")
@@ -100,7 +99,6 @@ function buildFromTopic(topic, type) {
   if (type === "IG") selectedSet = ig;
   if (type === "CAR") selectedSet = car;
   if (type === "LAST") selectedSet = last;
-console.log(selectedSet)
   // Map into renderable structure
   return selectedSet
   .filter((code: any) => code)        // removes null, undefined, "", 0, false
@@ -116,14 +114,15 @@ const FakeFact = ()=> {
   const topics = [...topic].sort(() => Math.random() - 0.5).slice(0, 4);
 
   const[game,setGames] = useState<any>([]);
-  const [gamesets,setGamesSet] = useState<any>([]);
   const fetchfact = async () => {
       const { data, error } = await supabase.from("module3").select("*");
       const filterByTopic = (data:any, topics:any) => {
         return data.filter((item:any) => topics.includes(Number(item.topic)));
       };
+      console.log("check",topics)
+      console.log(data)
+      console.log(filterByTopic(data,topics))
       setGames(filterByTopic(data,topics))
-      setGamesSet(extractDynamicSets(filterByTopic(data,topics)));
       if (error) {
         console.error("Error fetching spotthebias:", error);
         return;
@@ -134,7 +133,6 @@ const FakeFact = ()=> {
     useEffect(()=>{
 fetchfact();
     },[])
-    console.log(gamesets)
 //1
     
     
@@ -146,7 +144,6 @@ fetchfact();
       const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
       const [correctAnswers, setCorrectAnswers] = useState(0);
       const [biasQuizComplete, setBiasQuizComplete] = useState(false);
-      console.log(currentQuestionIndex===3)
 
       const { data: module } = useQuery({
         queryKey: ["module", moduleId],
@@ -212,11 +209,9 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
       return null;
     }
   }
-
   const allQuestions = buildAllQuestions([game[0],game[1],game[2],game[3]]);
   allQuestions.question0 = pickFactAndFake(allQuestions.question0);
 
-console.log(allQuestions)
 
     const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
@@ -342,7 +337,6 @@ console.log(allQuestions)
       <div
         key={i}
         className="relative flex justify-center max-w-[30%]"
-        onClick={()=>console.log(post.src)}
       >
         <img
           src={post.src}

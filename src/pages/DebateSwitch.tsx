@@ -165,7 +165,6 @@ const DebateSwitch = (props) => {
       .padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
 
  
-  const[showIntroModal,setShowIntroModal] = useState(true);
 
   return (
     isCompleted)?(<ClosingModal/>):(<div className="p-8">
