@@ -7,63 +7,120 @@ import { Bookmark, Check, Heart, X } from "lucide-react";
 
 import { useState,useEffect } from "react";
 
+function extractDynamicSets(data) {
+  return data.map(item => {
+    const codes = Object.keys(item)
+      .filter(k => k.startsWith("imagecode"))
+      .map(k => item[k])
+      .filter(Boolean);
+
+    let set1 = [];
+    let set2 = [];
+    let set3 = [];
+
+    let i = 0;
+
+    // --- Set 1: Start with IG or IGR ---
+    while (i < codes.length && (codes[i].startsWith("IG_") || codes[i].startsWith("IGR_"))) {
+      set1.push(codes[i]);
+      i++;
+    }
+
+    // --- Set 2: CAR images ---
+    while (i < codes.length && codes[i].startsWith("CAR_")) {
+      set2.push(codes[i]);
+      i++;
+    }
+
+    // --- Set 3: Everything else (TTR or IGR) ---
+    while (i < codes.length) {
+      set3.push(codes[i]);
+      i++;
+    }
+
+    return {
+      topic: item.topic,
+      set1,
+      set2,
+      set3
+    };
+  });
+}
+function buildAllQuestions(topics) {
+  // Each topic gives one question
+  const result = {
+    question0: buildFromTopic(topics[0], "IG"),
+    question1: buildFromTopic(topics[1], "IG"),
+    question2: buildFromTopic(topics[2], "LAST"),
+    question3: buildFromTopic(topics[3], "CAR")
+  };
+
+  return result;
+}
+function buildFromTopic(topic, type) {
+  if (!topic) return null;
+
+  // 1. Collect all imagecodes
+  const codes = Object.keys(topic)
+    .filter(k => k.startsWith("imagecode"))
+    .map(k => topic[k]);
+
+  // Auto-group
+  const ig = [];
+  const car = [];
+  const last = [];
+
+  for (const code of codes) {
+    const prefix = code.split("_")[0].toUpperCase();
+
+    if (prefix === "IG") ig.push(code);
+    else if (prefix === "CAR") car.push(code);
+    else last.push(code); // TT, TR, IGR, etc
+  }
+
+  const toUrl = (code) =>
+    supabase.storage
+      .from("Thesis")
+      .getPublicUrl(`Modules/${code.split(" ")[0]}.png`).data.publicUrl;
+
+  // Decide which set to extract
+  let selectedSet;
+
+  if (type === "IG") selectedSet = ig;
+  if (type === "CAR") selectedSet = car;
+  if (type === "LAST") selectedSet = last;
+
+  // Map into renderable structure
+  return selectedSet.map(code => ({
+    src: toUrl(code),
+    correct: !code.toLowerCase().includes("(fake)")
+  }));
+}
 
 
 const FakeFact = ()=> {
+  const topics = [3,4,7,2]
+  const[game,setGames] = useState<any>([]);
+  const [gamesets,setGamesSet] = useState<any>([]);
+  const fetchfact = async () => {
+      const { data, error } = await supabase.from("module3").select("*");
+      const filterByTopic = (data:any, topics:any) => {
+        return data.filter((item:any) => topics.includes(Number(item.topic)));
+      };
+      setGames(filterByTopic(data,topics))
+      setGamesSet(extractDynamicSets(filterByTopic(data,topics)));
+      if (error) {
+        console.error("Error fetching spotthebias:", error);
+        return;
+      }
+      
+    };
 
-    const {
-        data: { publicUrl: question0Image1Url },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG Post_1c.png");
-    
-      const {
-        data: { publicUrl: question0Image2Url },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_1d.png");
-    
-      // Get Supabase storage URLs for Question 1 (3 posts)
-      const {
-        data: { publicUrl: post1ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_4f.png");
-    
-      const {
-        data: { publicUrl: post2ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_4a.png");
-    
-      const {
-        data: { publicUrl: post3ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_4e.png");
-    
-      // Get Supabase storage URLs for carousel images (second question)
-      const {
-        data: { publicUrl: carousel1ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_8f.png");
-    
-      const {
-        data: { publicUrl: carousel2ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_8i.png");
-    
-      const {
-        data: { publicUrl: carousel3ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_8g.png");
-    
-      const {
-        data: { publicUrl: carousel4ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/IG_8h.png");
-    
-      // Get Supabase storage URLs for third question (VS VS layout)
-      const {
-        data: { publicUrl: post4ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/TT_6a2.png");
-    
-      const {
-        data: { publicUrl: post5ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/TT_6a.png");
-    
-      const {
-        data: { publicUrl: post6ImageUrl },
-      } = supabase.storage.from("Thesis").getPublicUrl("Modules/TT_6a3.png");
-    
-      // Get Supabase storage URLs for fourth question (final 3-image comparison)
-    
+    useEffect(()=>{
+fetchfact();
+    },[])
+    console.log(gamesets)
+//1
     
     
       const [searchParams] = useSearchParams();
@@ -74,7 +131,8 @@ const FakeFact = ()=> {
       const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
       const [correctAnswers, setCorrectAnswers] = useState(0);
       const [biasQuizComplete, setBiasQuizComplete] = useState(false);
-    
+      console.log(currentQuestionIndex===3)
+
       const { data: module } = useQuery({
         queryKey: ["module", moduleId],
         queryFn: async () => {
@@ -130,11 +188,28 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
       return () => clearTimeout(timer);
     }
   }, [showResult, currentQuestionIndex]);
+  function pickFactAndFake(posts) {
+    if (posts){
+    const fact = posts.find(p => p.correct);
+    const fake = posts.find(p => !p.correct);
+    return [fact, fake];}
+    else {
+      return null;
+    }
+  }
 
+  const allQuestions = buildAllQuestions([game[0],game[1],game[2],game[3]]);
+  allQuestions.question0 = pickFactAndFake(allQuestions.question0);
 
-console.log(currentQuestionIndex===3)
+console.log(allQuestions)
 
     const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
+
+    if(currentQuestionIndex >= totalQuestions && !isM4Module ){
+      return(
+         <ClosingModal/>
+    )}
+
   return (
     <div className="p-6 ">
     <div className="bg-[#F8F1E7] px-24 h-[90vh] overflow-hidden flex flex-col">
@@ -150,58 +225,52 @@ console.log(currentQuestionIndex===3)
       )}
   
       <div className="flex-1 flex items-start justify-center">
-        {currentQuestionIndex === 0 ? (
+      {currentQuestionIndex === 0 && allQuestions.question0 ? (
   <div
     className={cn(
-      "flex items-center justify-center gap-24 transition-all duration-500 ",
-      showResult && "animate-fade-out",
+      "flex items-center justify-center gap-24 transition-all duration-500",
+      showResult && "animate-fade-out"
     )}
   >
     {/* Left Image */}
     <div className="relative flex justify-center max-w-[40%] overflow-visible">
-    <img
-        src={question0Image1Url}
-        alt="Post 1"
+      <img
+        src={allQuestions.question0[0].src}
+        alt="Left Post"
         className={cn(
           "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-          !showResult && "hover:scale-105 hover:shadow-lg",
+          !showResult && "hover:scale-105 hover:shadow-lg"
         )}
-        onClick={() => handlePostClick("question0-post1", false)}
+        onClick={() =>
+          handlePostClick(
+            `question0-post1`,
+            allQuestions.question0[0].correct
+          )
+        }
       />
 
-      {/* Example tooltip markers (appear when clicked) */}
-      {showResult && selectedPost === "question0-post1" && (
-        <>
-          <TooltipMarker
-            text="Spot the clue! ⚠️ That logo's off."
-            color="#6B21A8"
-            top="10%"
-          />
-          <TooltipMarker
-            text="No real image or proof in the visual"
-            color="#B91C1C"
-            top="40%"
-            
-          />
-          <TooltipMarker
-            text="An exaggerated word"
-            color="#1E3A8A"
-            top="70%"
-            
-          />
-        </>
-      )}
-
-      {showResult && selectedPost === "question0-post1" && (
+      {/* Overlay */}
+      {showResult && selectedPost === `question0-post1` && (
         <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
-          <div className="bg-[#B21B1D] rounded-full p-6 animate-scale-in">
-            <X className="w-16 h-16 text-white" strokeWidth={3} />
+          <div
+            className={cn(
+              "rounded-full p-6 animate-scale-in",
+              allQuestions.question0[0].correct
+                ? "bg-[#4EBD6F]"
+                : "bg-[#B21B1D]"
+            )}
+          >
+            {allQuestions.question0[0].correct ? (
+              <Check className="w-16 h-16 text-white" strokeWidth={3} />
+            ) : (
+              <X className="w-16 h-16 text-white" strokeWidth={3} />
+            )}
           </div>
         </div>
       )}
     </div>
 
-    {/* Center "VS" */}
+    {/* VS label */}
     <div className="flex items-center justify-center">
       <span className="font-semibold text-[13px] leading-[100%] tracking-[0] text-center">
         VS
@@ -210,217 +279,135 @@ console.log(currentQuestionIndex===3)
 
     {/* Right Image */}
     <div className="relative flex justify-center max-w-[40%] overflow-visible">
-    <img
-        src={question0Image2Url}
-        alt="Post 2"
+      <img
+        src={allQuestions.question0[1].src}
+        alt="Right Post"
         className={cn(
           "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-          !showResult && "hover:scale-105 hover:shadow-lg",
+          !showResult && "hover:scale-105 hover:shadow-lg"
         )}
-        onClick={() => handlePostClick("question0-post2", true)}
+        onClick={() =>
+          handlePostClick(
+            `question0-post2`,
+            allQuestions.question0[1].correct
+          )
+        }
       />
 
-      {showResult && selectedPost === "question0-post2" && (
+      {/* Overlay */}
+      {showResult && selectedPost === `question0-post2` && (
         <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
-          <div className="bg-[#4EBD6F] rounded-full p-6 animate-scale-in">
-            <Check className="w-16 h-16 text-white" strokeWidth={3} />
+          <div
+            className={cn(
+              "rounded-full p-6 animate-scale-in",
+              allQuestions.question0[1].correct
+                ? "bg-[#4EBD6F]"
+                : "bg-[#B21B1D]"
+            )}
+          >
+            {allQuestions.question0[1].correct ? (
+              <Check className="w-16 h-16 text-white" strokeWidth={3} />
+            ) : (
+              <X className="w-16 h-16 text-white" strokeWidth={3} />
+            )}
           </div>
         </div>
       )}
     </div>
   </div>
-)
+): currentQuestionIndex === 1 ? (
+  <div
+    className={cn(
+      "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
+      showResult && "animate-fade-out",
+    )}
+  >
+    {allQuestions.question1 && allQuestions?.question1?.map((post, i) => (
+      <div
+        key={i}
+        className="relative flex justify-center max-w-[30%]"
+        onClick={()=>console.log(post.src)}
+      >
+        <img
+          src={post.src}
+          alt={`Post ${i + 1}`}
+          className={cn(
+            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            !showResult && "hover:scale-105 hover:shadow-lg",
+          )}
+          onClick={() => handlePostClick(`post1-${i}`, post.correct)}
+        />
+        {showResult && selectedPost === `post1-${i}` && (
+          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+            <div
+              className={cn(
+                "rounded-full p-6 animate-scale-in",
+                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
+              )}
+            >
+              {post.correct ? (
+                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+              ) : (
+                <X className="w-16 h-16 text-white" strokeWidth={3} />
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+) : currentQuestionIndex === 2 ? (
+  <div
+    className={cn(
+      "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
+      showResult && "animate-fade-out",
+    )}
+  >
+    {allQuestions?.question2 && allQuestions?.question2?.map((post, i) => (
+      <div
+        key={i}
+        className="relative flex justify-center max-w-[30%]"
+      >
+        <img
+          src={post.src}
+          alt={`Post ${i + 1}`}
+          className={cn(
+            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            !showResult && "hover:scale-105 hover:shadow-lg",
+          )}
+          onClick={() => handlePostClick(`post2-${i}`, post.correct)}
+        />
+        {showResult && selectedPost === `post2-${i}` && (
+          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+            <div
+              className={cn(
+                "rounded-full p-6 animate-scale-in",
+                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
+              )}
+            >
+              {post.correct ? (
+                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+              ) : (
+                <X className="w-16 h-16 text-white" strokeWidth={3} />
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+) : currentQuestionIndex === 3 ? (
+   <Question3Carousel
+    showResult={showResult}
+    selectedCarouselIndex={selectedCarouselIndex}
+    handleCarouselClick={handleCarouselClick}
+    carouselImages={allQuestions?.question3} // dynamically passed array
+  />
+) : null}
 
- : currentQuestionIndex === 1 ? (
-    <div
-      className={cn(
-        "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
-        showResult && "animate-fade-out",
-      )}
-    >
-      {[
-        { src: post1ImageUrl, id: "post1", correct: true },
-        { src: post2ImageUrl, id: "post2", correct: false },
-        { src: post3ImageUrl, id: "post3", correct: false },
-      ].map((post, i) => (
-        <div
-          key={post.id}
-          className="relative flex justify-center max-w-[30%]"
-        >
-          <img
-            src={post.src}
-            alt={`Post ${i + 1}`}
-            className={cn(
-              "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-              !showResult && "hover:scale-105 hover:shadow-lg",
-            )}
-            onClick={() => handlePostClick(post.id, post.correct)}
-          />
-          {showResult && selectedPost === post.id && (
-            <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
-              <div
-                className={cn(
-                  "rounded-full p-6 animate-scale-in",
-                  post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
-                )}
-              >
-                {post.correct ? (
-                  <Check className="w-16 h-16 text-white" strokeWidth={3} />
-                ) : (
-                  <X className="w-16 h-16 text-white" strokeWidth={3} />
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  )  : currentQuestionIndex === 2 ? (
-    <div
-      className={cn(
-        "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
-        showResult && "animate-fade-out",
-      )}
-    >
-      {[
-        { src: post4ImageUrl, id: "post4", correct: false },
-        { src: post5ImageUrl, id: "post5", correct: true },
-        { src: post6ImageUrl, id: "post6", correct: false },
-      ].map((post, i) => (
-        <div
-          key={post.id}
-          className="relative flex justify-center max-w-[30%]"
-        >
-          <img
-            src={post.src}
-            alt={`Post ${i + 4}`}
-            className={cn(
-              "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-              !showResult && "hover:scale-105 hover:shadow-lg",
-            )}
-            onClick={() => handlePostClick(post.id, post.correct)}
-          />
-          {showResult && selectedPost === post.id && (
-            <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
-              <div
-                className={cn(
-                  "rounded-full p-6 animate-scale-in",
-                  post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
-                )}
-              >
-                {post.correct ? (
-                  <Check className="w-16 h-16 text-white" strokeWidth={3} />
-                ) : (
-                  <X className="w-16 h-16 text-white" strokeWidth={3} />
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  ) 
-   : currentQuestionIndex === 3 ? (
-    // <div
-    //   className={cn(
-    //     "flex items-center justify-center transition-all duration-500 overflow-hidden",
-    //     showResult && "animate-fade-out",
-    //   )}
-    // >
-    //   <div className="max-w-5xl w-full h-[45vh] flex flex-col justify-center">
-    //     <Slider
-    //       dots={true}
-    //       infinite={true}
-    //       speed={500}
-    //       slidesToShow={1}
-    //       slidesToScroll={1}
-    //       arrows={true}
-    //       prevArrow={
-    //         <button className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow">
-    //           <ChevronLeft className="h-5 w-5" />
-    //         </button>
-    //       }
-    //       nextArrow={
-    //         <button className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow">
-    //           <ChevronRight className="h-5 w-5" />
-    //         </button>
-    //       }
-    //     >
-    //       {[carousel1ImageUrl, carousel2ImageUrl, carousel3ImageUrl, carousel4ImageUrl].map(
-    //         (src, i) => (
-    //           <div key={i} className="relative flex items-center justify-center">
-    //             <img
-    //               src={src}
-    //               alt={`Carousel image ${i + 1}`}
-    //               className={cn(
-    //                 "h-[45vh] w-auto object-contain cursor-pointer rounded-lg transition-all duration-300 mx-auto",
-    //                 !showResult && "hover:scale-105 hover:shadow-lg",
-    //               )}
-    //               onClick={() => handleCarouselClick(i, i === 1)}
-    //             />
-    //             {showResult && selectedCarouselIndex === i && (
-    //               <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-lg animate-fade-in">
-    //                 <div
-    //                   className={cn(
-    //                     "rounded-full p-6 animate-scale-in",
-    //                     i === 1 ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
-    //                   )}
-    //                 >
-    //                   {i === 1 ? (
-    //                     <Check className="w-16 h-16 text-white" strokeWidth={3} />
-    //                   ) : (
-    //                     <X className="w-16 h-16 text-white" strokeWidth={3} />
-    //                   )}
-    //                 </div>
-    //               </div>
-    //             )}
-    //           </div>
-    //         ),
-    //       )}
-    //     </Slider>
-    //   </div>
-    // </div>
-    <>
-    <Question3Carousel showResult={showResult}
-  selectedCarouselIndex={selectedCarouselIndex}
-  handleCarouselClick={handleCarouselClick}
-  carousel1ImageUrl={carousel1ImageUrl}
-  carousel2ImageUrl={carousel2ImageUrl}
-  carousel3ImageUrl={carousel3ImageUrl}
-  carousel4ImageUrl={carousel4ImageUrl}    />
-    </>
-  ) : null}
   
         {/* Completion screen */}
-        {currentQuestionIndex >= totalQuestions && !isM4Module && (
-          // <div className="h-screen flex items-center justify-center">
-          //   <Card className="w-[80vw] h-[80vh] flex flex-col items-center justify-center bg-[#F8F1E7] shadow-lg rounded-3xl">
-          //     <div className="flex items-center gap-6 mb-8">
-          //       <img src="/m1end.png" alt="Module 3 Complete" className="w-24 h-24 object-contain" />
-          //       <div>
-          //         <h1 className="text-3xl font-bold">Module 3 : Complete</h1>
-          //         <p className="text-sm text-muted-foreground">4/4 Likes · 2/2 Saves</p>
-          //       </div>
-          //     </div>
-  
-          //     <div className="text-center">
-          //       <p className="text-lg mb-4">Your new score is</p>
-          //       <CircularProgress percentage={95} size={220} strokeWidth={16} />
-          //       <p className="mt-4 text-gray-700">
-          //         Yikes, <span className="font-bold text-[hsl(var(--success))]">{95 + 3}% polarization</span>!  
-          //         Lower the score, lower the polarization — and that’s how you win!
-          //       </p>
-          //     </div>
-  
-          //     <div className="mt-8">
-          //       <Button size="lg" onClick={() => navigate(`/module/M4`)} className="px-14 text-lg shadow-md">
-          //         Next Module →
-          //       </Button>
-          //     </div>
-          //   </Card>
-          // </div>
-          <ClosingModal/>
-        )}
+       
       </div>
     </div>
     </div>
@@ -500,22 +487,12 @@ import {  MessageCircle, Share2,  } from "lucide-react"
 import  ClosingModal  from "@/components/ClosingModal";
 import OpeningModal from "@/components/OpeningModal";
 
- function Question3Carousel({
+function Question3Carousel({
   showResult,
   selectedCarouselIndex,
   handleCarouselClick,
-  carousel1ImageUrl,
-  carousel2ImageUrl,
-  carousel3ImageUrl,
-  carousel4ImageUrl,
+  carouselImages, // now an array of images
 }) {
-  const images = [
-    carousel1ImageUrl,
-    carousel2ImageUrl,
-    carousel3ImageUrl,
-    carousel4ImageUrl,
-  ]
-
   return (
     <div className="flex justify-center items-center bg-[#f9f9f9] ">
       <div
@@ -547,48 +524,47 @@ import OpeningModal from "@/components/OpeningModal";
         <div className="relative">
           <Carousel className="w-full">
             <CarouselContent>
-              {images.map(
-                (src, i) =>
-                  src && (
-                    <CarouselItem key={i}>
-                      <div className="relative flex items-center justify-center">
-                        <img
-                          src={src}
-                          alt={`Carousel image ${i + 1}`}
-                          className={cn(
-                            "object-cover w-full max-h-[400px] cursor-pointer transition-all duration-300",
-                            !showResult && "hover:scale-[1.02]"
-                          )}
-                          onClick={() => handleCarouselClick(i, i === 1)}
-                        />
-
-                        {/* ✅ Overlay result check/cross */}
-                        {showResult && selectedCarouselIndex === i && (
-                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-lg animate-fade-in">
-                            <div
-                              className={cn(
-                                "rounded-full p-6 animate-scale-in",
-                                i === 1 ? "bg-[#4EBD6F]" : "bg-[#B21B1D]"
-                              )}
-                            >
-                              {i === 1 ? (
-                                <Check
-                                  className="w-16 h-16 text-white"
-                                  strokeWidth={3}
-                                />
-                              ) : (
-                                <X
-                                  className="w-16 h-16 text-white"
-                                  strokeWidth={3}
-                                />
-                              )}
-                            </div>
-                          </div>
+              {carouselImages.map((src, i) => (
+                src && (
+                  <CarouselItem key={i}>
+                    <div className="relative flex items-center justify-center">
+                      <img
+                        src={src.src}
+                        alt={`Carousel image ${i + 1}`}
+                        className={cn(
+                          "object-cover w-full max-h-[400px] cursor-pointer transition-all duration-300",
+                          !showResult && "hover:scale-[1.02]"
                         )}
-                      </div>
-                    </CarouselItem>
-                  )
-              )}
+                        onClick={() => handleCarouselClick(i, src.correct)}
+                      />
+
+                      {/* ✅ Overlay result check/cross */}
+                      {showResult && selectedCarouselIndex === i && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-lg animate-fade-in">
+                          <div
+                            className={cn(
+                              "rounded-full p-6 animate-scale-in",
+                              src.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]"
+                            )}
+                          >
+                            {src.correct ? (
+                              <Check
+                                className="w-16 h-16 text-white"
+                                strokeWidth={3}
+                              />
+                            ) : (
+                              <X
+                                className="w-16 h-16 text-white"
+                                strokeWidth={3}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </CarouselItem>
+                )
+              ))}
             </CarouselContent>
 
             <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md text-black rounded-full p-2 z-10" />
@@ -598,7 +574,6 @@ import OpeningModal from "@/components/OpeningModal";
           {/* Bottom Overlay Caption */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
             <p className="text-white font-semibold text-center text-sm">
-              The Simpsons Prediction on Queen Elizabeth II’s Death in 2022
             </p>
           </div>
         </div>

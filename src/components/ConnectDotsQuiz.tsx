@@ -28,11 +28,15 @@ interface Question {
 
 
 const ConnectDotsQuiz = (props:any) => {
-   const getTime = ()=> {
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 120); 
+  //  const getTime = ()=> {
+  // const time = new Date();
+  // time.setSeconds(time.getSeconds() + 120); 
  
-  return {time}}
+  // return {time}}
+  // const {minutes} = useTimer({
+  //   expiryTimestamp:getTime().time
+
+  // })
 
  
    const [questions, setQuestions] = useState<Question[]>([]);

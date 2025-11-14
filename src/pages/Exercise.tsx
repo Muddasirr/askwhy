@@ -312,8 +312,9 @@ export default function Exercise() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
+      <div className="p-8">
       {/* Your existing gallery content goes here */}
-      <div className="min-h-screen bg-[#F8F1E7] flex items-center justify-center p-16 rounded-[24px] shadow-sm">
+      <div className="min-h-screen bg-[#F8F1E7] flex items-center  py-8 px-32 rounded-[24px] shadow-sm">
         <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={moduleId}
@@ -348,6 +349,7 @@ export default function Exercise() {
             }}
           />
         </div>
+      </div>
       </div>
     </motion.div>
   )}
@@ -466,7 +468,7 @@ const ModuleHeader = () => {
     return (
       <div className="p-8">
   <div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-                <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
+                <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl   text-center">
   
                 {/* Module Completion Header */}
                 <div className="flex items-center justify-center gap-4 mb-6">
