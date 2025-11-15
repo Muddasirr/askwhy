@@ -19,7 +19,7 @@ export default function Onboarding() {
       } else {
         setStep(sequence[i]);
       }
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
@@ -35,8 +35,8 @@ export default function Onboarding() {
           <SplitText
             text="hello, you!"
             className="text-[84px] font-bold text-black text-center"
-            delay={200}
-            duration={0.7}
+            delay={300}
+            duration={0.9}
             ease="power3.out"
             splitType="chars"
             from={{ opacity: 0, y: 40 }}
@@ -65,13 +65,13 @@ export default function Onboarding() {
       className="h-[100vh] flex justify-center items-center bg-[#F8F1E7] w-1/2"
       initial={{ y: "100%", opacity: 0 }}
       animate={{ y: "0%", opacity: 1 }}
-      transition={{ duration: 1.5, ease: "easeOut" }}
+      transition={{ duration: 2, ease: "easeOut" }}
     >
       <motion.h1
         className="text-[84px] font-bold text-black"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.6 }}
+        transition={{ delay: 1.1, duration: 1 }}
       >
         Is your world
       </motion.h1>
@@ -82,13 +82,13 @@ export default function Onboarding() {
       className="h-[100vh] flex justify-center items-center bg-black w-1/2"
       initial={{ y: "-100%", opacity: 0 }}
       animate={{ y: "0%", opacity: 1 }}
-      transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
+      transition={{ delay: 1.5, duration: 1.5, ease: "easeOut" }}
     >
       <motion.h1
         className="text-[84px] text-[#F8F1E7] font-bold"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.6, duration: 0.6 }}
+        transition={{ delay: 2, duration: 1.1 }}
       >
         divided in two
       </motion.h1>
