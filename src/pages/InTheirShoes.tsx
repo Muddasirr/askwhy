@@ -21,7 +21,9 @@ const InTheirShoes = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [roleDetails,setRoleDetails] = useState<any>({});
-  
+  const [round, setRound] = useState(1); // Round 1 → 3
+  const [usedRoles, setUsedRoles] = useState<string[]>([]);
+
   const fetchRoleDetails = async (role: string) => {
     const { data, error } = await supabase.from("Roles").select("*").eq("Role", role); // ✅ Filter where Role == role
   setRoleDetails(data[0])
@@ -46,16 +48,38 @@ const InTheirShoes = () => {
 
   
 
-  const handleAnswerSelect = (answer: string) => {
-    if (questionStep === 1) {
-      // move to Q2
-      setQuestionStep(2);
-      setSelectedAnswer(null);
-    } else if (questionStep === 2) {
-      // show ClosingModal
-      setCurrentScreen("closing");
-    }
+  const COLORS = ["#FFC700", "#FF9348", "#5F237B"];
+
+  const handleAnswerSelect = (selectedLabel: string) => {
+    setSelectedAnswer(selectedLabel);
+  
+    // Shuffle colors randomly
+    const shuffledColors = [...COLORS].sort(() => Math.random() - 0.5);
+    setAnswerColors(shuffledColors);
+  
+    // Delay before moving to next step
+    setTimeout(() => {
+      if (questionStep === 1) {
+        setQuestionStep(2);
+        setSelectedAnswer(null);
+        setAnswerColors(["#EDE1D0", "#EDE1D0", "#EDE1D0"]); // reset
+      } else if (questionStep === 2) {
+        if (round < 3) {
+          setRound(round + 1);
+          setQuestionStep(1);
+          setSelectedAnswer(null);
+          setRoleDetails({});
+          setSelectedRole("");
+          setAnswerColors(["#EDE1D0", "#EDE1D0", "#EDE1D0"]); // reset
+          setCurrentScreen("roleSelection");
+        } else {
+          setCurrentScreen("closing");
+        }
+      }
+    }, 1000); // 1 second delay
   };
+  
+  
 
   const handleNext = () => {
     if (currentQuestion < 9) {
@@ -64,15 +88,21 @@ const InTheirShoes = () => {
     }
   };
 
-  const handleRole = (role:string) =>{
-    setCurrentScreen("scenario")
-    setSelectedRole(role)
-fetchRoleDetails(role)
-
- }
+  const handleRole = async (role: string) => {
+    setSelectedRole(role);
+  
+    // Add role to used list
+    setUsedRoles((prev) => [...prev, role]);
+  
+    await fetchRoleDetails(role);
+  
+    setCurrentScreen("scenario");
+  };
+  
  const [questionStep, setQuestionStep] = useState<1 | 2>(1);
 
-    
+ const [answerColors, setAnswerColors] = useState<string[]>(["#EDE1D0", "#EDE1D0", "#EDE1D0"]);
+
 
     const renderQuestion = () => {
       if (questionStep === 1) {
@@ -97,6 +127,7 @@ fetchRoleDetails(role)
     };
 
     const q = renderQuestion();
+    console.log(q)
   // if (currentScreen === "intro") {
   //   return (
   //     <main className="min-h-screen bg-[#F8F1E7] p-8 flex items-center justify-center">
@@ -195,13 +226,15 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
       >
         <CarouselContent>
           {roles.map((_, i) => (
-            <CarouselItem
-              key={i}
-              className="cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
-              onClick={()=>handleRole(_.title)}
-            >
-              <RoleCard role={_.title} />
-            </CarouselItem>
+           <CarouselItem
+           key={i}
+           className={`cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 
+                       ${usedRoles.includes(_.title) ? "opacity-40 pointer-events-none" : ""}`}
+           onClick={() => !usedRoles.includes(_.title) && handleRole(_.title)}
+         >
+           <RoleCard role={_.title} disabled={usedRoles.includes(_.title)} />
+         </CarouselItem>
+         
           ))}
         </CarouselContent>
 
@@ -305,27 +338,32 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
 
                 {/* Answers */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mb-8">
-                  {q.answers.map((a) => (
-                    <Card
-                      key={a.label}
-                      onClick={() => handleAnswerSelect(a.label)}
-                      className={`p-2 cursor-pointer transition-all  ${
-                        selectedAnswer === a.label
-                          ? "bg-[#E8F5E9] border-[#4CAF50]"
-                          : "bg-[#EDE1D0] border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      <div className="flex flex-col items-start gap-3">
-                        <span className="flex items-center justify-center text-[1.25vw] w-8 h-8 bg-[white] text-black rounded-2xl font-normal">
-                          {a.label}
-                        </span>
-                        <p className="text-sm text-gray-800 text-left leading-relaxed">
-                          {a.text}
-                        </p>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
+  {q.answers.map((a, i) => {
+    const isColored = selectedAnswer !== null; // true if user has clicked any answer
+    const bgColor = isColored ? answerColors[i] : "#EDE1D0";
+    const textColor = isColored ? "text-white" : "text-gray-800";
+
+    return (
+      <Card
+        key={a.label}
+        onClick={() => handleAnswerSelect(a.label)}
+        className={`p-2 cursor-pointer transition-all border-gray-200`}
+        style={{ backgroundColor: bgColor }}
+      >
+        <div className="flex flex-col items-start gap-3">
+          <span className={`flex items-center justify-center text-[1.25vw] w-8 h-8 bg-white text-black rounded-2xl font-normal`}>
+            {a.label}
+          </span>
+          <p className={`text-sm text-left leading-relaxed ${textColor}`}>
+            {a.text}
+          </p>
+        </div>
+      </Card>
+    );
+  })}
+</div>
+
+
               </div>
             </div>
           </div>
@@ -346,28 +384,35 @@ export default InTheirShoes;
 
 // components/RoleCard.tsx
 
-function RoleCard(props:any) {
+function RoleCard({ role, disabled }: any) {
   return (
-    <div className="bg-[white] h-[35vh] border-[3px] border-black rounded-xl shadow-sm p-6 text-center">
-      {/* Top Heading */}
+    <div
+      className={`bg-white h-[35vh] border-[3px] rounded-xl p-6 text-center
+                  ${disabled ? "opacity-40 border-gray-400" : "border-black"}`}
+    >
       <h2 className="text-lg font-semibold mb-2 text-black">Divided Class</h2>
-
-      {/* Image */}
       <div className="flex justify-center mb-2">
         <img
-          src="/character1.svg" // Replace with your teacher image URL
-          alt="Teacher"
+          src="/character1.svg"
+          alt={role}
           width={120}
           height={120}
           className="rounded-md"
         />
       </div>
 
-      {/* Role */}
-      <p className="text-gray-900 font-medium text-md">Role: {props.role}</p>
+      <p className="text-gray-900 font-medium text-md">Role: {role}</p>
+      {disabled && <p className="text-sm text-red-500 mt-2">Already used</p>}
     </div>
   );
 }
+
+
+
+
+
+
+
 
 const ModuleHeader = () => {
   return (

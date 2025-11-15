@@ -26,235 +26,162 @@ interface Question {
 }
 
 
-const ConnectDotsQuiz = (props:any) => {
-  //  const getTime = ()=> {
-  // const time = new Date();
-  // time.setSeconds(time.getSeconds() + 120); 
- 
-  // return {time}}
-  // const {minutes} = useTimer({
-  //   expiryTimestamp:getTime().time
-
-  // })
-
- 
-   const [questions, setQuestions] = useState<Question[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
-  const [polarizationScore] = useState(98);
+const ConnectDotsQuiz = ({ rounds }: any) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
   const [isComplete, setIsComplete] = useState(false);
-  console.log("behindqs",props.behindqs)
-  const navigate = useNavigate()
+  const [showIntroModal, setShowIntroModal] = useState(true);
 
-  // useEffect(() => {
-  //   if (questions.length > 0 && questions[currentQuestionIndex]) {
-  //     loadImage(questions[currentQuestionIndex].tiktok_image_filename);
-  //   }
-  // }, [currentQuestionIndex, questions]);
-  useEffect(()=>{
-loadImage(`${props.behindqs.Image}.png`)
-  },[])
+  const navigate = useNavigate();
 
-  
+  const currentRound = rounds[currentIndex]; // ← IMPORTANT
+  const behind = currentRound?.behind;
+  const answers = currentRound?.answers;
 
-  const fetchQuestions = async () => {
-    const { data: questionsData, error: questionsError } = await supabase
-      .from("connect_dots_questions")
-      .select("*");
-    if (questionsError) {
-      console.error("Error fetching questions:", questionsError);
-      return;
-    }
-
-    if (!questionsData || questionsData.length === 0) return;
-
-    const questionsWithAnswers = await Promise.all(
-      questionsData.map(async (question) => {
-        const { data: answersData } = await supabase
-          .from("connect_dots_answers")
-          .select("*")
-          .eq("question_id", question.id)
-          .order("answer_number", { ascending: true });
-
-        return {
-          ...question,
-          answers: answersData || [],
-        };
-      })
-    );
-
-    setQuestions(questionsWithAnswers);
-  };
+  // ----------------------------------------
+  // Load image whenever the round changes
+  // ----------------------------------------
+  useEffect(() => {
+    if (!behind) return;
+    loadImage(`${behind.Image}.png`);
+  }, [currentIndex]);
 
   const loadImage = async (filename: string) => {
-    const cleanFilename = filename.replace(/\u200B/g, ""); // remove zero-width spaces
+    const cleanFilename = filename.replace(/\u200B/g, "");
     const { data } = supabase.storage
       .from("Thesis")
       .getPublicUrl(`Modules/${cleanFilename}`);
-  
-    console.log(data);
+
     if (data?.publicUrl) setImageUrl(data.publicUrl);
   };
 
- 
-
-  if (!props.behindqs&&!props.answers) {
-    return <div className="text-center text-gray-700">Loading...</div>;
+  // ----------------------------------------
+  // End Loading State
+  // ----------------------------------------
+  if (!currentRound || !answers) {
+    return <p className="text-center mt-10">Loading...</p>;
   }
 
-  
-  // if (isComplete) {
-  //   return (
-  //     // <div
-  //     //   className="min-h-screen flex items-center justify-center p-6"
-  //     //   style={{ backgroundColor: "#F8F1E7" }}
-  //     // >
-  //     //   <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm p-16 text-center">
-  //     //     {/* Module Completion Header */}
-  //     //     <div className="flex items-center justify-center gap-4 mb-6">
-  //     //       <img
-  //     //         src="/m1end.png"
-  //     //         alt="Module 1"
-  //     //         className="w-20 h-20 object-contain"
-  //     //       />
-  //     //       <div className="text-left">
-  //     //         <h1 className="text-3xl font-semibold text-black">
-  //     //           Module 5: Complete
-  //     //         </h1>
-  //     //         <p className="text-gray-700 text-sm mt-1">
-  //     //           ✓ 2/2 motivations behind a creator’s mind figured!
-  //     //         </p>
-  //     //       </div>
-  //     //     </div>
+  // ----------------------------------------
+  // Handle Answer Click
+  // ----------------------------------------
+  const handleSelect = (word: string, isCorrect: boolean) => {
+    setSelectedAnswer(word);
 
-  //     //     {/* Score Circle */}
-  //     //     <div className="mt-10 mb-10">
-  //     //       <p className="text-gray-700 mb-4">Your new score is</p>
-  //     //       <div className="mx-auto w-32 h-32 rounded-full p-[16px] bg-[linear-gradient(180deg,#FF5A5F_0%,#8B5CF6_100%)]">
-  //     //         <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
-  //     //           –
-  //     //         </div>
-  //     //       </div>
-  //     //       <p className="mt-6 text-gray-600 text-sm">
-  //     //         You’ve outsmarted polarization and leveled up your perspective!
-  //     //         Your curiosity’s flying. Good Job!
-  //     //       </p>
-  //     //     </div>
+    setTimeout(() => {
+      if (currentIndex < rounds.length - 1) {
+        setCurrentIndex((prev) => prev + 1);
+        setSelectedAnswer(null);
+      } else {
+        setIsComplete(true);
+      }
+    }, 800);
+  };
 
-  //     //     <Button
-  //     //       size="lg"
-  //     //       onClick={() => navigate("/debate")}
-  //     //       className="mt-6 px-8 py-3 rounded-md bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-base"
-  //     //     >
-  //     //       Next Module →
-  //     //     </Button>
-  //     //   </div>
-  //     // </div>
-  //     <ClosingModal/>
-  //   );
-  // }
-const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
-return (
-  <div className="p-8">
-    {isComplete ? (
-      <ClosingModal />
-    ) : (
-      <div className="bg-[#F8F1E7] p-4 overflow-auto flex flex-col items-center">
-        <div className="w-full px-24 rounded-3xl shadow-sm relative bg-[#F8F1E7]">
-          <OpeningModal
-            src={"/opening15.png"}
-            showIntroModal={showIntroModal}
-            moduleId={"M5"}
-            setShowIntroModal={setShowIntroModal}
-          />
+  // ----------------------------------------
+  // COMPLETION SCREEN
+  // ----------------------------------------
+  if (isComplete) {
+    return (
+      <div className="p-8">
+        <ClosingModal />
+      </div>
+    );
+  }
 
-          {/* Question Section */}
-          <div>
-          <ModuleHeader/>
-            <h2 className="text-2xl font-normal text-black mb-6 text-center">
-              Reel #{currentQuestionIndex + 1}
-            </h2>
+  // ----------------------------------------
+  // MAIN UI
+  // ----------------------------------------
+  return (
+    <div className="p-8 bg-[#F8F1E7] min-h-screen flex flex-col items-center">
+      <div className="w-full px-24 rounded-3xl shadow-sm relative">
 
-            <div className="flex items-center justify-center rounded-2xl overflow-hidden mb-4">
-              {props.behindqs?.Image && (
-                <img
-                  src={imageUrl}
-                  alt="TikTok Post"
-                  className="h-[35vh] w-auto object-contain"
-                />
-              )}
-            </div>
+        <OpeningModal
+          src={"/opening15.png"}
+          showIntroModal={showIntroModal}
+          moduleId={"M5"}
+          setShowIntroModal={setShowIntroModal}
+        />
 
-            {/* Right Side Content */}
-            <div className="flex flex-col gap-10">
-              <div className="bg-[#EDE1D0] px-6 pb-8 pt-2 text-center">
-                <p className="text-[black] text-lg font-normal">
-                  {props.behindqs?.Image_Text || "Loading..."}
-                </p>
-              </div>
+        <ModuleHeader />
 
-              <div className="bg-white flex justify-center items-center gap-10 py-2">
-                <div className="text-center">
-                  <p className="text-[#D0193E] font-bold text-3xl">
-                    {props.behindqs?.Reach.split(" ")[0]}
-                  </p>
-                  <p className="text-gray-700 text-sm font-medium">
-                    {props.behindqs?.Reach.split(" ")[1]}
-                  </p>
-                </div>
-              </div>
+        {/* Round/Question Header */}
+        <h2 className="text-2xl font-normal text-black mb-6 text-center">
+          Reel #{currentIndex + 1}
+        </h2>
 
-              {/* Answer Buttons */}
-              <div>
-                <p className="font-semibold text-gray-800 py-8 text-center">
-                  What might have made the creator post something that got so much attention?
-                </p>
+        {/* Image */}
+        <div className="flex items-center justify-center rounded-2xl overflow-hidden mb-4">
+          {behind?.Image && (
+            <img
+              src={imageUrl}
+              alt="TikTok Post"
+              className="h-[35vh] w-auto object-contain"
+            />
+          )}
+        </div>
 
-                <div className="grid grid-cols-3 gap-4">
-                  {props.answers?.map((answer) => (
-                    <Card
-                      key={answer.id}
-                      className={`p-6 bg-[#EDE1D0] cursor-pointer transition-all border-2 ${
-                        selectedAnswer === answer.answer_number
-                          ? "border-pink-500 bg-pink-50"
-                          : "border-gray-200 hover:border-pink-400"
-                      }`}
-                      onClick={() => {
-                        setSelectedAnswer(answer.answer_number);
+        {/* Text Box */}
+        <div className="bg-[#EDE1D0] px-6 pb-8 pt-2 text-center">
+          <p className="text-[black] text-lg font-normal">
+            {behind?.Image_Text}
+          </p>
+        </div>
 
-                        setTimeout(() => {
-                          if (currentQuestionIndex < questions.length - 1) {
-                            setCurrentQuestionIndex((prev) => prev + 1);
-                            setSelectedAnswer(null);
-                          } else {
-                            // ✅ Instead of early return, just set a flag
-                            setIsComplete(true);
-                          }
-                        }, 800);
-                      }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-black bg-[white] px-2 rounded-[33px] inline-block">
-                          A
-                        </h3>
-                        <h3>{answer.Word}</h3>
-                      </div>
-                      <p className="text-gray-600 text-sm leading-relaxed">
-                        {answer.Description}
-                      </p>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
+        {/* Reach Box */}
+        <div className="bg-white flex justify-center items-center gap-10 py-2 mt-8">
+          <div className="text-center">
+            <p className="text-[#D0193E] font-bold text-3xl">
+              {behind?.Reach?.split(" ")[0]}
+            </p>
+            <p className="text-gray-700 text-sm font-medium">
+              {behind?.Reach?.split(" ")[1]}
+            </p>
           </div>
         </div>
+
+        {/* Question */}
+        <p className="font-semibold text-gray-800 py-8 text-center">
+          What might have made the creator post something that got so much attention?
+        </p>
+
+        {/* Answer Options */}
+        <div className="grid grid-cols-3 gap-4">
+          {answers.map((answer: any, index: number) => {
+            const optionLabel = String.fromCharCode(65 + index); // A, B, C
+            const isCorrect = answer.Word === behind.Correct_Answer;
+            const isSelected = selectedAnswer === answer.Word;
+
+            return (
+              <Card
+                key={answer.id}
+                className={`
+                  p-6 cursor-pointer transition-all border-2 bg-[#EDE1D0]
+                  ${isSelected && isCorrect ? "bg-[#FF9348]" : ""}
+                  ${isSelected && !isCorrect ? "border-red-500 bg-red-100" : ""}
+                `}
+                onClick={() => handleSelect(answer.Word, isCorrect)}
+              >
+                <div className="flex items-center gap-2">
+                  <h3 className="font-semibold text-black bg-white px-2 rounded-[33px] inline-block">
+                    {optionLabel}
+                  </h3>
+                  <h3>{answer.Word}</h3>
+                </div>
+
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {answer.Description}
+                </p>
+              </Card>
+            );
+          })}
+        </div>
       </div>
-    )}
-  </div>
-);}
+    </div>
+  );
+};
+
 
 
 

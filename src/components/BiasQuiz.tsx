@@ -12,12 +12,13 @@ interface BiasQuizProps {
   questionNumber: number;
   onComplete?: () => void;
   question?: any;
+  currentQuestionIndex:any
 }
 
 
 // Define biased words/phrases with difficulty levels
 
-const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: BiasQuizProps) => {
+const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,currentQuestionIndex }: BiasQuizProps) => {
   const biasedPhrases: any = {};
 
 if (question.Keyword1) {
@@ -31,6 +32,12 @@ if (question.Keyword2) {
 if (question.Keyword3!="") {
   biasedPhrases[question.Keyword3] = { difficulty: "hard", color: "#E9D5FF" };
 }
+useEffect(() => {
+  // Clear selections and building state whenever the question changes
+  setSelections([]);
+  setCurrentSelection([]);
+  setBuildingSelection([]);
+}, [currentQuestionIndex]);
 
   
   console.log(question)

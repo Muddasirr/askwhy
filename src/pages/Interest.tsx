@@ -262,7 +262,7 @@ What do you like?
 
                   {/* Right side: Counter */}
                   <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">/7</div>
+                      <div className="text-3xl font-bold text-gray-900">{`${props.count}/7`}</div>
                   </div>
               </div>
           </div>
