@@ -26,6 +26,7 @@ const InTheirShoes = () => {
 
   const fetchRoleDetails = async (role: string) => {
     const { data, error } = await supabase.from("Roles").select("*").eq("Role", role); // ✅ Filter where Role == role
+    console.log(data)
   setRoleDetails(data[0])
     if (error) {
       console.error("Error fetching spotthebias:", error);

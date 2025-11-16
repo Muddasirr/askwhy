@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Heart, Bookmark, Clock, ChevronRight } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import OpeningModal from "@/components/OpeningModal";
 import { ColumnsPhotoAlbum, RenderPhotoContext, RenderPhotoProps, RowsPhotoAlbum } from "react-photo-album";
 import "react-photo-album/columns.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { decreaseScore } from "@/store/topicsSlice";
+import CircleScore from "@/components/CircleScore";
 
 interface Post {
   id: number;
@@ -41,7 +42,7 @@ export default function Exercise() {
   const navigate = useNavigate();
   const moduleId = searchParams.get("id") || "M1";
   const [isLoading, setIsLoading] = useState(true);
-
+const [done,setDone] = useState(false)
   const [showIntroModal, setShowIntroModal] = useState(true);
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [visiblePosts, setVisiblePosts] = useState<Post[]>([]);
@@ -49,18 +50,12 @@ export default function Exercise() {
   const [savedIds, setSavedIds] = useState<Set<number>>(new Set());
   const [isComplete, setIsComplete] = useState(false);
   const [replacingIds, setReplacingIds] = useState<Set<number>>(new Set());
-  interface ModuleHeaderProps {
-    polarizationScore: number; // 0-100
-    likesCount?: number;
-    savesCount?: number;
-    MAX_LIKES?: number;
-    MAX_SAVES?: number;
-  }
+ const [code,setCodes] = useState<any>([]);
   // Fetch all Supabase images
   const topic = useSelector((state:RootState)=>state.topics.topics)
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 50 });
+      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 80 });
       console.log("data", data);
       console.log("topic", topic);
       if (error) {
@@ -80,11 +75,11 @@ export default function Exercise() {
       const postsData: Post[] = await Promise.all(
         data.map(async (file, index) => {
           if (file.name === "Group59.png") return null;
-  
-          // ✅ Corrected getPublicUrl usage
-          const { data: urlData,  } = supabase.storage.from("Thesis").getPublicUrl(`Modules/${file.name}`);
+          const PUBLIC_PREFIX =
+  "https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules";
+         
           
-          const publicUrl = urlData.publicUrl;
+          const publicUrl = `${PUBLIC_PREFIX}/${file.name}`;
   
           const { number, letter } = extractCodeFromFilename(file.name);
   
@@ -147,10 +142,10 @@ export default function Exercise() {
     return null;
   };
 
-  const handlePostAction = (id: number, action: "like" | "save") => {
+  const handlePostAction = (id: number, action: "like" | "save",src:string) => {
     const current = visiblePosts.find((p) => p.id === id);
     if (!current) return;
-
+    setCodes((prev:any)=>[...prev,src])
     const isLike = action === "like";
     const isSet = isLike ? likedIds.has(id) : savedIds.has(id);
     const setState = isLike ? setLikedIds : setSavedIds;
@@ -189,16 +184,45 @@ export default function Exercise() {
       }, TRANSITION_MS);
     }
   };
-
+const dispatch = useDispatch()
   const likesCount = likedIds.size;
   const savesCount = savedIds.size;
+const score = useSelector((state:RootState)=>state.topics.score)
 
+
+  const getScoreDrop = (savedUrls:string[]) => {
+    
+    // Extract number after underscore
+    const topics = savedUrls.map(url => {
+      const file = url.split("/").pop();     // IG_12c1.png
+      const match = file.match(/_(\d+)/);    // extract number after _
+      return match ? parseInt(match[1]) : null;
+    }).filter(Boolean);
+  
+    const uniqueTopics = new Set(topics).size;
+    console.log(uniqueTopics)
+    if (uniqueTopics >= 5) return 5;   // C3
+    if (uniqueTopics >= 3) return 2;   // C2
+    if (uniqueTopics >= 2) return 1;   // C1
+    
+    return 0;
+  };
+  
+  
+  
+  
   useEffect(() => {
-    if (likesCount >= MAX_LIKES && savesCount >= MAX_SAVES) {
+    if ((likesCount >= MAX_LIKES && savesCount >= MAX_SAVES) || done) {
+      
+      dispatch(decreaseScore(getScoreDrop(code)))
+
+
+
       const delay = setTimeout(() => setIsComplete(true), 1500); // 1.2s delay
+      
       return () => clearTimeout(delay);
     }
-  }, [likesCount, savesCount]);
+  }, [likesCount, savesCount,done]);
   
 
   // Convert posts to photo format
@@ -271,7 +295,7 @@ export default function Exercise() {
               }`}
               onClick={(e) => {
                 e.stopPropagation();
-                handlePostAction(Number(photo.key), "like");
+                handlePostAction(Number(photo.key), "like",photo.src);
               }}
             >
               <Heart
@@ -290,7 +314,7 @@ export default function Exercise() {
               }`}
               onClick={(e) => {
                 e.stopPropagation();
-                handlePostAction(Number(photo.key), "save");
+                handlePostAction(Number(photo.key), "save",photo.src);
               }}
             >
               <Bookmark
@@ -316,7 +340,7 @@ export default function Exercise() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      <ClosingModal />
+      <ClosingModal  score={score}/>
     </motion.div>
   ) : (
     <motion.div
@@ -336,7 +360,7 @@ export default function Exercise() {
           src={"/opening12.png"}
         />
         <div className="max-w-7xl w-full ">
-          <ModuleHeader savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={95} />
+          <ModuleHeader setDone={setDone} savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={100} />
           {isLoading?( <motion.div
         key="loading-screen"
         initial={{ opacity: 0 }}
@@ -385,21 +409,72 @@ export default function Exercise() {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 interface ModuleHeaderProps {
   polarizationScore: number; // 0-100
   likesCount?: number;
   savesCount?: number;
   MAX_LIKES?: number;
   MAX_SAVES?: number;
+  setDone:any;
 }
 
 const ModuleHeader = ({
-  polarizationScore,
+  polarizationScore = 100,
   likesCount = 0,
   savesCount = 0,
   MAX_LIKES = 8,
   MAX_SAVES = 8,
+  setDone
 }: ModuleHeaderProps) => {
+  const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      setDone(true); // call setDone when timer finishes
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft, setDone]);
+
+  // Format seconds to MM:SS
+  const formatTime = (seconds: number) => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, "0")}:${sec
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
   return (
     <div className="pt-6 mb-2">
       <div className="flex items-center justify-between">
@@ -407,11 +482,7 @@ const ModuleHeader = ({
         <div className="flex items-center gap-8">
           {/* Puzzle Icon */}
           <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0">
-            <img
-              src={"/opening12.png"}
-              alt="Module 1"
-              className="w-25 object-contain"
-            />
+            <img src={"/opening12.png"} alt="Module 1" className="w-25 object-contain" />
           </div>
 
           {/* Module Info */}
@@ -427,7 +498,7 @@ const ModuleHeader = ({
             <div className="flex items-center gap-4 text-[#201E1C]">
               <img src={"/clocl.svg"} alt="Clock" />
               <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-                02:00
+                {formatTime(timeLeft)}
               </span>
             </div>
           </div>
@@ -437,14 +508,14 @@ const ModuleHeader = ({
         <div className="flex flex-col items-end gap-2">
           {/* Polarization bar */}
           <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1">
-  <div
-    className="h-full rounded-full"
-    style={{
-      width: `${polarizationScore}%`,
-      background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
-    }}
-  />
-</div>
+            <div
+              className="h-full rounded-full"
+              style={{
+                width: `${polarizationScore}%`,
+                background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+              }}
+            />
+          </div>
 
           <span className="text-sm text-gray-700"> Polarization Score</span>
 
@@ -474,12 +545,21 @@ const ModuleHeader = ({
 
 
 
+
   
   
   
+
+
+
+
+
+
+
+
   
   
-  const ClosingModal = () => {
+  const ClosingModal = (props) => {
   
     const navigate = useNavigate();
   
@@ -490,12 +570,13 @@ const ModuleHeader = ({
                 <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl  text-center">
   
                 {/* Module Completion Header */}
-                <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+                <div className="flex  justify-center gap-4 mb-6">
+                {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
   <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
     –
   </div>
-  </div>
+  </div> */}
+  <CircleScore scoreDrop={props.score}/>
                     <div className="text-left">
                     <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
     Module 2: Complete
@@ -516,7 +597,7 @@ const ModuleHeader = ({
                 </div>
   
   <div>
-    Yikes, <span className="text-[#5F237B]"> 98%</span> <span className="text-[#D0193E]"> polarization!</span> But that’s what we’re here for — to unpack it, learn, and bring the number down together.
+    Yikes, <span className="text-[#5F237B]"> {props.score}%</span> <span className="text-[#D0193E]"> polarization!</span> But that’s what we’re here for — to unpack it, learn, and bring the number down together.
     <span className="text-[#5F237B]">  Lower the score, lower the polarization</span>.... and that's how you win!
   </div>
                 {/* Next Module Button */}
@@ -533,3 +614,109 @@ const ModuleHeader = ({
     );
   } 
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+
+
+
+
+
+const OpeningModal = (props:any)=>{
+    
+
+    return (
+        <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
+<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
+<div className="px-32 py-16">
+                    {/* Header with Icon */}
+                    <div className="flex items-start gap-4 mb-6">
+                      {/* Puzzle Icon */}
+                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+          <img
+            src={props.src}
+            alt="Module 1"
+            className="w-18 h-18 object-contain"
+          />
+        </div>
+        
+                      
+                      {/* Title */}
+                      <div>
+                      <div className="text-[#5F237B] text-[24px] font-semibold ">Phase I</div>
+                      <h2 className="text-[24px] font-bold text-black">Module {props.moduleId.split()[0]}: Find your vibe</h2>
+                      </div>
+                    </div>
+        
+                    {/* Video Placeholder */}
+                    <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
+                      <div className="text-gray-500">
+                        <div className="font-medium mb-1">Walkthrough Video</div>
+                        <div className="text-sm">(small screen recording)</div>
+                      </div>
+                    </div>
+        
+                    {/* Description */}
+                    <p className="text-[#1E1E2F]  font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+                    In this module, students will interact with a simulated social media feed, similar to the ones they scroll through daily. Their goal is to like 8 posts and save 4 in order to earn a score. The twist — the more diverse their engagement, the higher their score. 
+                  </p>
+
+        
+                    {/* Info Badges */}
+                    <div className="flex items-center gap-4 mb-6 text-sm">
+                   
+                    <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+  <img src={"/I_1b.svg"} />
+  Beginner Level
+</div>
+
+                      <div className="flex items-center gap-2 text-[#1E1E2F]-600">
+                        <img src={"/clocl.svg"} className="w-4 h-4 " />
+                        <span>02:00</span>
+                      </div>
+                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
+          <img src={"/star.svg"}/>
+                        Score is not being calculated in this module
+                      </div>
+                    </div>
+        
+                    {/* Begin Button */}
+                    <div className="flex justify-center">
+                    <Button
+  onClick={() => props.setShowIntroModal(false)}
+  className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+>
+            Let's begin →
+          </Button>
+        </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+    )
+}
+

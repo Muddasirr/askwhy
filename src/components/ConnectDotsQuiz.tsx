@@ -3,11 +3,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
+import { ChevronRight, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useTimer } from "react-timer-hook";
-import OpeningModal from "./OpeningModal";
 
 interface Answer {
   id: string;
@@ -27,6 +26,8 @@ interface Question {
 
 
 const ConnectDotsQuiz = ({ rounds }: any) => {
+  const score = useSelector((state:RootState)=>state.topics.score)
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -62,13 +63,17 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
   if (!currentRound || !answers) {
     return <p className="text-center mt-10">Loading...</p>;
   }
-
+const dispatch = useDispatch();
   // ----------------------------------------
   // Handle Answer Click
   // ----------------------------------------
   const handleSelect = (word: string, isCorrect: boolean) => {
     setSelectedAnswer(word);
-
+if(isCorrect){
+  console.log(isCorrect)
+  console.log(score)
+  dispatch(decreaseScore(3))
+}
     setTimeout(() => {
       if (currentIndex < rounds.length - 1) {
         setCurrentIndex((prev) => prev + 1);
@@ -84,9 +89,9 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
   // ----------------------------------------
   if (isComplete) {
     return (
-      <div className="p-8">
-        <ClosingModal />
-      </div>
+      
+        <ClosingModal score={score} />
+      
     );
   }
 
@@ -95,7 +100,7 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
   // ----------------------------------------
   return (
     <div className="p-8 bg-[#F8F1E7] min-h-screen flex flex-col items-center">
-      <div className="w-full px-24 rounded-3xl shadow-sm relative">
+      <div className="w-full px-24  relative">
 
         <OpeningModal
           src={"/opening15.png"}
@@ -104,7 +109,7 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
           setShowIntroModal={setShowIntroModal}
         />
 
-        <ModuleHeader />
+        <ModuleHeader currentIndex={currentIndex} score={score} />
 
         {/* Round/Question Header */}
         <h2 className="text-2xl font-normal text-black mb-6 text-center">
@@ -187,7 +192,7 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
 
 export default ConnectDotsQuiz;
 
-const ModuleHeader = () => {
+const ModuleHeader = (props) => {
   return (
       <>
           <div className="  pt-6 mb-2">
@@ -209,7 +214,7 @@ const ModuleHeader = () => {
 Behind the Buzz</h1>
 
 <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Trace the spark that sets your feed on fire!
+Trace the spark that sets your feed on fire
 </p>
 
 
@@ -226,9 +231,34 @@ Trace the spark that sets your feed on fire!
                   </div>
 
                   {/* Right side: Counter */}
-                  <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">/7</div>
-                  </div>
+                  <div className="flex flex-col justify-between h-full items-end">
+  {/* Top div */}
+  <div>
+    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
+      {/* Gray background track (already present) */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
+
+      {/* Gradient foreground */}
+      <div
+        className="h-full rounded-full relative"
+        style={{
+          width: `${props.score || 5}%`,
+          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+        }}
+      />
+    </div>
+    <span className="text-sm text-gray-700"> Polarization Score</span>
+  </div>
+
+  {/* Bottom div */}
+  <div>
+    <div className="text-3xl font-bold text-gray-900">
+      {props.currentIndex}/7 Left
+    </div>
+  </div>
+</div>
+
+
               </div>
           </div>
 
@@ -240,7 +270,8 @@ Trace the spark that sets your feed on fire!
 
 
 
- function ClosingModal () {
+
+ function ClosingModal (props) {
 
   const navigate = useNavigate();
 
@@ -252,11 +283,8 @@ Trace the spark that sets your feed on fire!
 
               {/* Module Completion Header */}
               <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
-<div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
-  –
-</div>
-</div>
+           
+           <CircleScore scoreDrop={props.score}/>
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
   Module 5: Complete
@@ -264,14 +292,14 @@ Trace the spark that sets your feed on fire!
 
 
 <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-2/2 motivations behind a creator’s mind figured! </p>
+5/5 motivations behind a creator’s mind figured! </p>
 
                   </div>
               </div>
 
               {/* Score Circle */}
               <div className="mt-10 mb-10 flex justify-center items-center">
-<img src={"/closingg.svg"} className="h-[35vh]" />
+<img src={"/closing22.png"} className="h-[35vh]" />
 
               </div>
 
@@ -284,10 +312,100 @@ You’ve outsmarted polarization and tackled biases! <br/>Your<span className="t
                   onClick={() => navigate(`/debate`)}
                   className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
               >
-                  Next Module →
+                  Next Module <ChevronRight/>
               </Button>
           </div>
       </div>
       </div>
   );
 } 
+
+
+import { Progress } from "@/components/ui/progress";
+import {  ThumbsUp, ThumbsDown, Heart, Bookmark } from "lucide-react";
+import { useSearchParams} from "react-router-dom";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { decreaseScore } from "@/store/topicsSlice";
+import CircleScore from "./CircleScore";
+
+
+
+
+
+const OpeningModal = (props:any)=>{
+    
+
+    return (
+        <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
+<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
+<div className="px-32 py-16">
+                    {/* Header with Icon */}
+                    <div className="flex items-start gap-4 mb-6">
+                      {/* Puzzle Icon */}
+                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+          <img
+            src={props.src}
+            alt="Module 1"
+            className="w-18 h-18 object-contain"
+          />
+        </div>
+        
+                      
+                      {/* Title */}
+                      <div>
+                      <div className="text-[#D0193E] text-[24px] font-semibold ">Phase III</div>
+                      <h2 className="text-[24px] font-bold text-black">Module 5: Behind the Buzz</h2>
+                      </div>
+                    </div>
+        
+                    {/* Video Placeholder */}
+                    <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
+                      <div className="text-gray-500">
+                        <div className="font-medium mb-1">Walkthrough Video</div>
+                        <div className="text-sm">(small screen recording)</div>
+                      </div>
+                    </div>
+        
+                    {/* Description */}
+                    <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+                    Time to dive into the minds behind the viral!<br/>
+                    Pick your prompts and uncover what really makes people hit “share.” 
+                    See how personal motives and biases  spark chain reactions across your feed — and maybe even the whole internet!
+                  </p>
+
+        
+                    {/* Info Badges */}
+                    <div className="flex items-center gap-4 mb-6 text-sm">
+                   
+                    <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+  <img src={"/I_1b.svg"} />
+  Intermediate Level
+</div>
+
+                      <div className="flex items-center gap-2 text-[#1E1E2F]-600">
+                        <img src={"/clocl.svg"} className="w-4 h-4 " />
+                        <span>03:00</span>
+                      </div>
+                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
+          <img src={"/star.svg"}/>
+                        Score is  calculated in this module
+                      </div>
+                    </div>
+        
+                    {/* Begin Button */}
+                    <div className="flex justify-center">
+                    <Button
+  onClick={() => props.setShowIntroModal(false)}
+  className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+>
+            Let's begin <ChevronRight/>
+          </Button>
+        </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+    )
+}
+

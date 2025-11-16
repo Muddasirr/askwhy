@@ -28,18 +28,18 @@ const Interest = () => {
 
   // Module 1 state
   const [topics, setTopics] = useState<Topic[]>([
-    { id: 1, category: "Entertainment", title: "Blake Lively 'It Ends With Us' Controversy", voted: null },
-    { id: 2, category: "Pop Culture", title: "Gen z Vs Millennial's mental health", voted: null },
-    { id: 3, category: "Health", title: "Barbie Movie Oscar Nominations", voted: null },
-    { id: 4, category: "Education", title: "ChatGPT’s Ghibli Art Trend", voted: null },
-    { id: 5, category: "Politics", title: "AI & Job Displacement", voted: null },
-    { id: 6, category: "Sports", title: "Covid-19 Vaccine & Billgate’s Predictions", voted: null },
-    { id: 7, category: "Technology", title: "Simpson’s Predictions of the real world ", voted: null },
-    { id: 8, category: "Pop Culture", title: "Space Technology: 31/Atlas", voted: null },
-    { id: 9, category: "Lifestyle", title: "College Degrees: Yes or No?", voted: null },
-    {id:10,category:"Law & Order",title:"Karachi’s E-Challan System",voted:null},
-    {id:11,category:"Space",title:"Netflix Original: The social Dilemma",voted:null},
-    {id:12,category:"Music",title:"Taylor Swift’s new album controversy",voted:null},
+    { id: 0, category: "Entertainment", title: "Blake Lively 'It Ends With Us' Controversy", voted: null },
+    { id: 1, category: "Pop Culture", title: "Gen z Vs Millennial's mental health", voted: null },
+    { id: 2, category: "Health", title: "Barbie Movie Oscar Nominations", voted: null },
+    { id: 3, category: "Education", title: "ChatGPT’s Ghibli Art Trend", voted: null },
+    { id: 4, category: "Politics", title: "AI & Job Displacement", voted: null },
+    { id: 5, category: "Sports", title: "Covid-19 Vaccine & Billgate’s Predictions", voted: null },
+    { id: 6, category: "Technology", title: "Simpson’s Predictions of the real world ", voted: null },
+    { id: 7, category: "Pop Culture", title: "Space Technology: 31/Atlas", voted: null },
+    { id: 8, category: "Lifestyle", title: "College Degrees: Yes or No?", voted: null },
+    {id:9,category:"Law & Order",title:"Karachi’s E-Challan System",voted:null},
+    {id:10,category:"Space",title:"Netflix Original: The social Dilemma",voted:null},
+    {id:11,category:"Music",title:"Taylor Swift’s new album controversy",voted:null},
 
   ]);
 

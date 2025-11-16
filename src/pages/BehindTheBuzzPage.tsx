@@ -13,29 +13,36 @@ const BehindTheBuzzPage = () => {
   const [rounds, setRounds] = useState<any[]>([]);
   const randomTopic:number = topic[Math.floor(Math.random() * topic.length)];
 
-  const randomTopics = useMemo(() => {
-    return [...topic]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 5); // PICK 5 ROUNDS
-  }, [topic]);
   
-  const fetchbehind = async () => {
-    const { data, error } = await supabase.from("behind").select("*");
-    console.log(data)
-    if (error) return console.error(error);
+  const randomTopics = useMemo(() => {
+    // Remove duplicates first
+    const uniqueTopics = Array.from(new Set(topic));
+  
+    // Shuffle and pick 5
+    return uniqueTopics
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 5);
+  }, [topic]);
+  console.log(randomTopics)
+  
+  // const fetchbehind = async () => {
+  //   const { data, error } = await supabase.from("behind").select("*");
+  //   console.log(data)
+  //   if (error) return console.error(error);
 
-    setBehindQs(data[randomTopic]);
+  //   setBehindQs(data[randomTopic]);
 
-    const { data: kwData, error: kwError } = await supabase.from("keywords").select("*");
-    if (kwError) return console.error(kwError);
+  //   const { data: kwData, error: kwError } = await supabase.from("keywords").select("*");
+  //   if (kwError) return console.error(kwError);
 
-    setKeywords(kwData);
-  };
+  //   setKeywords(kwData);
+  // };
   useEffect(() => {
     const loadData = async () => {
       const { data: behindData } = await supabase.from("behind").select("*");
       const { data: keywordData } = await supabase.from("keywords").select("*");
   
+      console.log(behindData)
       if (!behindData || !keywordData) return;
   
       const rounds = randomTopics.map((topicIndex: number) => {

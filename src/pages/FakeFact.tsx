@@ -110,9 +110,10 @@ function buildFromTopic(topic, type) {
 
 
 const FakeFact = ()=> {
+  const dispatch = useDispatch();
   const topic = useSelector((state:RootState)=>state.topics.topics)
   const uniqueTopics = Array.from(new Set(topic));
-
+const score = useSelector((state:RootState)=> state.topics.score)
   const topics = uniqueTopics
     .sort(() => Math.random() - 0.5)
     .slice(0, 8);
@@ -179,7 +180,9 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
     setShowResult(true);
     if (isCorrect) {
       setCorrectAnswers((prev) => prev + 1);
-    }
+      dispatch(decreaseScore(2.25))
+
+    } 
   };
 
   const handleCarouselClick = (index: number, isCorrect: boolean) => {
@@ -188,6 +191,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
     setShowResult(true);
     if (isCorrect) {
       setCorrectAnswers((prev) => prev + 1);
+      dispatch(decreaseScore(2.25))
     }
   };
 
@@ -221,7 +225,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
 
     if(currentQuestionIndex >= totalQuestions && !isM4Module ){
       return(
-         <ClosingModal/>
+         <ClosingModal score={score}/>
     )}
 console.log(allQuestions)
   return (
@@ -233,10 +237,10 @@ console.log(allQuestions)
           setShowIntroModal={setShowIntroModal}
           src={"/opening13.png"}
         />
-      <ModuleHeader currentQuestionIndex={currentQuestionIndex} />
+      <ModuleHeader polarizationScore={score} currentQuestionIndex={currentQuestionIndex} />
   
       {currentQuestionIndex < totalQuestions && (
-        <h2 className="text-2xl text-center mb-6  font-medium">Click to identify which one is fake</h2>
+        <h2 className="text-2xl text-center mb-6  font-normal">Click to identify which one is fake</h2>
       )}
   
       <div className="flex-1 flex items-start justify-center">
@@ -270,15 +274,13 @@ console.log(allQuestions)
           <div
             className={cn(
               "rounded-full p-6 animate-scale-in",
-              allQuestions.question0[0].correct
-                ? "bg-[#4EBD6F]"
-                : "bg-[#B21B1D]"
+              
             )}
           >
             {allQuestions.question0[0].correct ? (
-              <Check className="w-16 h-16 text-white" strokeWidth={3} />
+              <Check color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
             ) : (
-              <X className="w-16 h-16 text-white" strokeWidth={3} />
+              <X color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
             )}
           </div>
         </div>
@@ -356,13 +358,12 @@ console.log(allQuestions)
             <div
               className={cn(
                 "rounded-full p-6 animate-scale-in",
-                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
               )}
             >
               {post.correct ? (
-                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+                <Check color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
               ) : (
-                <X className="w-16 h-16 text-white" strokeWidth={3} />
+                <X  color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
               )}
             </div>
           </div>
@@ -396,13 +397,12 @@ console.log(allQuestions)
             <div
               className={cn(
                 "rounded-full p-6 animate-scale-in",
-                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
               )}
             >
               {post.correct ? (
-                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+                <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
               ) : (
-                <X className="w-16 h-16 text-white" strokeWidth={3} />
+                <X  color="#4EBD6F"  className="w-16 h-16 text-white" strokeWidth={3} />
               )}
             </div>
           </div>
@@ -448,15 +448,13 @@ console.log(allQuestions)
           <div
             className={cn(
               "rounded-full p-6 animate-scale-in",
-              allQuestions1.question0[0].correct
-                ? "bg-[#4EBD6F]"
-                : "bg-[#B21B1D]"
+             
             )}
           >
             {allQuestions1.question0[0].correct ? (
-              <Check className="w-16 h-16 text-white" strokeWidth={3} />
+              <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
             ) : (
-              <X className="w-16 h-16 text-white" strokeWidth={3} />
+              <X  color="#B21B1D"  className="w-16 h-16 text-white" strokeWidth={3} />
             )}
           </div>
         </div>
@@ -492,16 +490,14 @@ console.log(allQuestions)
         <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
           <div
             className={cn(
-              "rounded-full p-6 animate-scale-in",
-              allQuestions1.question0[1].correct
-                ? "bg-[#4EBD6F]"
-                : "bg-[#B21B1D]"
+              "rounded-full p-6 animate-scale-in"
+             
             )}
           >
             {allQuestions1.question0[1].correct ? (
-              <Check className="w-16 h-16 text-white" strokeWidth={3} />
+              <Check color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
             ) : (
-              <X className="w-16 h-16 text-white" strokeWidth={3} />
+              <X  color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
             )}
           </div>
         </div>
@@ -533,14 +529,13 @@ console.log(allQuestions)
           <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
             <div
               className={cn(
-                "rounded-full p-6 animate-scale-in",
-                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
+                "rounded-full p-6 animate-scale-in"
               )}
             >
               {post.correct ? (
-                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+                <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
               ) : (
-                <X className="w-16 h-16 text-white" strokeWidth={3} />
+                <X  color="#B21B1D"className="w-16 h-16 text-white" strokeWidth={3} />
               )}
             </div>
           </div>
@@ -574,13 +569,12 @@ console.log(allQuestions)
             <div
               className={cn(
                 "rounded-full p-6 animate-scale-in",
-                post.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]",
               )}
             >
               {post.correct ? (
-                <Check className="w-16 h-16 text-white" strokeWidth={3} />
+                <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
               ) : (
-                <X className="w-16 h-16 text-white" strokeWidth={3} />
+                <X color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
               )}
             </div>
           </div>
@@ -610,8 +604,7 @@ console.log(allQuestions)
 export default FakeFact
 
 
-import { Clock } from "lucide-react"
-import { TooltipMarker } from "@/components/TooltipMarker";
+
 
 
 
@@ -654,9 +647,34 @@ Is everything not real?!
                   </div>
 
                   {/* Right side: Counter */}
-                  <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">{props.currentQuestionIndex}/7</div>
-                  </div>
+                  <div className="flex flex-col justify-between h-full items-end">
+  {/* Top div */}
+  <div>
+    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
+      {/* Gray background track (already present) */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
+
+      {/* Gradient foreground */}
+      <div
+        className="h-full rounded-full relative"
+        style={{
+          width: `${props.polarizationScore || 5}%`,
+          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+        }}
+      />
+    </div>
+    <span className="text-sm text-gray-700"> Polarization Score</span>
+  </div>
+
+  {/* Bottom div */}
+  <div>
+    <div className="text-3xl font-bold text-gray-900">
+      {props.currentQuestionIndex}/7 Left
+    </div>
+  </div>
+</div>
+
+
               </div>
           </div>
 
@@ -676,9 +694,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import {  MessageCircle, Share2,  } from "lucide-react"
-import OpeningModal from "@/components/OpeningModal";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 
 function Question3Carousel({
@@ -745,12 +762,13 @@ function Question3Carousel({
                             {src.correct ? (
                               <Check
                               color="#4EBD6F"
-                                className="w-16 bg-[#4EBD6F] h-16 text-white"
+                                className="w-16  h-16 text-white"
                                 strokeWidth={3}
                               />
                             ) : (
                               <X
-                                className="w-16 h-16  bg-[#B21B1D] text-white"
+                              color="#B21B1D"
+                                className="w-16 h-16   text-white"
                                 strokeWidth={3}
                               />
                             )}
@@ -796,7 +814,7 @@ function Question3Carousel({
     </div>
   )
 }
-const ClosingModal = () => {
+const ClosingModal = (props:any) => {
   
   const navigate = useNavigate();
 
@@ -807,12 +825,14 @@ const ClosingModal = () => {
               <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7]   text-center">
 
               {/* Module Completion Header */}
-              <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+              <div className="flex  justify-center gap-4 mb-6">
+              {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
 <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
   –
 </div>
-</div>
+</div> */}
+  <CircleScore scoreDrop={props.score}/>
+
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
   Module 3: Complete
@@ -850,4 +870,88 @@ Nice! Your <span className="text-[#D0193E]"> polarization</span> just dropped �
   );
 } 
 
+
+
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { decreaseScore } from "@/store/topicsSlice";
+import CircleScore from "@/components/CircleScore";
+
+
+
+
+
+const OpeningModal = (props:any)=>{
+    
+
+    return (
+        <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
+<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
+<div className="px-32 py-16">
+                    {/* Header with Icon */}
+                    <div className="flex items-start gap-4 mb-6">
+                      {/* Puzzle Icon */}
+                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+          <img
+            src={props.src}
+            alt="Module 1"
+            className="w-16 h-16 object-contain"
+          />
+        </div>
+        
+                      
+                      {/* Title */}
+                      <div>
+                      <div className="text-[#D0193E] text-[24px] font-semibold ">Phase II</div>
+                      <h2 className="text-[24px] font-normal text-black">Module {props.moduleId.split()[0].split("")[1]}: Find your vibe</h2>
+                      </div>
+                    </div>
+        
+                    {/* Video Placeholder */}
+                    <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
+                      <div className="text-gray-500">
+                        <div className="font-medium mb-1">Walkthrough Video</div>
+                        <div className="text-sm">(small screen recording)</div>
+                      </div>
+                    </div>
+        
+                    {/* Description */}
+                    <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+                    In this level, you’ll become a fake content detective 🕵️‍♀️.
+                    <br/>
+                    You’ll explore different post formats — from side-by-side comparisons to posts, reels, and carousels — and figure out what’s real and what’s not. Look closely at sources, images, and engagement counts to spot the fakes and earn your points!
+                  </p>
+
+        
+                    {/* Info Badges */}
+                    <div className="flex items-center gap-4 mb-6 text-sm">
+                   
+                    <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+  <img src={"/I_1b.svg"} />
+  Beginner Level
+</div>
+
+                      <div className="flex items-center gap-2 text-[#1E1E2F]-600">
+                        <img src={"/clocl.svg"} className="w-4 h-4 " />
+                        <span>03:00</span>
+                      </div>
+                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
+          <img src={"/star.svg"}/>
+                        Score is not being calculated in this module
+                      </div>
+                    </div>
+        
+                    {/* Begin Button */}
+                    <div className="flex justify-center">
+                    <Button
+  onClick={() => props.setShowIntroModal(false)}
+  className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+>
+            Let's begin →
+          </Button>
+        </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+    )
+}
 
