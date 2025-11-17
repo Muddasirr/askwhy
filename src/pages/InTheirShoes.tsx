@@ -48,7 +48,6 @@ const InTheirShoes = () => {
 
   
 const dispatch = useDispatch()
-  const COLORS = ["#FFC700", "#FF9348", "#5F237B"];
 const score = useSelector((state:RootState)=>state.topics.score)
   const handleAnswerSelect = (selectedLabel: string,color:string) => {
     setSelectedAnswer(selectedLabel);
@@ -58,7 +57,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
     if(color =="#FF9348"){
       dispatch(decreaseScore(4))
     }
-    if(color =="5F237B"){
+    if(color =="#5F237B"){
       dispatch(decreaseScore(6))
     }
 
@@ -119,6 +118,8 @@ const score = useSelector((state:RootState)=>state.topics.score)
 const renderQuestion = () => {
   if (questionStep === 1) {
     return {
+      tooltip1:roleDetails.Q1tooltip1,
+      tooltip2:roleDetails.Q1tooltip2,
       questionText: roleDetails.Q1,
       answers: [
         { label: "A", text: roleDetails.Q1a, color: selectColor(roleDetails.Q1atype) },
@@ -128,6 +129,8 @@ const renderQuestion = () => {
     };
   } else {
     return {
+      tooltip1:roleDetails.Q2tooltip1,
+      tooltip2:roleDetails.Q2tooltip2,
       questionText: roleDetails.Q2,
       answers: [
         { label: "A", text: roleDetails.Q2a, color: selectColor(roleDetails.Q2atype) },
@@ -140,72 +143,8 @@ const renderQuestion = () => {
 
 
     const q = renderQuestion();
-    console.log(q)
-  // if (currentScreen === "intro") {
-  //   return (
-  //     <main className="min-h-screen bg-[#F8F1E7] p-8 flex items-center justify-center">
-  //       <div className="max-w-4xl w-full">
-  //         <Card className="bg-white rounded-2xl p-10 shadow-lg border-none">
-  //           {/* Header Section */}
-  //           <div className="flex items-center gap-6 mb-8">
-  //             <div className="relative w-20 h-20 flex items-center justify-center bg-[#4FD1C5] rounded-xl flex-shrink-0">
-  //               <span className="text-2xl font-bold text-[#E91E8C]">M7</span>
-  //             </div>
-  //             <div>
-  //               <p className="text-[#E76E50] font-semibold text-lg mb-1">Phase III</p>
-  //               <h1 className="text-3xl font-bold text-gray-900">Module 7: In their shoes 👞</h1>
-  //             </div>
-  //           </div>
-
-  //           {/* Video Placeholder */}
-  //           <div className="bg-[#E8EBF0] rounded-lg p-20 mb-8 flex items-center justify-center">
-  //             <div className="text-center">
-  //               <p className="text-gray-700 text-lg font-medium">Walkthrough Video</p>
-  //               <p className="text-gray-600 text-sm">(small screen recording)</p>
-  //             </div>
-  //           </div>
-
-  //           {/* Description */}
-  //           <div className="mb-8">
-  //             <p className="text-gray-700 text-base leading-relaxed text-center max-w-3xl mx-auto">
-  //               Time to see the world from someone else's point of view! Shuffle the cards to get your role, then use your best mix of facts, scenarios, and strategy to explain or defend the scenario like it's your own. The stronger (and more empathetic) your case, the more your polarization score drops. Ready to play your way into someone else's perspective? 🧑💙
-  //             </p>
-  //           </div>
-
-  //           {/* Info and Button Row */}
-  //           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-  //             <div className="flex items-center gap-6 flex-wrap justify-center">
-  //               <div className="flex items-center gap-2 bg-[#E9F1FF] px-3 py-1 rounded-full">
-  //                 <BookOpen className="w-4 h-4 text-[#5B7FFF]" />
-  //                 <span className="text-[#5B7FFF] font-medium">Advanced Level</span>
-  //               </div>
-  //               <div className="flex items-center gap-2">
-  //                 <Clock className="w-4 h-4 text-[#4FD1C5]" />
-  //                 <span className="text-gray-700">02:00</span>
-  //               </div>
-  //               <div className="flex items-center gap-2">
-  //                 <Star className="w-4 h-4 text-pink-400" />
-  //                 <span className="text-gray-700">Score is calculated in this module</span>
-  //               </div>
-  //             </div>
-
-  //             <Button
-  //               onClick={() => {
-  //                 console.log("Starting module, moving to role selection");
-  //                 setCurrentScreen("roleSelection");
-  //               }}
-  //               size="lg"
-  //               className="bg-[#A56DFF] hover:bg-[#9355FA] text-white px-8 rounded-xl"
-  //             >
-  //               Let's begin →
-  //             </Button>
-  //           </div>
-  //         </Card>
-  //       </div>
-  //     </main>
-     
-  //   );
-  // }
+    
+ 
 const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
   if (currentScreen === "roleSelection") {
     return (
@@ -581,7 +520,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "@/components/CircleScore";
-
+import Tooltip from "@/components/tooltipp";
 const OpeningModal = (props:any)=>{
     
 
