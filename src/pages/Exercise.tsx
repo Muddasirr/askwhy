@@ -58,7 +58,7 @@ const [done,setDone] = useState(false)
   const topic = useSelector((state:RootState)=>state.topics.topics)
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 25 });
+      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 50 });
       
       if (error) {
         console.error(error);
