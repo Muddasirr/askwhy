@@ -78,6 +78,7 @@ const[done,setDone] = useState(false)
 console.log
   return (
     <BiasQuiz
+    setCurrentQuestionIndex={setCurrentQuestionIndex}
     setDone={setDone}
     length={questions?.length}
     currentQuestionIndex={currentQuestionIndex}

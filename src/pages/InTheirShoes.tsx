@@ -108,7 +108,7 @@ const InTheirShoes = () => {
                   setCurrentScreen("closing");
               }
           }
-      }, 10000); // 1 second delay
+      }, 3000); // 1 second delay
   };
 
 
@@ -278,8 +278,30 @@ const [done,setDone] = useState(false)
 
       return (
           <div className="p-8">
-              <main className="min-h-[90vh] bg-[#F8F1E7] ">
-                  <div className="max-w-7xl mx-auto">
+              <main className="min-h-[90vh] bg-[#F8F1E7]  ">
+           
+                  <div className="max-w-7xl mx-auto relative">
+                  {/* <button
+    onClick={()=>{setSelectedAnswer(null);
+        setTooltipMapping({}); // Clear tooltips when moving on
+
+        if (questionStep === 1) {
+            setQuestionStep(2);
+        } else if (questionStep === 2) {
+            if (round < 3) {
+                setRound(round + 1);
+                setQuestionStep(1);
+                setRoleDetails({});
+                setSelectedRole("");
+                setCurrentScreen("roleSelection");
+            } else {
+                setCurrentScreen("closing");
+            }
+        }}} // your function to go to the next step
+    className="absolute top-1/2 right-0 w-[60] cursor-pointer h-[60] -translate-y-1/2 bg-[#FF9348] text-white px-2 py-2 rounded-full shadow-lg hover:bg-[#7A3ACF] transition-colors"
+  >
+    <ChevronRight/>
+  </button> */}
                   <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
 
                       {/* Question Header */}
@@ -290,7 +312,8 @@ const [done,setDone] = useState(false)
                       </div>
 
                       {/* Question Content */}
-                      <div className="flex justify-center items-center ">
+                      <div className="flex justify-center items-center relative  ">
+               
                           <div className="flex flex-col justify-center items-center max-w-4xl w-full px-12 ">
                               <div className="flex justify-center items-center gap-2 ">
                                   <p
@@ -308,13 +331,40 @@ const [done,setDone] = useState(false)
                               </div>
 
                               {/* Image */}
-                              <img
-                                  src="/module7.svg"
-                                  alt="Teacher"
-                                  width={144}
-                                  height={144}
-                                  className="rounded-md mb-2"
-                              />
+                              {/* Image with Next button */}
+                              <div className="relative mb-2 w-full flex justify-center items-center">
+  <img
+    src="/module7.svg"
+    alt="Teacher"
+    width={144}
+    height={144}
+    className="rounded-md"
+  />
+  
+  <button
+    onClick={()=>{
+        setSelectedAnswer(null);
+        setTooltipMapping({});
+        if (questionStep === 1) {
+            setQuestionStep(2);
+        } else if (questionStep === 2) {
+            if (round < 3) {
+                setRound(round + 1);
+                setQuestionStep(1);
+                setRoleDetails({});
+                setSelectedRole("");
+                setCurrentScreen("roleSelection");
+            } else {
+                setCurrentScreen("closing");
+            }
+        }
+    }}
+    className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg  transition-colors"
+  >
+    <ChevronRight />
+  </button>
+</div>
+
 
                               {/* Answers */}
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full mb-8">

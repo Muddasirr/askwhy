@@ -5,6 +5,7 @@ import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { supabase } from "@/integrations/supabase/client";
 import ModuleHeader from "@/components/ModuleHeader";
+import ClosingModal from "@/components/ClosingModal";
 
 
 const Debate = () => {
@@ -13,6 +14,7 @@ const Debate = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [imageUrl, setImageUrl] = useState("");
     const [show, setShow] = useState(true);
+    const [isCompleted, setIsCompleted] = useState(false);
 
     useEffect(() => {
         fetchTopics();
@@ -61,41 +63,62 @@ console.log(data)
     
    
 */}
-    
+
+
+{/* <ClosingModal  ending={<div><span className="text-[#5F237B]">Keep going,</span> We’re almost there! </div> }src={"/debate/final"} module={6} text={"4/4 Debates switch "}  score={score}/> */}
+
+
     const[done,setDone] = useState(false)
-return (
-    <div className="p-8">
-        <div className=" overflow-auto h-[90vh] bg-[#F8F1E7]">
-        <div className=" py-6 px-16">
-      <ModuleHeader
-        setDone={setDone}
+
+    
+    return isCompleted ? (
+      <ClosingModal
+        ending={
+          <div>
+            <span className="text-[#5F237B]">Keep going,</span> We’re almost there!
+          </div>
+        }
+        src={"/debate/final"}
         module={6}
-        src={"/opening16.png"}
-        heading={"Debate Switch"}
-        description={"One debate, two sides, endless perspectives"}
-        time={600}
-        left={currentIndex}
-        polarizationScore={score}
+        text={"4/4 Debates switch"}
+        score={score}
       />
+    ) : (
+      <div className="p-8">
+        <div className="overflow-auto h-[90vh] bg-[#F8F1E7]">
+          <div className="py-6 px-16">
+            <ModuleHeader
+              setDone={setDone}
+              module={6}
+              src={"/opening16.png"}
+              heading={"Debate Switch"}
+              description={"One debate, two sides, endless perspectives"}
+              time={600}
+              left={4 - currentIndex}
+              polarizationScore={score}
+            />
+          </div>
+    
+          {show ? (
+            <DebateModule
+              currentIndex={currentIndex}
+              setShow={setShow}
+              debate={debateList[currentIndex]}
+              imageUrl={imageUrl}
+            />
+          ) : (
+            <DebateSwitch
+              round={currentIndex}
+              debate={debateList[currentIndex]}
+              goNext={goToNextTopic}
+              isCompleted={isCompleted}
+              setIsCompleted={setIsCompleted}
+            />
+          )}
+        </div>
       </div>
-  
-      {show ? (
-        <DebateModule
-          currentIndex={currentIndex}
-          setShow={setShow}
-          debate={debateList[currentIndex]}
-          imageUrl={imageUrl}
-        />
-      ) : (
-        <DebateSwitch
-          round={currentIndex}
-          debate={debateList[currentIndex]}
-          goNext={goToNextTopic} // callback
-        />
-      )}
-    </div>
-    </div>
-  );
+    );
+    
   
 };
 

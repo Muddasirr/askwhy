@@ -14,12 +14,13 @@ interface BiasQuizProps {
   currentQuestionIndex:any
   length?:number;
   setDone?:any;
+  setCurrentQuestionIndex:any;
 }
 
 
 // Define biased words/phrases with difficulty levels
 
-const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,currentQuestionIndex,length,setDone }: BiasQuizProps) => {
+const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,currentQuestionIndex,length,setDone,setCurrentQuestionIndex }: BiasQuizProps) => {
   const biasedPhrases: any = {};
 
 if (question.Keyword1) {
@@ -297,16 +298,25 @@ src={"/opening14.svg"}
           </p>
 
 
-  <div className="my-8">
-    {/* Thumbnail */}
-    <div className="rounded-lg overflow-hidden">
-      <img
-        src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${question?.Image_Code}.png`}
-        alt={`Question ${questionNumber}`}
-        className="w-[80%] h-[80%] object-cover mx-auto"
-        />
-    </div>
+          <div className="my-8 relative">
+  {/* Thumbnail */}
+  <div className="rounded-lg overflow-hidden relative">
+    <img
+      src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${question?.Image_Code}.png`}
+      alt={`Question ${questionNumber}`}
+      className="w-[80%] h-[80%] object-cover mx-auto"
+    />
+
+    {/* Next Button */}
+    <button
+      onClick={()=>{setCurrentQuestionIndex(prev =>prev+1)}} // your function to go to the next question
+      className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg hover:bg-[#7A3ACF] transition-colors"
+    >
+      <ChevronRight />
+    </button>
   </div>
+</div>
+
 </div>
 
             

@@ -73,7 +73,7 @@ level="Advanced Level"
     <div>
       <p className="text-gray-900 font-medium text-sm mb-3">🔥 Ready to take a side?</p>
       <button
-        className="w-full py-2.5 rounded-md text-white font-medium text-base bg-[#FF9348] hover:bg-[#7c4ee8] transition-colors"
+        className="w-full py-2.5 rounded-md text-white font-medium text-base bg-[#FF9348] transition-colors"
         onClick={() => props.setShow(false)}
       >
         Start Now

@@ -6,28 +6,24 @@ const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
 
 const DebateSwitch = (props) => {
-  console.log(props)
   const navigate = useNavigate();
-  const [figureImageUrl, setFigureImageUrl] = useState<string>("");
   const [llmArgument, setLlmArgument] = useState<string>("Thinking...");
   const [userPrompts, setUserPrompts] = useState<string[]>([]);
   const [selectedPrompt, setSelectedPrompt] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showUserOptions, setShowUserOptions] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180);
   const [stance, setStance] = useState("against");
   const score= useSelector((state:RootState)=>state.topics.score)
   const DEBATE_TOPIC =props?.debate?.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
   louder struggles?"`;
-  // Timer
-  console.log(timeLeft)
-  console.log(props.round)
+ 
+
   useEffect(() => {
 
     if(timeLeft<=0 && props.round >=3){
       console.log(4)
-      setIsCompleted(true)
+      props.setIsCompleted(true)
     }
     if (timeLeft <= 0) {
       // One full round (180s) finished → go next topic
@@ -52,10 +48,7 @@ const DebateSwitch = (props) => {
     return () => clearInterval(timer);
   
   }, [timeLeft]);
-  
- 
 
- 
   // Load image
  
 
@@ -117,8 +110,14 @@ const DebateSwitch = (props) => {
           messages: [
             {
               role: "system",
-              content: `Return ONLY a JSON array of 3 short strings (max 15 words) strongly arguing ${playerSide} the topic: ${DEBATE_TOPIC}.`,
-            },
+              content: `
+            Return ONLY a JSON array of 3 short, powerful, persuasive arguments (max 15 words each) 
+            that strongly and convincingly argue ${playerSide} the topic: ${DEBATE_TOPIC}.
+            Make each argument concrete, impactful, and easy to understand. 
+            Do NOT include filler words. Keep it short but strong.
+            `
+            }
+            
           ],
           temperature: 0.8,
           max_tokens: 200,
@@ -144,9 +143,12 @@ const DebateSwitch = (props) => {
     setIsLoading(true);
   
     const SYSTEM_MESSAGE =
-      stance === "against"
-        ? `You are arguing AGAINST the topic: ${DEBATE_TOPIC}. Respond in 1 short, simple sentence.`
-        : `You are arguing IN FAVOR of the topic: ${DEBATE_TOPIC}. Respond in 1 short, simple sentence.`;
+  stance === "against"
+    ? `You are arguing AGAINST the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
+       Make the argument concrete, impactful, and convincing. Keep it simple but strong.`
+    : `You are arguing IN FAVOR of the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
+       Make the argument concrete, impactful, and convincing. Keep it simple but strong.`;
+
   
     try {
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -204,9 +206,8 @@ const dispatch = useDispatch();
  
 
 
-
-  return ( isCompleted)?(  <ClosingModal  ending={<div><span className="text-[#5F237B]">Keep going,</span> We’re almost there! </div> }src={"/debate/final"} module={6} text={"4/4 Debates switch "}  score={score}/>
-  ):(
+console.log("checkstance",stance)
+  return (
     <main>
     
   
@@ -228,70 +229,132 @@ const dispatch = useDispatch();
       </div>
   
       {/* Debate Row — this now fills all remaining vertical space */}
-      <div className="flex justify-between flex-grow gap-18 px-8 items-stretch mb-4">
-  {/* Opponent Side */}
-  <div className="flex items-stretch gap-6 text-center">
-    <div className="flex flex-col justify-end">
-      <p className="text-sm text-gray-700 font-medium ">Opponent LLM</p>
-      <img
-        src="/opponent.svg"
-        alt="Opponent"
-        className="w-72 h-full object-contain"
-      />
-    </div>
+      <motion.div
+  className="flex justify-between flex-grow gap-18 px-8 items-stretch mb-4"
+  layout
+>
+  {/* Conditional rendering: swap sides based on stance */}
+  {stance === "against" ? (
+    <>
+      {/* Opponent Side */}
+      <motion.div className="flex items-stretch gap-6 text-center" layout>
+        <div className="flex flex-col justify-end">
+          <p className="text-sm text-gray-700 font-medium">Opponent LLM</p>
+          <img
+            src="/opponent.svg"
+            alt="Opponent"
+            className="w-72 h-full object-contain"
+          />
+        </div>
 
-    {/* Opponent Argument */}
-    <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[200px] flex items-center justify-center shadow-sm p-4 h-[100%]">
-      <p className="text-gray-900 text-center text-base break-words overflow-hidden">
-        {isLoading ? "Thinking..." : llmArgument}
-      </p>
-    </div>
-  </div>
+        <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] flex items-center justify-center shadow-sm p-4 h-[100%]">
+          <p className="text-gray-900 text-center text-base break-words overflow-hidden">
+            {isLoading ? "Thinking..." : llmArgument}
+          </p>
+        </div>
+      </motion.div>
 
-  {/* User Side */}
-  <div className="flex items-stretch gap-6 text-center">
-    {showUserOptions && (
-      <div className="space-y-4 w-[300px] flex flex-col ">
-        {userPrompts.map((prompt, index) => (
-        <button
-        key={index}
-        onClick={() => handlePromptClick(index + 1)}
-        className={`w-full bg-[#EDE1D0] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-          selectedPrompt === index + 1
-            ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
-            : "hover:bg-gray-50 hover:shadow-md"
-        }`}
-      >
-        {/* Main prompt content */}
-        <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
-      
-        {/* Bottom-right "prompt #N" */}
-        <p className="absolute bottom-2 right-2 text-xs font-medium text-[#201E1C] mb-0.5">
-          Prompt #{index + 1}
-        </p>
-      
-        {/* Optional thumbs-up icon */}
-        {selectedPrompt === index + 1 && (
-          <div className="absolute top-2 right-2">
-            <ThumbsUp className="w-4 h-4 text-purple-600" />
+      {/* User Side */}
+      <motion.div className="flex items-stretch gap-6 text-center" layout>
+        {showUserOptions && (
+          <div className="space-y-4 w-[300px] flex flex-col">
+            {userPrompts.map((prompt, index) => (
+              <button
+                key={index}
+                onClick={() => handlePromptClick(index + 1)}
+                className={`w-full bg-[#EDE1D0] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
+                  selectedPrompt === index + 1
+                    ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
+                    : "hover:bg-gray-50 hover:shadow-md"
+                }`}
+              >
+                <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
+                <p className="absolute bottom-2 right-2 text-xs font-medium text-[#201E1C] mb-0.5">
+                  Prompt #{index + 1}
+                </p>
+                {selectedPrompt === index + 1 && (
+                  <div className="absolute top-2 right-2">
+                    <ThumbsUp className="w-4 h-4 text-purple-600" />
+                  </div>
+                )}
+              </button>
+            ))}
           </div>
         )}
-      </button>
-      
-        ))}
-      </div>
-    )}
 
-    <div className="flex flex-col justify-end items-center h-full">
-      <p className="text-sm text-gray-700 font-medium">You</p>
-      <img
-        src="/user.svg"
-        alt="You"
-        className="w-72 h-full object-contain"
-      />
-    </div>
-  </div>
-</div>
+        <div className="flex flex-col justify-end items-center h-full">
+          <p className="text-sm text-gray-700 font-medium">You</p>
+          <img
+            src="/user.svg"
+            alt="You"
+            className="w-72 h-full object-contain"
+          />
+        </div>
+      </motion.div>
+    </>
+  ) : (
+    <>
+      {/* Swap sides */}
+      <motion.div className="flex items-stretch gap-6 text-center" layout>
+        {/* User Side */}
+        <div className="flex flex-col justify-end items-center h-full">
+          <p className="text-sm text-gray-700 font-medium">You</p>
+          <img
+            src="/opponent.svg"
+            alt="You"
+            className="w-72 h-full object-contain"
+          />
+        </div>
+        {showUserOptions && (
+          <div className="space-y-4 w-[300px] flex flex-col">
+            {userPrompts.map((prompt, index) => (
+              <button
+                key={index}
+                onClick={() => handlePromptClick(index + 1)}
+                className={`w-full bg-[#EDE1D0] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
+                  selectedPrompt === index + 1
+                    ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
+                    : "hover:bg-gray-50 hover:shadow-md"
+                }`}
+              >
+                <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
+                <p className="absolute bottom-2 right-2 text-xs font-medium text-[#201E1C] mb-0.5">
+                  Prompt #{index + 1}
+                </p>
+                {selectedPrompt === index + 1 && (
+                  <div className="absolute top-2 right-2">
+                    <ThumbsUp className="w-4 h-4 text-purple-600" />
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+
+       
+      </motion.div>
+
+      {/* Opponent Side */}
+      <motion.div className="flex items-stretch gap-6 text-center" layout>
+      <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] flex items-center justify-center shadow-sm p-4 h-[100%]">
+          <p className="text-gray-900 text-center text-base break-words overflow-hidden">
+            {isLoading ? "Thinking..." : llmArgument}
+          </p>
+        </div>
+        <div className="flex flex-col justify-end">
+          <p className="text-sm text-gray-700 font-medium">Opponent LLM</p>
+          <img
+            src="/user.svg"
+            alt="Opponent"
+            className="w-72 h-full object-contain"
+          />
+        </div>
+
+       
+      </motion.div>
+    </>
+  )}
+</motion.div>
 
     </main>
     ) 
@@ -312,6 +375,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "@/components/CircleScore";
 import ClosingModal from "@/components/ClosingModal";
+import { motion } from "framer-motion";
 
 
 
