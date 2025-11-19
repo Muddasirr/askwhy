@@ -358,7 +358,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
     >
       <div className="p-8">
       {/* Your existing gallery content goes here */}
-      <div className="min-h-screen bg-[#F8F1E7] flex overflow-auto   py-8 px-32 rounded-[24px] shadow-sm">
+      <div className="min-h-screen bg-[#F8F1E7] flex overflow-auto py-8 px-32 rounded-[24px] shadow-sm">
       <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={moduleId}
@@ -371,7 +371,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
           calculated=""
           level="Beginner"
         />
-        <div className="max-w-7xl w-full ">
+        <div className="max-w-7xl w-full mx-auto">
           <ModuleHeader setDone={setDone} module={2} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={120}       savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
           {isLoading?( <motion.div
         key="loading-screen"

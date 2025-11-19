@@ -151,7 +151,7 @@ if (isComplete ||done) {
   )}
 
   {/* TOP-LEFT BADGE */}
-  <div className="absolute top-2 right-1 flex items-center gap-2 border border-black rounded-tl-[8px] rounded-tr-[8px]">
+  <div className="absolute top-2 right-3 flex items-center gap-2 border border-black rounded-tl-[8px] rounded-tr-[8px]">
   <div
   className="
     w-[5vw]

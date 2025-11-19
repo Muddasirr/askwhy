@@ -140,45 +140,27 @@ const score = useSelector((state:RootState)=>state.topics.score)
         
           {/* Buttons */}
           <div className="flex w-full items-center justify-center">
-  {/* Interested Button */}
-  <Button
-  size="sm"
-  onClick={() => handleVote(topic.id, "interested", topic.title)}
-  className={`
-    font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
-    w-full py-3
-    transition-colors duration-300 ease-in-out
-    ${topic.voted === "interested"
-      ? "bg-[#D0193E] text-white"
-      : "bg-[#F1F5F9] text-[#4C1C62] px-10"}
-  `}
->
-  {topic.voted !== "interested" ? (
-    <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
-  ) : (
-    <img src="/whitelove.svg" className="w-1.75 h-1.75" />
-  )}
-  Interested
-</Button>
-
-
-  {/* Not Interested Button — hide when interested */}
-  {topic.voted !== "interested" && (
-    <Button
-      size="sm"
-      onClick={() => handleVote(topic.id, "not-interested", topic.title)}
-      className={`
-        ml-4 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 text-[#4C1C62]
-        ${topic.voted === "not-interested"
-          ? "bg-[#9250B7] text-white hover:bg-[#9250B7]"
-          : "bg-[#F1F5F9] text-[#4C1C62] px-10"}
-      `}
-    >
-      <img src="/unlove.svg" alt="dislike" className="w-1.75 h-1.75 mr-1.5" />
-      Not Interested
-    </Button>
-  )}
-</div>
+            {/* Interested Button */}
+            <Button
+              size="sm"
+              onClick={() => handleVote(topic.id, "interested", topic.title)}
+              className={`
+                font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
+                px-6 py-2 w-auto
+                transition-colors duration-300 ease-in-out
+                ${topic.voted === "interested"
+                  ? "bg-[#D0193E] text-white"
+                  : "bg-[#F1F5F9] text-[#4C1C62]"}
+              `}
+            >
+              {topic.voted !== "interested" ? (
+                <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
+              ) : (
+                <img src="/whitelove.svg" className="w-1.75 h-1.75" />
+              )}
+              Interested
+            </Button>
+          </div>
 
         </Card>
         

@@ -167,7 +167,16 @@ const InTheirShoes = () => {
   const q = renderQuestion();
 const [done,setDone] = useState(false)
 
-
+  // ⭐ NEW: Role image mapping
+  const roleImageMap: { [key: string]: string } = {
+    "Team Captain": "/Team captain.svg",
+    "School Editor": "/Editor.svg", 
+    "Parent": "/Parent.svg",
+    "Friend": "/Friends.svg",
+    "Family": "/Grandma.svg",
+    "Teacher": "/School teacher.svg",
+    "Influencer": "/Influencer.svg",
+  };
 
   
   if (currentScreen === "roleSelection") {
@@ -209,7 +218,7 @@ const [done,setDone] = useState(false)
       className="cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
       onClick={() => handleRole(role.title)}
     >
-      <RoleCard role={role} />
+      <RoleCard role={role} roleImageMap={roleImageMap} />
     </CarouselItem>
 ))}
 
@@ -243,8 +252,8 @@ const [done,setDone] = useState(false)
                           {/* Left: Character Image (using RoleCard) */}
                           <div className="w-1/3 flex justify-center">
                               <img
-                                  src="/character1.svg" // Replace with your teacher image URL
-                                  alt="Teacher"
+                                  src={roleImageMap[selectedRole] || "/character1.svg"} // Use role-specific image
+                                  alt={selectedRole}
                                   className="rounded-md w-[80%] h-full"
                               />
                           </div>
@@ -447,7 +456,7 @@ export default InTheirShoes;
 
 // components/RoleCard.tsx
 
-function RoleCard({ role, disabled }: any) {
+function RoleCard({ role, disabled, roleImageMap }: any) {
   return (
     <div
       className={`bg-white h-[35vh] w-full gap-4 flex flex-col justify-center items-center border-[3px] rounded-xl px-4 py-2 text-center
@@ -456,14 +465,13 @@ function RoleCard({ role, disabled }: any) {
       <h2 className="text-[1vw] font-medium  text-[#130719]">{role.subtitle}</h2>
       <div className="flex justify-center ">
         <img
-          src="/character1.svg"
-          alt={role}
-     
+          src={roleImageMap[role.title] || "/character1.svg"}
+          alt={role.title}
           className="rounded-md w-[10vw]" 
         />
       </div>
 
-      <p className="text-[1.25vw] font-medium text-md">Role: {role.title}</p>
+      <p className="text-[1vw] font-medium  text-[#130719]">Role: {role.title}</p>
     </div>
   );
 }
