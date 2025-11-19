@@ -328,7 +328,7 @@ src={"/opening14.svg"}
           <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px]
  relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center  ">
             
-          <div className="absolute   z-50" style={{ top: '-100px', left:'-3vh' }}>
+          <div className="absolute   z-50" style={{ top: '100px', left:'-3vh' }}>
  {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
       slides={[
         { heading: question?.Bias_Type, description: question?.Tooltip1 },
@@ -488,7 +488,7 @@ onClick={() => {props.setShowIntroModal(false)
 }
 
 }
-className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
 >
           Let's begin <ChevronRight/>
         </Button>

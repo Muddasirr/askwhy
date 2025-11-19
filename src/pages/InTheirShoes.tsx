@@ -167,8 +167,14 @@ const InTheirShoes = () => {
   const q = renderQuestion();
 const [done,setDone] = useState(false)
 
+const email = JSON.parse(localStorage.getItem("email"))
 
-
+const insertscore = async(email)=>{
+    const { data, error } = await supabase
+  .from('Users')
+  .update({ Score: score })
+  .eq('Email', email);
+}
   
   if (currentScreen === "roleSelection") {
       return (
@@ -355,6 +361,7 @@ const [done,setDone] = useState(false)
                 setSelectedRole("");
                 setCurrentScreen("roleSelection");
             } else {
+                insertscore(email)
                 setCurrentScreen("closing");
             }
         }
@@ -434,8 +441,14 @@ const ischecked = selectedAnswer==a.label && a.color == "#5F237B"
       );
   }
 
+ 
   // ✅ Closing screen after both Q1 & Q2 done
   if (currentScreen === "closing") {
+
+
+
+
+
       return <ClosingModal score={score} />;
   }
 

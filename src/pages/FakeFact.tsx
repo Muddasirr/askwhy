@@ -102,7 +102,7 @@ const score = useSelector((state:RootState)=> state.topics.score)
       caption:topic.caption,
       reach:topic.reach,
       source:topic.source,
-      tooltip:tooltips.filter(p=>p.ImageCode===code.split(" ")[0])[0]?.Tooltip?tooltips.filter(p=>p.ImageCode===code.split(" ")[0])[0]?.Tooltip:""
+      tooltip:tooltips.filter(p=>p.ImageCode===code.split(" ")[0])[0]?.Tooltip?tooltips.filter(p=>p.ImageCode===code.split(" ")[0])[0]?.Tooltip.split(";"):""
   
     }));
   
@@ -275,7 +275,7 @@ calculated={""}
         alt="Left Post"
         className={cn(
           "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-          !showResult && "hover:scale-105 hover:shadow-lg"
+          !showResult && " hover:shadow-lg"
         )}
         onClick={() =>
           handlePostClick(
@@ -289,7 +289,7 @@ calculated={""}
 
       {/* Overlay */}
       {showResult && selectedPost === `question0-post1` && (
-        <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+        <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
           <div
             className={cn(
               "rounded-full p-6 animate-scale-in",
@@ -297,15 +297,15 @@ calculated={""}
             )}
           >
             {allQuestions.question0[0].correct ? (
-              <Check color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
+              <img src="/try.svg"  className=" text-white" />
             ) : (
-              <X color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
+              <img src="/trynot.svg" className=" text-white"  />
             )}
           </div>
         </div>
       )}
-      {showResult&& 
-      ( <div> <Tooltip description={allQuestions.question0[0].tooltip}/></div>)}
+      
+     
     </div>
 
     {/* VS label */}
@@ -322,7 +322,7 @@ calculated={""}
         alt="Right Post"
         className={cn(
           "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-          !showResult && "hover:scale-105 hover:shadow-lg"
+          !showResult && " hover:shadow-lg"
         )}
         onClick={() =>
           handlePostClick(
@@ -334,25 +334,21 @@ calculated={""}
 
       {/* Overlay */}
       {showResult && selectedPost === `question0-post2` && (
-        <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+        <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
           <div
             className={cn(
               "rounded-full p-6 animate-scale-in",
-              allQuestions.question0[1].correct
-                ? "bg-[#4EBD6F]"
-                : "bg-[#B21B1D]"
+              
             )}
           >
             {allQuestions.question0[1].correct ? (
-              <Check className="w-16 h-16 text-white" strokeWidth={3} />
-            ) : (
-              <X className="w-16 h-16 text-white" strokeWidth={3} />
-            )}
+            <img src="/try.svg"  className=" text-white" />
+          ) : (
+            <img src="/trynot.svg" className=" text-white"  />)}
           </div>
         </div>
       )}
-     {showResult&& 
-      ( <div> <Tooltip description={allQuestions.question0[1].tooltip}/></div>)}
+     
     
     </div>
   </div>
@@ -378,22 +374,21 @@ calculated={""}
           onClick={() => handlePostClick(`post1-${i}`, post.correct)}
         />
         {showResult && selectedPost === `post1-${i}` && (
-          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+          <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
             <div
               className={cn(
                 "rounded-full p-6 animate-scale-in",
               )}
             >
               {post.correct ? (
-                <Check color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
+               <img src="/try.svg"  className=" text-white" />
               ) : (
-                <X  color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
+                <img src="/trynot.svg" className=" text-white"  />
               )}
             </div>
           </div>
         )}
-        {showResult&& 
-      ( <div> <Tooltip description={allQuestions.question1[i].tooltip}/></div>)}
+       
       </div>
     ))}
   </div>
@@ -420,22 +415,21 @@ calculated={""}
         />
         
         {showResult && selectedPost === `post2-${i}` && (
-          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+          <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
             <div
               className={cn(
                 "rounded-full p-6 animate-scale-in",
               )}
             >
               {post.correct ? (
-                <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
-              ) : (
-                <X  color="#4EBD6F"  className="w-16 h-16 text-white" strokeWidth={3} />
+                 <img src="/try.svg"  className=" text-white" />
+                ) : (
+                  <img src="/trynot.svg" className=" text-white"  />
               )}
             </div>
           </div>
         )}
-        {showResult&& 
-      ( <div> <Tooltip description={allQuestions.question2[i].tooltip}/></div>)}
+       
       </div>
     ))}
   </div>
@@ -470,10 +464,13 @@ calculated={""}
           )
         }
       />
+   
+      
+   
 
       {/* Overlay */}
       {showResult && selectedPost === `question0-post1` && (
-        <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+        <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
           <div
             className={cn(
               "rounded-full p-6 animate-scale-in",
@@ -481,9 +478,9 @@ calculated={""}
             )}
           >
             {allQuestions1.question0[0].correct ? (
-              <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
+              <img src="/try.svg"  className=" text-white" />
             ) : (
-              <X  color="#B21B1D"  className="w-16 h-16 text-white" strokeWidth={3} />
+              <img src="/trynot.svg" className=" text-white"  />
             )}
           </div>
         </div>
@@ -516,7 +513,7 @@ calculated={""}
 
       {/* Overlay */}
       {showResult && selectedPost === `question0-post2` && (
-        <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+        <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
           <div
             className={cn(
               "rounded-full p-6 animate-scale-in"
@@ -524,13 +521,16 @@ calculated={""}
             )}
           >
             {allQuestions1.question0[1].correct ? (
-              <Check color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
-            ) : (
-              <X  color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
+            <img src="/try.svg"  className=" text-white" />
+          ) : (
+            <img src="/trynot.svg" className=" text-white"  />
             )}
           </div>
         </div>
       )}
+     
+      
+      
     </div>
   </div>
 ): currentQuestionIndex === 3 ? (
@@ -555,20 +555,21 @@ calculated={""}
           onClick={() => handlePostClick(`post1-${i}`, post.correct)}
         />
         {showResult && selectedPost === `post1-${i}` && (
-          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+          <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
             <div
               className={cn(
                 "rounded-full p-6 animate-scale-in"
               )}
             >
               {post.correct ? (
-                <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
-              ) : (
-                <X  color="#B21B1D"className="w-16 h-16 text-white" strokeWidth={3} />
+                 <img src="/try.svg"  className=" text-white" />
+                ) : (
+                  <img src="/trynot.svg" className=" text-white"  />
               )}
             </div>
           </div>
         )}
+       
       </div>
     ))}
   </div>
@@ -594,20 +595,21 @@ calculated={""}
           onClick={() => handlePostClick(`post2-${i}`, post.correct)}
         />
         {showResult && selectedPost === `post2-${i}` && (
-          <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
+          <div className="absolute inset-0 bg-[#EDE1D0] rounded-lg flex items-center justify-center animate-fade-in">
             <div
               className={cn(
                 "rounded-full p-6 animate-scale-in",
               )}
             >
               {post.correct ? (
-                <Check  color="#4EBD6F" className="w-16 h-16 text-white" strokeWidth={3} />
+                <img src="/try.svg"  className=" text-white" />
               ) : (
-                <X color="#B21B1D" className="w-16 h-16 text-white" strokeWidth={3} />
+                <img src="/trynot.svg" className=" text-white"  />
               )}
             </div>
           </div>
         )}
+     
       </div>
     ))}
   </div>
@@ -701,31 +703,22 @@ const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
 
                       {/* ✅ Overlay result check/cross */}
                       {showResult && selectedCarouselIndex === i && (
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-lg animate-fade-in">
+                        <div className="absolute inset-0 bg-[#EDE1D0] flex items-center justify-center rounded-lg animate-fade-in">
                           <div
                             className={cn(
                               "rounded-full p-6 animate-scale-in",
                             )}
                           >
                             {src.correct ? (
-                              <Check
-                              color="#4EBD6F"
-                                className="w-16  h-16 text-white"
-                                strokeWidth={3}
-                              />
-                            ) : (
-                              <X
-                              color="#B21B1D"
-                                className="w-16 h-16   text-white"
-                                strokeWidth={3}
-                              />
+                           <img src="/try.svg"  className=" text-white" />
+                          ) : (
+                            <img src="/trynot.svg" className=" text-white"  />
                             )}
                           </div>
                         </div>
-                      )}
+                      )}   
                     </div>
-                    {showResult&& 
-      ( <div> <Tooltip description={src.tooltip}/></div>)}
+         
                   </CarouselItem>
                 )
               ))}

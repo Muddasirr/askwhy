@@ -29,7 +29,6 @@ import Workshop from "./pages/Workshop";
 import CelebrationScreen from "./pages/Closing";
 
 
-
 const queryClient = new QueryClient();
 
 const App = () => (
