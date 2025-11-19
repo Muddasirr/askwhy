@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:pickandflick": "vite --config vite.config.pickandflick.ts",
     "build": "npm install --legacy-peer-deps && vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
