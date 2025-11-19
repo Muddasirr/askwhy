@@ -111,9 +111,10 @@ const DebateSwitch = (props) => {
             {
               role: "system",
               content: `
-            Return ONLY a JSON array of 3 short, powerful, persuasive arguments (max 15 words each) 
+            Return ONLY a JSON array of 3 short, powerful, persuasive strings which consit of arguments (max 15 words each) 
             that strongly and convincingly argue ${playerSide} the topic: ${DEBATE_TOPIC}.
-            Make each argument concrete, impactful, and easy to understand. 
+            Make each argument concrete, impactful, and easy to understand.
+            Use easy words.
             Do NOT include filler words. Keep it short but strong.
             `
             }
@@ -145,9 +146,9 @@ const DebateSwitch = (props) => {
     const SYSTEM_MESSAGE =
   stance === "against"
     ? `You are arguing AGAINST the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
-       Make the argument concrete, impactful, and convincing. Keep it simple but strong.`
+       Make the argument concrete, impactful, and convincing. Keep it simple but strong.use easy words`
     : `You are arguing IN FAVOR of the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
-       Make the argument concrete, impactful, and convincing. Keep it simple but strong.`;
+       Make the argument concrete, impactful, and convincing. Keep it simple but strong. use easy words`;
 
   
     try {

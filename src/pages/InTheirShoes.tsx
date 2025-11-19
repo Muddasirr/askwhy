@@ -52,9 +52,10 @@ const InTheirShoes = () => {
 
   const dispatch = useDispatch()
   const score = useSelector((state: any) => state.topics.score)
-
+const[check,setCheck] = useState(false)
   const handleAnswerSelect = (selectedLabel: string, color: string) => {
       setSelectedAnswer(selectedLabel);
+      setCheck(true)
 
       // Score update logic
       if (color === "#FFC700") {
@@ -323,7 +324,7 @@ const [done,setDone] = useState(false)
                       {/* Question Content */}
                       <div className="flex justify-center items-center relative  ">
                
-                          <div className="flex flex-col justify-center items-center max-w-4xl w-full px-12 ">
+                          <div className="flex flex-col justify-center items-center  w-full ">
                               <div className="flex justify-center items-center gap-2 ">
                                   <p
                                       className="text-[72px] font-semibold
@@ -350,8 +351,9 @@ const [done,setDone] = useState(false)
     className="rounded-md"
   />
   
-  <button
+ {check && <button
     onClick={()=>{
+        setCheck(false)
         setSelectedAnswer(null);
         setTooltipMapping({});
         if (questionStep === 1) {
@@ -371,12 +373,13 @@ const [done,setDone] = useState(false)
     className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg  transition-colors"
   >
     <ChevronRight />
-  </button>
+  </button>}
+
 </div>
 
 
                               {/* Answers */}
-                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full mb-8">
+                              <div className="grid grid-cols-1 px-36 sm:grid-cols-3 gap-8 w-full mb-8">
                               {q.answers.map((a, i) => {
     const isColored = selectedAnswer !== null;
     const bgColor = isColored ? a.color : "#EDE1D0";

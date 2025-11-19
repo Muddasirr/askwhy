@@ -249,10 +249,11 @@ const dispatch = useDispatch();
   };
 
   const polarizationScore = Math.round((selections.length / 5) * 100);
-
+const [check,setCheck] = useState(false)
   // Call onComplete callback when quiz is complete
   useEffect(() => {
     if (selections.length >= Object.keys(biasedPhrases).length && onComplete) {
+     
       const timer = setTimeout(() => {
         onComplete();
       }, 10000);
@@ -280,7 +281,7 @@ src={"/opening14.svg"}
           setShowIntroModal={setShowIntroModal}
         />
       
-      <div className="max-w-6xl mx-auto  ">
+      <div className="   ">
         {/* Header - Exact match to image */}
         
     
@@ -292,7 +293,7 @@ src={"/opening14.svg"}
           
           {/* YouTube-style card */}
           
-          <div className=" px-32 bg-[#F8F1E7]">
+          <div className="  bg-[#F8F1E7]">
           <p  className=" mt-8 font-medium text-[#00000] text-[1.5vw] leading-[100%] tracking-[0%] text-center  ">
           Click to identify 3 words OR phrases that sound biased
           </p>
@@ -304,16 +305,18 @@ src={"/opening14.svg"}
     <img
       src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${question?.Image_Code}.png`}
       alt={`Question ${questionNumber}`}
-      className="w-[80%] h-[80%] object-cover mx-auto"
+      className="w-[50%] object-cover mx-auto"
     />
 
     {/* Next Button */}
-    <button
-      onClick={()=>onComplete()} // your function to go to the next question
-      className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg hover:bg-[#7A3ACF] transition-colors"
+    { check && <button
+      onClick={()=>{
+        setCheck(false)
+        onComplete()}} // your function to go to the next question
+      className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg transition-colors"
     >
       <ChevronRight />
-    </button>
+    </button>}
   </div>
 </div>
 

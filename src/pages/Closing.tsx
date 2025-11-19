@@ -1,7 +1,11 @@
+import { RootState } from "@/store";
 import { ChevronRight } from "lucide-react";
 import React from "react";
+import { useSelector } from "react-redux";
 
 export default function CelebrationScreen() {
+
+  const score = useSelector((state:RootState)=>state.topics.score)
   return (
     <div className="p-8 ">
     <div className="flex flex-col items-center  min-h-[90vh]  bg-[#f5f1e8] px-10 font-sans">
@@ -17,7 +21,7 @@ export default function CelebrationScreen() {
       {/* Stats Section */}
       <div className="text-center mb-8 ">
         <p className="text-[#1a1a1a] font-medium tracking-wide  text-[1.5vw]">
-          You're now only <span className=" font-bold  text-[#D0193E] ">2%</span> Polarized! Good Job, you did it!
+          You're now only <span className=" font-bold  text-[#D0193E] ">{score}</span> Polarized! Good Job, you did it!
         </p>
       </div>
 
