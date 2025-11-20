@@ -474,7 +474,7 @@ Intermediate Level
 
                     <div className="flex items-center gap-2 text-[#1E1E2F]-600">
                       <img src={"/clocl.svg"} className="w-4 h-4 " />
-                      <span>02:00</span>
+                      <span>07:00</span>
                     </div>
                     <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
         <img src={"/star.svg"}/>

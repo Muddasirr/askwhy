@@ -367,12 +367,12 @@ const score = useSelector((state:RootState)=>state.topics.score)
           phase="I"
           module="Module 2: Pick & Flick"
           description="In this module, students will interact with a simulated social media feed, similar to the ones they scroll through daily. Their goal is to like 10 posts and save 5 in order to earn a score. The twist — the more diverse their engagement, the higher their score."
-          time="2:00"
+          time="5:00"
           calculated=""
           level="Beginner"
         />
         <div className="max-w-7xl w-full mx-auto">
-          <ModuleHeader setDone={setDone} module={2} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={120}       savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
+          <ModuleHeader setDone={setDone} module={2} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={300}       savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
           {isLoading?( <motion.div
         key="loading-screen"
         initial={{ opacity: 0 }}

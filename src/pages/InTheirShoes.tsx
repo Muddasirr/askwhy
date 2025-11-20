@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookOpen, Clock, Star, AlarmClock } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -53,6 +53,20 @@ const InTheirShoes = () => {
   const dispatch = useDispatch()
   const score = useSelector((state: any) => state.topics.score)
 const[check,setCheck] = useState(false)
+
+const insertscore = async()=>{
+    const email = JSON.parse(localStorage.getItem("email"))
+    const { data, error } = await supabase
+  .from("Users")
+  .update({ Score: score })   // score is your value
+  .eq("email", email);        // email is the matching email
+
+}
+useEffect(()=>{
+    if(currentScreen=="closing"){
+insertscore()}
+},[currentScreen])
+
   const handleAnswerSelect = (selectedLabel: string, color: string) => {
       setSelectedAnswer(selectedLabel);
       setCheck(true)
@@ -448,7 +462,7 @@ const ischecked = selectedAnswer==a.label && a.color == "#5F237B"
 
   // ✅ Closing screen after both Q1 & Q2 done
   if (currentScreen === "closing") {
-      return <ClosingModal score={score} />;
+      return <CelebrationScreen />;
   }
 
 };
@@ -565,6 +579,7 @@ import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "@/components/CircleScore";
 import Tooltip from "@/components/tooltipp";
 import TooltipCarousel from "@/components/TooltipCarousel";
+import CelebrationScreen from "./Closing";
 const OpeningModal = (props:any)=>{
     
 

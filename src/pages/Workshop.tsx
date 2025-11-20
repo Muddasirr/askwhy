@@ -143,13 +143,13 @@ const Workshop = () => {
               <p className="mb-4 text-[#4C1C62] font-gabarito font-normal text-2xl leading-none tracking-normal">
                 A glow up for your brain. How does that <br></br>sound?
               </p>
-              <p className="text-[#4C1C62] font-gabarito font-normal text-2xl leading-none tracking-normal">
+              <p className="text-[#4C1C62] font-gabarito font-normal text-2xl  tracking-normal">
                 We're here to help. Turn <span className="font-semibold">curiosity</span> into <br></br> your superpower.
                 <span className="font-semibold">
                   {" "}
                   Play. Challenge. Ask <br></br>Why.
                 </span>
-                Let's start your journey with us!
+                 {" "}Let's start your journey with us!
               </p>
             </div>
 
@@ -236,22 +236,22 @@ const StatBox = (props: { number: string; label: string; highlight?: boolean; un
       }`}
     >
       <div className="flex items-end leading-none">
-        <p className="font-extrabold text-[#D0193E] text-[5vw] leading-none">
+        <p className="font-extrabold text-[#D0193E] text-[6vw] leading-none">
           {mainValue}
         </p>
 
         {/* Applying custom font style for the unit, specifically for 'hr' */}
-        <span className={`text-[#D0193E] font-normal text-[1.5vw] ml-0.5 mb-1 ${props.unitFont ? `font-['${props.unitFont}']` : ''}`}>
+        <span className={`text-[#D0193E] font-normal text-[2vw] ml-0.5 mb-1 ${props.unitFont ? `font-['${props.unitFont}']` : ''}`}>
           {unit}
         </span>
       </div>
 
       <div>
-        <p className="text-[1vw] text-left text-[#D0193E] font-normal">
+        <p className="text-[1.25vw] text-left text-[#D0193E] font-normal">
           {props.label.split(" ")[0]}
         </p>
 
-        <p className="text-[1.75vw] text-left text-[#5F237B] font-semibold">
+        <p className="text-[2.15vw] text-left text-[#5F237B] font-semibold">
           {props.label.split(" ")[1]}
         </p>
       </div>

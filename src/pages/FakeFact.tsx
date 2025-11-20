@@ -266,12 +266,12 @@ Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> 
             "In this level, you’ll become a fake content detective 🕵️‍♀️.<br/> You’ll explore different post formats — from side-by-side comparisons to posts, reels, and carousels — and figure out what’s real and what’s not. Look closely at sources, images, and engagement counts to spot the fakes and earn your points!"
          </div>
           }
-          time={"5:00"}
+          time={"10:00"}
 level={"Intermediate"}
 calculated={""}
         />
 
-      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} />
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={600}  left={8-currentQuestionIndex} total={8} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center my-8  font-normal">Click to identify which one is fake</h2>
