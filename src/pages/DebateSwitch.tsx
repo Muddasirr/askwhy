@@ -189,7 +189,7 @@ const dispatch = useDispatch();
   const handlePromptClick = async (i: number) => {
     setSelectedPrompt(i);
     setShowUserOptions(false);
-    dispatch(decreaseScore(1))
+    dispatch(decreaseScore(0.25))
     const chosen = userPrompts[i - 1];
   
     setTimeout(async () => {
