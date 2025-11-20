@@ -59,7 +59,7 @@ const insertscore = async()=>{
     const { data, error } = await supabase
   .from("Users")
   .update({ Score: score })   // score is your value
-  .eq("email", email);        // email is the matching email
+  .eq("Email", email);        // email is the matching email
 
 }
 useEffect(()=>{
