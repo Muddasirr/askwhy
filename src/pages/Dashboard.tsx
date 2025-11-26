@@ -115,7 +115,11 @@ User 1
 
   <div className="w-[80%] ">
   <h1 className=" font-semibold text-[1.5vw] leading-[100%] text-white  mb-2">
+<<<<<<< HEAD
   Welcome to askwhy! 
+=======
+  Welcome to askwhy!
+>>>>>>> upstream/main
 </h1>
 
     <p className=" text-[1vw] leading-relaxed opacity-90 text-white w-[75%]">

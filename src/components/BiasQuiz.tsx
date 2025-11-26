@@ -23,6 +23,7 @@ interface BiasQuizProps {
 const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,currentQuestionIndex,length,setDone,setCurrentQuestionIndex }: BiasQuizProps) => {
   const biasedPhrases: any = {};
 
+<<<<<<< HEAD
   if (question.Keyword1) {
     biasedPhrases[question.Keyword1] = { difficulty: "easy", color: "#E9D5FF", };
   }
@@ -41,6 +42,26 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
     setCurrentSelection([]);
     setBuildingSelection([]);
   }, [currentQuestionIndex]);
+=======
+if (question.Keyword1) {
+  biasedPhrases[question.Keyword1] = { difficulty: "easy", color: "#E9D5FF", };
+}
+
+if (question.Keyword2) {
+  biasedPhrases[question.Keyword2] = { difficulty: "medium", color: "#E9D5FF" };
+}
+
+if (question.Keyword3!="") {
+  biasedPhrases[question.Keyword3] = { difficulty: "hard", color: "#E9D5FF" };
+}
+
+useEffect(() => {
+  // Clear selections and building state whenever the question changes
+  setSelections([]);
+  setCurrentSelection([]);
+  setBuildingSelection([]);
+}, [currentQuestionIndex]);
+>>>>>>> upstream/main
 
   
   console.log(question)
@@ -73,9 +94,15 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
     return () => clearInterval(timer);
   }, [gameStarted]);
 
+<<<<<<< HEAD
   console.log(timeLeft)
   const score = useSelector((state:RootState)=>state.topics.score)
   const dispatch = useDispatch();
+=======
+console.log(timeLeft)
+const score = useSelector((state:RootState)=>state.topics.score)
+const dispatch = useDispatch();
+>>>>>>> upstream/main
   const checkAndCommitPhrase = (indices: number[]) => {
     const sortedIndices = [...indices].sort((a, b) => a - b);
     const minIndex = sortedIndices[0];
@@ -98,6 +125,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
     if (matchedPhrase) {
       const color = biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].color;
 
+<<<<<<< HEAD
       if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
         dispatch(decreaseScore(0.7))
       }
@@ -107,6 +135,17 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
       if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="difficult"){
         dispatch(decreaseScore(1.5))
       }
+=======
+  if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
+  dispatch(decreaseScore(0.7))
+  }
+  if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="medium"){
+  dispatch(decreaseScore(1))
+  }
+  if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="difficult"){
+  dispatch(decreaseScore(1.5))
+  }
+>>>>>>> upstream/main
 
       setSelections(prev => [...prev, { indices: allIndices, phrase, color }]);
       setBuildingSelection([]);
@@ -209,7 +248,11 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
 
   const getWordStyle = (index: number) => {
     // Check if word is in building selection
+<<<<<<< HEAD
     if (buildingSelection.includes(index)) {
+=======
+  if (buildingSelection.includes(index)) {
+>>>>>>> upstream/main
       return {
         padding: '4px 8px',
         borderRadius: '8px',
@@ -249,7 +292,11 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
   };
 
   const polarizationScore = Math.round((selections.length / 5) * 100);
+<<<<<<< HEAD
   const [check,setCheck] = useState(false)
+=======
+const [check,setCheck] = useState(false)
+>>>>>>> upstream/main
   // Call onComplete callback when quiz is complete
   useEffect(() => {
     if (selections.length >= Object.keys(biasedPhrases).length && onComplete) {
@@ -261,6 +308,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
     }
   }, [selections.length, onComplete]);
 
+<<<<<<< HEAD
         
   const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
@@ -370,11 +418,158 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
                 </span>
               );
             })}
+=======
+
+  
+        
+  const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
+
+console.log("imagecode",question?.Image_Code)
+
+  return (<div className="p-8">
+<div className="min-h-[90vh] px-24  bg-[#F8F1E7]">
+            <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} description={"What if words echo louder than actions?"}
+             time={420}   left={5-currentQuestionIndex}    polarizationScore={score} />
+  
+{/* <ModuleHeader  polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/> */}
+<OpeningModal setGameStarted={setGameStarted}
+src={"/opening14.svg"}
+          showIntroModal={showIntroModal}
+          moduleId={"M4"}
+          setShowIntroModal={setShowIntroModal}
+        />
+      
+      <div className="   ">
+        {/* Header - Exact match to image */}
+        
+    
+      
+
+        {/* YouTube-style content - Exact match to image */}
+        <div>
+          
+          
+          {/* YouTube-style card */}
+          
+          <div className="  bg-[#F8F1E7]">
+          <p  className=" mt-8 font-medium text-[#00000] text-[1.5vw] leading-[100%] tracking-[0%] text-center  ">
+          Click to identify 3 words OR phrases that sound biased
+          </p>
+
+
+          <div className="my-8 relative">
+  {/* Thumbnail */}
+  <div className="rounded-lg overflow-hidden relative">
+    <img
+      src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${question?.Image_Code}.png`}
+      alt={`Question ${questionNumber}`}
+      className="w-[50%] object-cover mx-auto"
+    />
+
+    {/* Next Button */}
+    { check && <button
+      onClick={()=>{
+        setCheck(false)
+        onComplete()}} // your function to go to the next question
+      className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg transition-colors"
+    >
+      <ChevronRight />
+    </button>}
+  </div>
+</div>
+
+</div>
+
+            
+          
+       {/* Floating Tooltip */}
+    
+
+          {/* Headline text box - Exact match to image */}
+          <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px]
+ relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center  ">
+            
+          <div className="absolute   z-50" style={{ top: '100px', left:'-3vh' }}>
+ {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
+      slides={[
+        { heading: question?.Bias_Type, description: question?.Tooltip1 },
+        { description: question?.Tooltip2 }
+      ]}
+      onClose={() => false}
+      header={true}
+    />}
+  </div>
+         
+          <div 
+  ref={headlineRef}
+  className="text-xl font-medium leading-relaxed text-center select-none"
+  onMouseUp={handleMouseUp}
+  onMouseLeave={handleMouseUp}
+>
+  {words.map((word, index) => {
+    const isWhitespace = /^\s+$/.test(word);
+    // if (isWhitespace) {
+    //   return <span key={index}>{word}</span>;
+    // }
+    if (/^\s+$/.test(word)) return null;
+
+    const isInCurrentSelection = currentSelection.includes(index);
+    const isInAnySelection = selections.some(sel => sel.indices.includes(index));
+    const wordStyle = getWordStyle(index);
+
+    const defaultStyle = {
+      fontFamily: 'Poppins',
+      fontWeight: 600,
+      fontStyle: 'semi-bold',  // Note: "semi-bold" is generally represented as 600 weight
+      fontSize: '32px',
+      lineHeight: '100%',
+      letterSpacing: '0%',
+      leadingTrim: 'none', 
+      "text-align":'center'
+           // If you are using CSS, `leading-trim: none` is not a standard property
+    };
+
+    const combinedStyle = {
+      ...defaultStyle,
+      ...wordStyle, // Apply any custom styles that may come from getWordStyle
+    };
+
+    return (
+    <span
+  key={index}
+  onMouseDown={() => handleMouseDown(index)}
+  onMouseEnter={() => handleMouseEnter(index)}
+  style={combinedStyle}
+  className={`cursor-pointer inline-block transition-all duration-200 mx-3 hover:rounded-lg ${
+    !wordStyle && !isInCurrentSelection && !isInAnySelection
+      ? 'hover:outline hover:outline-2 hover:outline-dashed hover:outline-foreground/40 hover:rounded-lg'
+      : ''
+  }`}
+>
+  {word}
+</span>
+    );
+  })}
+</div>
+
+            
+            {/* Success message - Exact match to image */}
+            {/* {selections.length >= Object.keys(biasedPhrases).length && (
+              <div className="flex items-center justify-center gap-2 mt-4">
+                <Star className="w-5 h-5" fill="#FFEB01" stroke="#FFEB01" />
+                <span className="font-medium text-foreground">Good Job</span>
+              </div>
+            )} */}
+>>>>>>> upstream/main
           </div>
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   </div>
+=======
+    </div>
+>>>>>>> upstream/main
   );
 };
 
@@ -390,6 +585,7 @@ import ModuleHeader from "./ModuleHeader";
 
 
 const OpeningModal = (props:any)=>{
+<<<<<<< HEAD
 
   return (
     <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
@@ -464,3 +660,99 @@ const OpeningModal = (props:any)=>{
     </Dialog>
   )
 }
+=======
+    
+
+  return (
+      <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
+<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
+<div className="px-32 py-16">
+                  {/* Header with Icon */}
+                  <div className="flex items-start gap-4 mb-6">
+                    {/* Puzzle Icon */}
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+        <img
+          src={props.src}
+          alt="Module 1"
+          className="w-16 h-16 object-contain"
+        />
+      </div>
+      
+                    
+                    {/* Title */}
+                    <div>
+                    <div className="text-[#D0193E] text-[24px] font-semibold ">Phase II</div>
+                    <h2 className="text-[24px] font-bold text-black">Module 4: Spot The Bias</h2>
+                    </div>
+                  </div>
+      
+                  {/* Video Placeholder */}
+                  <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
+                    <div className="text-gray-500">
+                      <div className="font-medium mb-1">Walkthrough Video</div>
+                      <div className="text-sm">(small screen recording)</div>
+                    </div>
+                  </div>
+      
+                  {/* Description */}
+                  <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+                  Let’s step into the shoes of a bias buster 🕵️‍♂️.<br/>
+                  Look closely at headlines, YouTube thumbnails, and titles — can you spot the bias?<br/>Watch how certain words can make things sound bigger, louder, or more one-sided than they really are.
+                  <br/>
+                  For additional reference: The term Bias means when information, opinions, or decisions are influenced by personal feelings or assumptions instead of facts — leading to a slanted or unfair view of reality.
+                </p>
+
+      
+                  {/* Info Badges */}
+                  <div className="flex items-center gap-4 mb-6 text-sm">
+                 
+                  <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+<img src={"/I_1b.svg"} />
+Intermediate Level
+</div>
+
+                    <div className="flex items-center gap-2 text-[#1E1E2F]-600">
+                      <img src={"/clocl.svg"} className="w-4 h-4 " />
+                      <span>07:00</span>
+                    </div>
+                    <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
+        <img src={"/star.svg"}/>
+                      Score is  calculated in this module
+                    </div>
+                  </div>
+      
+                  {/* Begin Button */}
+                  <div className="flex justify-center">
+                  <Button
+onClick={() => {props.setShowIntroModal(false)
+
+  props.setGameStarted(true)
+}
+
+}
+className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+>
+          Let's begin <ChevronRight/>
+        </Button>
+      </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+>>>>>>> upstream/main

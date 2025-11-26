@@ -1,6 +1,7 @@
 import React from "react";
 
 const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
+<<<<<<< HEAD
   const score = scoreDrop;
 
   // Responsiveness: scale size based on screen width without touching logic
@@ -44,6 +45,36 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
         className="rotate-[0deg]"
         style={{ maxWidth: "100%", height: "auto" }}
       >
+=======
+  // Remaining score (e.g., 100 - drop)
+  const score = scoreDrop;
+
+  // SVG layout math
+  const center = size / 2;
+  const radius = center - strokeWidth / 2; // keep stroke fully inside SVG
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (score / 100) * circumference;
+  const offset1 = circumference - 0.90 * circumference;
+
+
+
+  // Inner circle diameter that fits exactly inside the stroke
+  // available inner area = total size - 2*strokeWidth
+  const innerSize = Math.max(0, size - 2 * strokeWidth);
+
+  return (
+    <div
+      className="flex justify-center items-center mb-6 relative"
+      style={{ width: size, height: size }}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="rotate-[0deg]"
+      >
+        {/* Background circle */}
+>>>>>>> upstream/main
         <circle
           cx={center}
           cy={center}
@@ -53,8 +84,15 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
           fill="none"
           strokeDasharray={circumference * 0.95}
           strokeDashoffset={circumference * (1 - 0.95)}
+<<<<<<< HEAD
         />
 
+=======
+
+        />
+
+        {/* Progress circle (gradient) */}
+>>>>>>> upstream/main
         <circle
           cx={center}
           cy={center}
@@ -63,10 +101,18 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
+<<<<<<< HEAD
           strokeDasharray={circumference * 0.95}
           strokeDashoffset={offset * 0.95}
         />
 
+=======
+          strokeDasharray={circumference*0.95}
+          strokeDashoffset={offset*0.95}
+        />
+
+        {/* Gradient: top->bottom matches linear-gradient(180deg, #D0193E 0%, #5F237B 100%) */}
+>>>>>>> upstream/main
         <defs>
           <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#D0193E" />
@@ -75,10 +121,16 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
         </defs>
       </svg>
 
+<<<<<<< HEAD
       <div
         className="
           absolute rounded-full flex items-center justify-center
         "
+=======
+      {/* Inner circle exactly sized to fit inside the stroke */}
+      <div
+        className="absolute rounded-full flex items-center justify-center"
+>>>>>>> upstream/main
         style={{
           width: innerSize,
           height: innerSize,
@@ -89,6 +141,7 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
         }}
       >
         <span
+<<<<<<< HEAD
           className="
             font-bold
             text-[16px]
@@ -99,6 +152,12 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
             color: "#5F237B",
             fontWeight: 700,
             fontSize: Math.round(innerSize * 0.28),
+=======
+          style={{
+            color: "#5F237B",
+            fontWeight: 700,
+            fontSize: Math.round(innerSize * 0.28), // responsive text-size
+>>>>>>> upstream/main
             lineHeight: 1,
           }}
         >
