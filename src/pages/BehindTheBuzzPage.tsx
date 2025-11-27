@@ -12,7 +12,7 @@ const BehindTheBuzzPage = () => {
   // Pick 5 random unique topics from Redux store
   const randomTopics = useMemo(() => {
     const uniqueTopics = Array.from(new Set(topic)); // Remove duplicates
-    return uniqueTopics.sort(() => 0.5 - Math.random()).slice(0, 5); // Shuffle & pick 5
+    return uniqueTopics.sort(() => 0.5 - Math.random()).slice(0, 1); // Shuffle & pick 5
   }, [topic]);
 
   useEffect(() => {

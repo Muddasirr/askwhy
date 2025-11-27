@@ -18,106 +18,98 @@ const Login = () => {
     setLoading(true);
     setErrorMsg("");
 
-    // Query the Users table for the provided email
     const { data, error } = await supabase
       .from("Users")
       .select("Email, Password")
       .eq("Email", email)
-      .single(); // Assumes single row returned, so using `.single()`
+      .single();
 
     setLoading(false);
-
 
     if (error || !data) {
       setErrorMsg("Invalid email or password.");
       return;
     }
-    console.log(data)
-    // Compare the provided password with the hashed password in the database
-    const isPasswordValid = password==data.Password;
+
+    const isPasswordValid = password === data.Password;
 
     if (!isPasswordValid) {
       setErrorMsg("Invalid email or password.");
       return;
     }
-    localStorage.setItem("email",JSON.stringify(email))
-    localStorage.setItem("password",JSON.stringify(password))
 
-    // If login is successful, redirect to dashboard
+    localStorage.setItem("email", JSON.stringify(email));
+    localStorage.setItem("password", JSON.stringify(password));
+
     navigate("/dashboard");
   };
 
   return (
-    // Main container now uses flex-col on mobile and allows scrolling
-    <div className="flex flex-col md:flex-row min-h-screen bg-white overflow-y-auto">
+    <div className="flex flex-col md:flex-row min-h-screen bg-white">
       
-      {/* Left Side (Form/Content) - W-FULL on mobile, W-1/2 on desktop */}
-      <div className="flex flex-col items-center md:items-start w-full md:w-1/2 px-6 py-12 md:p-24 justify-center">
+      {/* LEFT SIDE */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-24 py-12">
         
-        {/* Header/Logo Section */}
-        <div className="w-full max-w-sm mb-10">
-          <img src="/logo.svg" className="w-1/2 md:w-[60%] object-contain" alt="Logo" />
-          <p className="text-black text-base md:text-[20px] font-normal leading-snug mt-1 font-gabarito">
-            Bridging minds, one question at a time.
+        {/* LOGO */}
+        <div className="mb-10">
+          <img
+            src="/logo.svg"
+            className="w-[180px] md:w-[220px]"
+            alt="Logo"
+          />
+          <p className="text-[#572E91] text-xl font-semibold mt-3">
+            We are excited to have you here!
           </p>
+          <p className="text-gray-600 mt-1">Login with shared credentials</p>
         </div>
 
-        {/* Login Section */}
-        <div className="w-full max-w-sm space-y-6">
-          
-          {/* Error Message */}
+        {/* FORM */}
+        <div className="max-w-sm space-y-6">
           {errorMsg && (
             <p className="text-red-600 text-sm font-medium">{errorMsg}</p>
           )}
 
-          {/* Email */}
-          <div className="space-y-2">
-            <Label htmlFor="email" className="font-medium text-base text-gray-800">
-              Enter Email
-            </Label>
+          {/* EMAIL */}
+          <div className="space-y-1">
+            <Label className="text-base text-gray-800">Enter Email</Label>
             <Input
-              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-[48px] bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-[#A11D8C]"
+              className="h-[46px] bg-[#F7EFE6] border border-[#EFE4D9] focus:ring-2 focus:ring-[#A11D8C]"
             />
           </div>
 
-          {/* Password */}
-          <div className="space-y-2">
-            <Label htmlFor="password" className="font-medium text-base text-gray-800">
-              Enter Password
-            </Label>
+          {/* PASSWORD */}
+          <div className="space-y-1">
+            <Label className="text-base text-gray-800">Enter password</Label>
             <Input
-              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-[48px] bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-[#A11D8C]"
+              className="h-[46px] bg-[#F7EFE6] border border-[#EFE4D9] focus:ring-2 focus:ring-[#A11D8C]"
             />
           </div>
 
-          {/* Login Button */}
+          {/* BUTTON */}
           <Button
-            className="w-full sm:w-[50%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-base py-3 rounded-md transition"
             onClick={handleLogin}
             disabled={loading}
+            className="w-full bg-[#FF8C42] hover:bg-[#ff9c60] text-white text-base font-medium h-[48px] rounded-md flex items-center justify-center"
           >
-            {loading ? "Logging in..." : "Login"} <ChevronRight className="ml-1 h-5 w-5" />
+            {loading ? "Logging in..." : "Login"}
+            <ChevronRight className="ml-1 h-5 w-5" />
           </Button>
-
         </div>
       </div>
 
-      {/* Right Side (Illustration) - Now visible on ALL screens, moved to the bottom on mobile */}
-      <div className="w-full md:w-1/2 bg-[#F8F1E7] flex flex-col items-center justify-center relative p-6 md:p-8">
-          <img 
-            src="/S.png" 
-            alt="Illustration"
-            // Ensure width is constrained and height is limited on mobile (max-h-[40vh]) for consistency
-            className="w-full max-w-sm md:max-w-lg object-contain max-h-[40vh] md:max-h-[80vh] my-8 md:my-0"
-          />
+      {/* RIGHT SIDE IMAGE */}
+      <div className="w-full md:w-1/2 bg-[#F8F1E7] flex justify-center items-center px-4 md:px-8 py-10">
+        <img
+          src="/login.png"
+          alt="Illustration"
+          className="w-full max-w-lg object-contain"
+        />
       </div>
     </div>
   );

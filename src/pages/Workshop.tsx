@@ -175,39 +175,75 @@ export default Workshop;
 
 /* ================= COMPONENTS ================= */
 
-const StatBox = (props: { number: string; label: string; highlight?: boolean; unitFont?: string }) => {
+const StatBox = (props: { number: string; label: string }) => {
   const parts = props.number.split(" ");
   const mainValue = parts[0];
   const unit = parts.length > 1 ? parts[1] : "";
 
   return (
     <div
-      className={`p-3 md:px-6 flex items-center justify-center bg-white gap-2 md:gap-4 rounded-lg text-center ${
-        props.highlight ? "border-purple-500 bg-purple-50" : "border-gray-300"
-      }`}
+      className="p-3 md:px-6 flex items-center justify-center bg-white gap-2 md:gap-4 rounded-lg text-center border-gray-300"
     >
+      {/* NUMBER */}
       <div className="flex items-end leading-none">
-        <p className="font-extrabold text-[#D0193E] text-3xl md:text-5xl lg:text-[4vw] xl:text-5xl leading-none">
+        <p
+          className="
+            font-['Gabarito']
+            font-extrabold
+            text-[#D0193E]
+            leading-[100%]
+            tracking-[0]
+            text-[48px] md:text-[60px] lg:text-[80px]
+          "
+        >
           {mainValue}
         </p>
 
-        <span className={`text-[#D0193E] font-normal text-xs md:text-sm lg:text-base ml-0.5 mb-0.5 ${props.unitFont ? `font-['${props.unitFont}']` : ''}`}>
+        {/* UNIT (like hr) */}
+        <span
+          className="
+            font-['Gabarito']
+            font-normal
+            text-[#D0193E]
+            text-xs md:text-sm lg:text-base
+            ml-0.5 mb-0.5
+          "
+        >
           {unit}
         </span>
       </div>
 
-      <div>
-        <p className="text-xs md:text-sm text-left text-[#D0193E] font-normal">
+      {/* LABEL */}
+      <div className="leading-[100%] tracking-[0]">
+        <p
+          className="
+            font-['Gabarito']
+            font-normal
+            text-[16px] md:text-[18px] lg:text-[20px]
+            text-[#D0193E]
+            leading-[100%]
+          "
+        >
           {props.label.split(" ")[0]}
         </p>
 
-        <p className="text-sm md:text-base text-left text-[#5F237B] font-semibold">
+        <p
+          className="
+            font-['Gabarito']
+            font-semibold
+            text-[28px] md:text-[32px] lg:text-[36px]
+            text-[#5F237B]
+            leading-[100%]
+            tracking-[0]
+          "
+        >
           {props.label.split(" ")[1]}
         </p>
       </div>
     </div>
   );
 };
+
 
 const ModuleCard = ({ module }: { module: any }) => {
   const textColor = module.locked ? 'text-[#757888]' : 'text-purple-900';

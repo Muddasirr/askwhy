@@ -28,7 +28,7 @@ const SpotTheBias = () => {
     if (!data || data.length === 0) return;
 
     const shuffled = data.sort(() => Math.random() - 0.5);
-    const selectedQuestions = shuffled.slice(0, 5);
+    const selectedQuestions = shuffled.slice(0, 1);
 
     setQuestions(selectedQuestions);
   }, []);

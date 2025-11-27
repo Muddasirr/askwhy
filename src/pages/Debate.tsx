@@ -24,7 +24,7 @@ const Debate = () => {
         const { data, error } = await supabase
             .from("debate")
             .select("*")
-            .limit(4);      // ✅ Fetch 4 topics
+            .limit(1);      // ✅ Fetch 4 topics
 
         if (error) {
             console.error("Error fetching debate topics:", error);
@@ -94,7 +94,7 @@ console.log(data)
               heading={"Debate Switch"}
               description={"One debate, two sides, endless perspectives"}
               time={600}
-              left={4 - currentIndex}
+              left={1 - currentIndex}
               polarizationScore={score}
             />
           </div>

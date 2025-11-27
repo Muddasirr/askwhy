@@ -101,7 +101,7 @@ const FakeFact = () => {
     enabled: !!moduleId
   });
 
-  const totalQuestions = 8;
+  const totalQuestions = 1;
   const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
 
   const handlePostClick = (postNumber: string, isCorrect: boolean, tooltip?: string, imageSrc?: string) => {
@@ -157,7 +157,7 @@ const FakeFact = () => {
   const [done, setDone] = useState(false);
 
   if (currentQuestionIndex >= totalQuestions || done) {
-    return <ClosingModal ending={ending} src={"/spotthebias"} module={3} text={"✓ 8/8 Facts served!"} score={score} />;
+    return <ClosingModal ending={ending} src={"/spotthebias"} module={3} text={"✓ All Facts served!"} score={score} />;
   }
 
   return (
@@ -174,7 +174,7 @@ const FakeFact = () => {
         level={"Intermediate"}
         calculated={""}
       />
-      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={600} left={8 - currentQuestionIndex} total={8} />
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={600} left={1 - currentQuestionIndex} total={1} />
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-lg sm:text-xl md:text-2xl text-center my-4 sm:my-6 md:my-8 font-normal">Click to identify which one is fake</h2>
       )}

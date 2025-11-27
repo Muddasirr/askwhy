@@ -65,7 +65,7 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
     return (
       <ClosingModal
         module={5}
-        text={"5/5 motivations behind a creator’s mind figured!"}
+        text={"All motivations behind a creator’s mind figured!"}
         src={"/debate"}
         ending={ending}
         score={score}
@@ -98,9 +98,9 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
           src={"/opening15.png"}
           heading="Behind the buzz"
           description="Trace the spark that sets your feed on fire"
-          total={5}
+          total={1}
           setDone={setDone}
-          left={5 - currentIndex}
+          left={1 - currentIndex}
           polarizationScore={score}
         />
 

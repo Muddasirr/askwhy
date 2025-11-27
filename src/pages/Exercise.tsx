@@ -32,7 +32,6 @@ const MAX_LIKES = 4;
 const MAX_SAVES = 2;
 const TRANSITION_MS = 350;
 
-// Extracts group number and letter (e.g. “8b”, “1a”)
 const extractCodeFromFilename = (filename: string) => {
   const cleanName = filename.toLowerCase().replace(/[_\s-]+/g, "");
   const match = cleanName.match(/(\d+)([a-z])(?=\.[a-z]+$|$)/);
@@ -60,7 +59,6 @@ export default function Exercise() {
   const score = useSelector((state: RootState) => state.topics.score);
   const dispatch = useDispatch();
 
-  // Fetch all Supabase images
   useEffect(() => {
     const fetchImages = async () => {
       const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 50 });
@@ -117,7 +115,6 @@ export default function Exercise() {
 
   const pickRandom = (arr: Post[]) => arr[Math.floor(Math.random() * arr.length)];
 
-  // Smart replacement logic
   const findReplacementFor = (current: Post) => {
     if (!current) return null;
 
@@ -193,7 +190,7 @@ export default function Exercise() {
   const getScoreDrop = (savedUrls: string[]) => {
     const topics = savedUrls
       .map((url) => {
-        const file = url.split("/").pop(); // IG_12c1.png
+        const file = url.split("/").pop();
         const match = file.match(/_(\d+)/);
         return match ? parseInt(match[1]) : null;
       })
@@ -214,7 +211,6 @@ export default function Exercise() {
     }
   }, [likesCount, savesCount, done]);
 
-  // Convert posts to photo format
   const photos = visiblePosts.map((post) => ({
     src: post.imageUrl,
     width: post.width,
@@ -223,6 +219,7 @@ export default function Exercise() {
     alt: post.title,
   }));
 
+  // -------------------------- CustomPhotoOverlay --------------------------
   const CustomPhotoOverlay = (props: RenderPhotoProps, context: RenderPhotoContext) => {
     const { photo } = context;
     const { onClick } = props;
@@ -246,7 +243,10 @@ export default function Exercise() {
           <motion.img
             src={photo.src}
             alt={photo.alt}
-            style={{ borderRadius: "12px", objectFit: "cover" }}
+            className="rounded-[12px] object-cover transition-all duration-300"
+            style={{
+              filter: isHovered ? "blur(6px)" : "blur(0px)",
+            }}
             whileHover={{ scale: 1.03 }}
             transition={{ duration: 0.3 }}
           />

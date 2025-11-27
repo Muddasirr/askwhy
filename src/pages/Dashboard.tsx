@@ -1,8 +1,30 @@
-import { Card } from "@/components/ui/card";
+import { Card } from "@/components/ui/card"; 
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
+// reusable StatBox component with specific font styles
+const StatBox = ({ number, topText, bottomText }) => {
+  return (
+    <div className="flex flex-col items-start justify-center group">
+      {/* Number: 7 3 3 1 - Gabarito ExtraBold 80px */}
+      <div className="font-['Gabarito'] font-[800] text-[80px] leading-[100%] tracking-[0%] text-[#D0193E] mb-[-5px]">
+        {number}
+      </div>
+      
+      <div className="flex flex-col">
+        {/* Top Text: total, difficulty... - Gabarito Regular 20px */}
+        <div className="font-['Gabarito'] font-[400] text-[20px] leading-[100%] tracking-[0%] text-gray-500">
+          {topText}
+        </div>
+        {/* Bottom Text: Modules, phases... - Gabarito SemiBold 36px */}
+        <div className="font-['Gabarito'] font-[600] text-[36px] leading-[100%] tracking-[0%] text-black">
+          {bottomText}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Dashboard = () => {
   const modules = [
@@ -18,7 +40,7 @@ const Dashboard = () => {
     {
       title: "Pick & Flick",
       description: "Like and save social media posts!",
-      image: null, // manually rendered (colored blocks)
+      image: null, 
       level: " Beginner Level",
       duration: " 2 min",
       path: "/exercise",
@@ -61,10 +83,8 @@ const Dashboard = () => {
       path: "/behind-the-buzz",
       src:"5.png"
     },
-   
   ];
   
-
   const navigate = useNavigate();
   const phases = [
     {
@@ -86,142 +106,153 @@ const Dashboard = () => {
       modules: ["M6", "M7"],
     },
   ];
-  
-  
-  
 
   return (
     <div className="p-8">
-<div className="flex h-[90vh] pt-4 px-16 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto">
-{/* Make inner container fill width with 10% padding on each side */}
-<div className="w-full flex flex-col  ">
-        {/* Header Bar */}
-        
-
-        {/* Welcome Section */}
-        <div className="flex justify-between items-center pb-6">
-          <div>
-            <img src={"/logo.svg"} className="w-[10vw]"/>
+      <div className="flex h-[90vh] pt-4 px-16 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto">
+        <div className="w-full flex flex-col">
+          
+          {/* Header Bar */}
+          <div className="flex justify-between items-center pb-6">
+            <div>
+              <img src={"/logo.svg"} className="w-[10vw]" alt="Logo"/>
             </div>
             <div>
-User 1
+              User 1
             </div>
-        </div>
-
-
-
-        <div className="mb-4 flex h-[18vh] items-center justify-between bg-[#5F237B] text-white px-12 py-8 rounded-xl shadow-sm">
-          {/* Div A - Heading + Text */}
-
-  <div className="w-[80%] ">
-  <h1 className=" font-semibold text-[1.5vw] leading-[100%] text-white  mb-2">
-  Welcome to askwhy! 
-</h1>
-
-    <p className=" text-[1vw] leading-relaxed opacity-90 text-white w-[75%]">
-      A glow up for your brain. How does that sound? We’re here to help. 
-      Turn curiosity into your superpower.{" "}
-      <strong>Play. Challenge. Ask Why.</strong> Let’s start your journey with us!
-    </p>
-  </div>
-
-
-
-          {/* Div B - Button */}
-          <div className="w-[20%] flex justify-center">
-          <Button
-  onClick={() => navigate("/interest")}
-  className=" bg-[#FF9348]  text-[white]  font-semibold text-[1vw] leading-[100%] rounded-[6px] px-[10px] py-[8px] gap-[10px] opacity-100 flex items-center justify-center transition-all duration-200"
->
-  Click here to start <ChevronRight/>
-</Button>
-
           </div>
+
+          {/* Welcome Section */}
+          <div className="mb-4 flex h-[18vh] items-center justify-between bg-[#5F237B] text-white px-12 py-8 rounded-xl shadow-sm">
+            <div className="w-[80%]">
+              <h1 className="font-semibold text-[1.5vw] leading-[100%] text-white mb-2">
+                Welcome to askwhy! 
+              </h1>
+              <p className="text-[1vw] leading-relaxed opacity-90 text-white w-[75%]">
+                A glow up for your brain. How does that sound? We’re here to help. 
+                Turn curiosity into your superpower.{" "}
+                <strong>Play. Challenge. Ask Why.</strong> Let’s start your journey with us!
+              </p>
+            </div>
+            <div className="w-[20%] flex justify-center">
+              <Button
+                onClick={() => navigate("/interest")}
+                className="bg-[#FF9348] text-[white] font-semibold text-[1vw] leading-[100%] rounded-[6px] px-[10px] py-[8px] gap-[10px] opacity-100 flex items-center justify-center transition-all duration-200"
+              >
+                Click here to start <ChevronRight/>
+              </Button>
+            </div>
+          </div>
+
+          {/* --- NEW STATS BOX SECTION START --- */}
+          <div className="flex items-center justify-center py-6 mb-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8 w-full items-center">
+              
+              <StatBox number="7" topText="Total" bottomText="Modules" />
+              <StatBox number="3" topText="Total" bottomText="Phases" />
+              <StatBox number="3" topText="Difficulty" bottomText="Levels" />
+              <StatBox number="1 hr" topText="Total" bottomText="Duration" />
+              
+              <button 
+                onClick={()=>navigate("/interest")} 
+                className="col-span-2 sm:col-span-1 lg:col-span-1 flex justify-center items-center gap-2 md:gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-4 py-3 rounded-xl font-semibold shadow-md transition h-full"
+              >
+                <div className="leading-tight">
+                  <div className="text-left font-normal text-sm">Click here to</div>
+                  <div className="text-left font-semibold text-xl md:text-base lg:text-xl">
+                    Start
+                  </div>
+                </div>
+                <div>
+                  <ChevronRight size={30} className="w-8 h-8 md:w-16 md:h-16" />
+                </div>
+              </button>
+            </div>
+          </div>
+          {/* --- NEW STATS BOX SECTION END --- */}
+
+
+          {/* Phase Breakdown */}
+          <div className="mb-4" >
+            <h2 className="text-[1.5vw] pb-2 font-semibold text-[#D0193E]">Module Breakdown</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {phases.map((phase, index) => (
+                <Card key={index} className="w-full cursor-pointer h-[18vh] bg-white opacity-100 rounded-[12px] border-2 border-gray-200 p-[20px] px-[22px] flex flex-col justify-between gap-[17px] shadow-sm">
+                  <div>
+                    <h3 className="font-normal text-[1.25vw] leading-[100%] text-center text-black mb-4">
+                      {phase.title}
+                    </h3>
+                
+                    <div className="flex gap-2">
+                      {phase.modules.map((mod) => (
+                        <div
+                          key={mod}
+                          className="flex-1 p-2 bg-[#F1F5F9] rounded text-[#D0193E] text-center font-semibold"
+                        >
+                          {mod}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1">
+                      <div className="w-4 h-4 rounded-full" />
+                      <span className="flex justify-center items-center gap-1 text-[12px]">
+                        <img src={"/begin.svg"} className="w-2 h-2" alt="icon"/>{phase.difficulty}
+                      </span>
+                    </div>
+                    <span className="flex justify-center items-center gap-1 text-[12px]"> {phase.done}</span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* All Modules - Cards Section */}
+          <div>
+            <h2 className="text-[1.5vw] pb-2 font-semibold text-[#FF5A5F]">All Modules</h2>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 pb-8">
+              {modules.map((mod, index) => (
+                <Card
+                  key={index}
+                  className={`
+                    w-[12vw] px-2 pt-2 rounded-xl shadow-sm cursor-pointer 
+                    hover:shadow-md transition bg-white
+                    ${index !== 0 ? "filter blur-[1px] pointer-events-none" : ""}
+                  `}
+                  onClick={() => index === 0 && navigate(mod.path)}
+                >
+                  <div className="w-[100%] flex justify-center items-center bg-[#F1F5F9] rounded-md mb-1 overflow-hidden">
+                    <img
+                      src={mod.src}
+                      alt={mod.title}
+                      className="w-[100%] object-cover"
+                    />
+                  </div>
+
+                  <h4 className="font-semibold text-[1vw] mb-1 text-gray-800">
+                    {mod.title}
+                  </h4>
+                  <p className="text-[0.75vw] text-gray-600 mb-1 leading-snug">
+                    {mod.description}
+                  </p>
+
+                  <div className="flex items-center justify-between text-[0.5vw] text-gray-500">
+                    <span className="flex justify-center items-center gap-1 text-[12px]"> 
+                      <img src={"/begin.svg"} className="w-2 h-2" alt="icon"/>{mod.level}
+                    </span>
+                    <span className="flex justify-center items-center gap-1 text-[12px]">{mod.duration}</span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+
         </div>
-
-
-        {/* All Modules - Phases Section */}
-        <div className="mb-4" >
-          <h2 className="text-[1.5vw] pb-2 font-semibold text-[#D0193E]">Module Breakdown</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-  {phases.map((phase, index) => (
-   <Card className="w-full cursor-pointer h-[18vh] bg-white opacity-100 rounded-[12px] border-2 border-gray-200 p-[20px] px-[22px] flex flex-col justify-between gap-[17px] shadow-sm">
-   <div>
-     <h3 className="font-normal text-[1.25vw] leading-[100%] text-center text-black mb-4">
-       {phase.title}
-     </h3>
- 
-     <div className="flex gap-2 ">
-       {phase.modules.map((mod) => (
-         <div
-           key={mod}
-           className="flex-1 p-2 bg-[#F1F5F9] rounded text-[#D0193E] text-center font-semibold"
-         >
-           {mod}
-         </div>
-       ))}
-     </div>
-   </div>
- 
-   <div className="flex items-center justify-between  ">
-     <div className="flex items-center gap-1">
-       <div className="w-4 h-4 rounded-full" />
-       <span className="flex justify-center items-center gap-1 text-[12px]" ><img src={"/begin.svg"} className="w-2 h-2"/>{phase.difficulty}</span>
-     </div>
-     <span className="flex justify-center items-center gap-1 text-[12px] "> {phase.done}</span>
-   </div>
- </Card>
- 
-  ))}
-</div>
-
-        </div>
-
-        {/* All Modules - Cards Section */}
-        <div >
-          <h2 className="text-[1.5vw] pb-2 font-semibold text-[#FF5A5F]">All Modules</h2>
-          
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
-          {modules.map((mod, index) => (
-  <Card
-    key={index}
-    className={`
-      w-[12vw] px-2 pt-2 rounded-xl shadow-sm cursor-pointer 
-      hover:shadow-md transition bg-white
-      ${index !== 0 ? "filter blur-[1px] pointer-events-none" : ""}
-    `}
-    onClick={() => index === 0 && navigate(mod.path)} // only clickable if first
-  >
-    <div className="w-[100%] flex justify-center items-center bg-[#F1F5F9] rounded-md mb-1 overflow-hidden">
-      <img
-        src={mod.src}
-        alt={mod.title}
-        className="w-[100%] object-cover"
-      />
-    </div>
-
-    <h4 className="font-semibold text-[1vw] mb-1 text-gray-800">
-      {mod.title}
-    </h4>
-    <p className="text-[0.75vw] text-gray-600 mb-1 leading-snug">
-      {mod.description}
-    </p>
-
-    <div className="flex items-center justify-between text-[0.5vw] text-gray-500">
-      <span className="flex justify-center items-center gap-1 text-[12px]"> <img src={"/begin.svg"} className="w-2 h-2"/>{mod.level}</span>
-      <span className="flex justify-center items-center gap-1 text-[12px]">{mod.duration}</span>
-    </div>
-  </Card>
-))}
-
-</div>
-
-
-        </div>
-
       </div>
-    </div>
     </div>
   );
 };

@@ -10,7 +10,6 @@ import ModuleHeader from "@/components/ModuleHeader";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useDispatch, useSelector } from "react-redux";
 import { decreaseScore } from "@/store/topicsSlice";
-import CircleScore from "@/components/CircleScore";
 import TooltipCarousel from "@/components/TooltipCarousel";
 import CelebrationScreen from "./Closing";
 
@@ -103,38 +102,37 @@ const InTheirShoes = () => {
     }
   };
 
-  const handleAnswerSelect = (selectedLabel: string, color: string) => {
-    setSelectedAnswer(selectedLabel);
-    setCheck(true);
+const handleAnswerSelect = (selectedLabel: string, color: string) => {
+  setSelectedAnswer(selectedLabel);
+  setCheck(true);
 
-    if (color === "#FFC700") dispatch(decreaseScore(2));
-    if (color === "#FF9348") dispatch(decreaseScore(4));
-    if (color === "#5F237B") dispatch(decreaseScore(6));
+  // Adjust score based on the selected color
+  if (color === "#FFC700") dispatch(decreaseScore(2));
+  if (color === "#FF9348") dispatch(decreaseScore(4));
+  if (color === "#5F237B") dispatch(decreaseScore(6));
 
-    const qData = renderQuestion();
-    const newTooltipMapping: { [key: string]: string | null } = {};
-    if (color !== "#5F237B") {
-      newTooltipMapping[selectedLabel] = qData.tooltip1;
-      const purpleAnswer = qData.answers.find(a => a.color === "#5F237B");
-      if (purpleAnswer) newTooltipMapping[purpleAnswer.label] = qData.tooltip2;
+  // Set tooltips for the selected answer
+  const qData = renderQuestion();
+  const newTooltipMapping: { [key: string]: string | null } = {};
+  if (color !== "#5F237B") {
+    newTooltipMapping[selectedLabel] = qData.tooltip1;
+    const purpleAnswer = qData.answers.find(a => a.color === "#5F237B");
+    if (purpleAnswer) newTooltipMapping[purpleAnswer.label] = qData.tooltip2;
+  }
+  setTooltipMapping(newTooltipMapping);
+
+  setTimeout(() => {
+    // Reset states for the next question
+    setSelectedAnswer(null);
+    setTooltipMapping({});
+    
+    if (questionStep === 1) {
+      setQuestionStep(2); // Proceed to the second question
+    } else if (questionStep === 2) {
+      setCurrentScreen("closing"); 
     }
-    setTooltipMapping(newTooltipMapping);
-
-    setTimeout(() => {
-      setSelectedAnswer(null);
-      setTooltipMapping({});
-      if (questionStep === 1) setQuestionStep(2);
-      else if (questionStep === 2) {
-        if (round < 3) {
-          setRound(round + 1);
-          setQuestionStep(1);
-          setRoleDetails({});
-          setSelectedRole("");
-          setCurrentScreen("roleSelection");
-        } else setCurrentScreen("closing");
-      }
-    }, 3000);
-  };
+  }, 3000);
+};
 
   const handleRole = async (role: string) => {
     setSelectedRole(role);
@@ -160,7 +158,7 @@ const InTheirShoes = () => {
               heading="In their shoes"
               description="Step into another role, and make their world make sense."
               time={120}
-              left={4 - round}
+              left={1 - round}
             />
             <div className="text-center mt-8 mb-8">
               <h2 className="text-[1.5vw] font-medium text-[#130719]">Choose Your Role:</h2>
@@ -205,7 +203,7 @@ const InTheirShoes = () => {
               heading="In their shoes"
               description="Step into another role, and make their world make sense."
               time={120}
-              left={4 - round}
+              left={1 - round}
             />
             <div className="text-center">
               <h2 className="text-lg font-semibold text-[#201E1C]">Choose Your Role:</h2>
@@ -245,7 +243,7 @@ const InTheirShoes = () => {
               heading="In their shoes"
               description="Step into another role, and make their world make sense."
               time={120}
-              left={4 - round}
+              left={1 - round}
             />
             <div className="text-center mb-6">
               <h3 className="text-xl text-[#201E1C]">{`Scenario #${round}`}</h3>
