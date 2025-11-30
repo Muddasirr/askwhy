@@ -33,7 +33,7 @@ const DebateSwitch = (props) => {
     }
   
     // Switch stance based on time passed
-    if (timeLeft < 90) {
+    if (timeLeft < 60) {
       // First half (90 sec)
       setStance("against");   // LLM = against, Player = for
     } else {
@@ -187,20 +187,21 @@ const DebateSwitch = (props) => {
   console.log(score)
 const dispatch = useDispatch();
   const handlePromptClick = async (i: number) => {
+    dispatch(decreaseScore(0.1))
+
     setSelectedPrompt(i);
     setShowUserOptions(false);
-    dispatch(decreaseScore(0.1))
     const chosen = userPrompts[i - 1];
     // Immediately advance to the next module after first selection
-    try {
-      if (typeof props.goNext === 'function') {
-        props.goNext();
-      }
-      if (typeof props.setIsCompleted === 'function') {
-        props.setIsCompleted(true);
-      }
-    } catch {}
+   
+ await  getLlmArgument([]);
+   await generateUserPrompts()
   };
+
+  useEffect(()=>{
+    if(timeLeft==0)   props.setIsCompleted(true);
+console.log(timeLeft)
+  },[timeLeft])
   
 
  
@@ -267,9 +268,8 @@ console.log("checkstance",stance)
                 key={index}
                 onClick={() => handlePromptClick(index + 1)}
                 className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-                  selectedPrompt === index + 1
-                    ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
-                    : "hover:bg-gray-50 hover:shadow-md"
+                  
+                    "hover:bg-gray-50 hover:shadow-md"
                 }`}
               >
                 <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
@@ -316,9 +316,7 @@ console.log("checkstance",stance)
                 key={index}
                 onClick={() => handlePromptClick(index + 1)}
                 className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-                  selectedPrompt === index + 1
-                    ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
-                    : "hover:bg-gray-50 hover:shadow-md"
+                   "hover:bg-gray-50 hover:shadow-md"
                 }`}
               >
                 <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
@@ -340,11 +338,11 @@ console.log("checkstance",stance)
 
       {/* Opponent Side */}
       <motion.div className="flex items-stretch gap-6 text-center" layout>
-      <div className="bg-[#EFE8DD] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] flex items-center justify-center shadow-sm p-4 h-[100%]">
-          <p className="text-black  font-normal text-center text-base break-words overflow-hidden">
-            {isLoading ? "Thinking..." : llmArgument}
+      <div className="relative flex flex-col bg-[#EFE8DD] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] shadow-sm p-6 h-[100%]">
+      <p className="text-black text-[1.25vw]  font-normal text-left  break-words overflow-hidden mb-4">
+      {isLoading ? "Thinking..." : llmArgument}
           </p>
-          <p className="absolute bottom-2 left-4 text-left text-xs font-medium text-black">
+          <p className="absolute bottom-2   text-left text-xs font-medium text-black">
     Opponent
   </p>
         </div>

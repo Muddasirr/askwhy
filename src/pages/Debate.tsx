@@ -69,7 +69,6 @@ console.log(data)
 
 
     const[done,setDone] = useState(false)
-
     
     return isCompleted ? (
       <ClosingModal
@@ -97,7 +96,7 @@ console.log(data)
               time={120}
               started={!show}
               left={1}
-              polarizationScore={56}
+              polarizationScore={score}
             />
           </div>
     
