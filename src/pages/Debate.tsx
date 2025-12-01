@@ -83,7 +83,7 @@ console.log(data)
         score={score}
       />
     ) : (
-      <div className="p-8">
+      <div className="p-12">
         <div className="overflow-auto h-[90vh] bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
           <div className="py-6 px-16">
             <ModuleHeader
