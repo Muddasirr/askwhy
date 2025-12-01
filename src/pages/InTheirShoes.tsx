@@ -11,6 +11,7 @@ import CircleScore from "@/components/CircleScore";
 import TooltipCarousel from "@/components/TooltipCarousel";
 import CelebrationScreen from "./Closing";
 import Celebration from "@/components/Celebration";
+import { Button } from "@/components/ui/button";
 // Removed unused imports (BookOpen, Clock, Star, AlarmClock, Card, Progress, Button)
 type Screen = "intro" | "roleSelection" | "question" | "scenario" | "celebration" | "closing";
 type Role = {
@@ -476,25 +477,25 @@ export default InTheirShoes;
 
 // components/RoleCard.tsx
 
-function RoleCard({ role, disabled, roleImageMap }: any) {
-  return (
-    <div
+ function RoleCard({ role, disabled, roleImageMap }: any) {
+    return (
+        <div
             className={`bg-white h-[35vh] w-full gap-4 flex flex-col justify-center items-center border-[6px] rounded-xl px-4 py-2 text-center
                                     ${disabled ? "opacity-40 border-gray-400" : "border-black"}`}
-    >
-      <h2 className="text-[1vw] font-medium  text-[#130719]">{role.subtitle}</h2>
-      <div className="flex justify-center ">
-        <img
-          src={roleImageMap[role.title] || "/character1.svg"}
-          alt={role.title}
-          className="rounded-md w-[10vw]" 
-        />
-      </div>
+        >
+            <h2 className="text-[1vw] font-medium  text-[#130719]">{role.subtitle}</h2>
+            <div className="flex justify-center ">
+                <img
+                    src={roleImageMap[role.title] || "/character1.svg"}
+                    alt={role.title}
+                    className="rounded-md w-[10vw]" 
+                />
+            </div>
 
-      <p className="text-[1vw] font-medium  text-[#130719]">Role: {role.title}</p>
-    </div>
-  );
-}
+            <p className="text-[1vw] font-medium  text-[#130719]">Role: {role.title}</p>
+        </div>
+    );
+ }
 
 
 
