@@ -209,6 +209,7 @@ console.log(timeLeft)
 
 console.log("checkstance",stance)
   return (
+
     <main>
     
   
@@ -216,7 +217,7 @@ console.log("checkstance",stance)
       <div className="pt-8 pb-6 flex flex-col items-center gap-2">
         <p className="text-xl font-medium text-[#130719]">Headline #1</p>
         <p className=" text-xl font-medium text-[#130719] text-center">
-          Argue {stance!="against"&& "in"} <span className="text-[#5F237B] font-bold">{stance=="against"?"against":"favor"}</span> 
+          Argue {stance!="against"&& "in"} <span className="text-[#5F237B] font-bold">{stance=="against"?"against":"favor "}</span> 
           {stance!="against" && "of"} the headline by <span className="font-bold text-[#FF9348]" >choosing</span> the best prompt
         </p>
       </div>
@@ -276,11 +277,11 @@ console.log("checkstance",stance)
               <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
   Prompt {String.fromCharCode(65 + index)}
 </p>
-              {selectedPrompt === index + 1 && (
+              {/* {selectedPrompt === index + 1 && (
                 <div className="absolute top-2 right-2">
                   <ThumbsUp className="w-4 h-4 text-purple-600" />
                 </div>
-              )}
+              )} */}
             </button>
             
             ))}
@@ -325,11 +326,11 @@ console.log("checkstance",stance)
   Prompt {String.fromCharCode(65 + index)}
 </p>
 
-             {selectedPrompt === index + 1 && (
+             {/* {selectedPrompt === index + 1 && (
                <div className="absolute top-2 right-2">
                  <ThumbsUp className="w-4 h-4 text-purple-600" />
                </div>
-             )}
+             )} */}
            </button>
             ))}
           </div>
@@ -363,10 +364,8 @@ console.log("checkstance",stance)
 </motion.div>
 
     </main>
-    ) 
-  
-  
-};
+    
+  ) };
 
 export default DebateSwitch;
 
@@ -374,13 +373,11 @@ export default DebateSwitch;
 
 
 
-import { Button } from "@/components/ui/button";
-import OpeningModal from "@/components/OpeningModal";
+
 import { RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { decreaseScore } from "@/store/topicsSlice";
-import CircleScore from "@/components/CircleScore";
-import ClosingModal from "@/components/ClosingModal";
+
 import { motion } from "framer-motion";
 
 
