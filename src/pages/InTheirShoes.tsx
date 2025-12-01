@@ -204,12 +204,12 @@ const [done,setDone] = useState(false)
                       src={"/opening17.png"}
                   />        <div className="max-w-7xl mx-auto">
                       {/* Header */}
-                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
+                      <ModuleHeader src={"/opening17.png"} headingColor="#FF803E"  setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
 
                       {/* Role Selection Heading */}
                       <div className="text-center mt-8 mb-16">
                           <h2 className="text-[1.5vw] font-medium text-[#130719] ">Choose Your Role:</h2>
-                          <p className="text-[1.5vwto] font-medium text-[#130719]">
+                          <p className="text-[1.5vw] font-medium text-[#130719]">
                               Each scenario puts you in a different position of power and perspective
                           </p>
                       </div>
@@ -238,7 +238,6 @@ const [done,setDone] = useState(false)
 
                               </CarouselContent>
 
-                              <CarouselPrevious className="bg-white border border-gray-300 shadow-sm hover:scale-105 transition" />
                               <CarouselNext className="bg-[#FF9348] border border-gray-300 shadow-sm hover:scale-105 transition" />
                           </Carousel>
                       </div>
@@ -254,7 +253,7 @@ const [done,setDone] = useState(false)
               <main className=" rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] h-[90vh] bg-[#F8F1E7] ">
                   <div className="max-w-7xl mx-auto flex flex-col">
                       {/* Header */}
-                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score}  headingColor="#FF803E"   module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
                       <div className="text-center ">
                           <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
                           <p className="text-lg text-[#201E1C]">
@@ -325,7 +324,7 @@ const [done,setDone] = useState(false)
   >
     <ChevronRight/>
   </button> */}
-                  <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
+                  <ModuleHeader src={"/opening17.png"} headingColor="#FF803E"  setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
 
                       {/* Question Header */}
                       <div className="text-center ">

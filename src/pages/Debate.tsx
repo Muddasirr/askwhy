@@ -93,7 +93,7 @@ console.log(data)
               heading={"Debate Switch"}
               headingColor="#FF9348"
               description={"Trace the spark that sets your feed on fire!"}
-              time={120}
+              time={90}
               started={!show}
               left={1}
               polarizationScore={score}
