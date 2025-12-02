@@ -10,6 +10,7 @@ const DebateSwitch = (props) => {
   const [llmArgument, setLlmArgument] = useState<string>("Thinking...");
   const [userPrompts, setUserPrompts] = useState<string[]>([]);
   const [selectedPrompt, setSelectedPrompt] = useState<number | null>(null);
+  const [feedback, setFeedback] = useState<{ index: number; correct: boolean } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showUserOptions, setShowUserOptions] = useState(false);
   const [timeLeft, setTimeLeft] = useState(90); // 2 minutes
@@ -33,12 +34,12 @@ const DebateSwitch = (props) => {
     }
   
     // Switch stance based on time passed
-    if (timeLeft < 45) {
-      // First half (90 sec)
-      setStance("against");   // LLM = against, Player = for
+    // Start with opponent on the left (stance = "against"),
+    // then swap to the other side in the second half.
+    if (timeLeft >= 45) {
+      setStance("against");   // First half
     } else {
-      // Last half (90 sec)
-      setStance("for");       // LLM = for, Player = against
+      setStance("for");       // Second half
     }
   
     const timer = setInterval(() => {
@@ -186,16 +187,19 @@ const DebateSwitch = (props) => {
   
   console.log(score)
 const dispatch = useDispatch();
-  const handlePromptClick = async (i: number) => {
-    dispatch(decreaseScore(0.1))
-
+  const CORRECT_PROMPT_INDEX = 2; // Treat Prompt B as correct
+  const handlePromptClick = (i: number) => {
+    const isCorrect = i === CORRECT_PROMPT_INDEX;
+    if (!isCorrect) {
+      dispatch(decreaseScore(0.1));
+    }
     setSelectedPrompt(i);
-    setShowUserOptions(false);
-    const chosen = userPrompts[i - 1];
-    // Immediately advance to the next module after first selection
-   
- await  getLlmArgument([]);
-   await generateUserPrompts()
+    setFeedback({ index: i, correct: isCorrect });
+    // Show feedback in the selected option, then complete and move on
+    setTimeout(() => {
+      setFeedback(null);
+      props.setIsCompleted(true);
+    }, 900);
   };
 
   useEffect(()=>{
@@ -273,10 +277,25 @@ console.log("checkstance",stance)
                 hover:bg-[#FFA96D] hover:text-white
               `}
             >
-              <p className="text-sm leading-snug">{prompt}</p>
-              <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
-  Prompt {String.fromCharCode(65 + index)}
-</p>
+              {feedback && feedback.index === index + 1 ? (
+                feedback.correct ? (
+                  <div className="flex h-full items-center justify-center">
+                    <img src="/try.svg" className="max-h-18 md:max-h-20 w-auto object-contain pointer-events-none" alt="Good Job" />
+                  </div>
+                ) : (
+                  <div className="flex h-full items-center justify-center relative">
+                    <div className="absolute -inset-2 rounded-3xl bg-black/5" />
+                    <img src="/trynot.svg" className="max-h-18 md:max-h-20 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
+                  </div>
+                )
+              ) : (
+                <>
+                  <p className="text-sm leading-snug">{prompt}</p>
+                  <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
+                    Prompt {String.fromCharCode(65 + index)}
+                  </p>
+                </>
+              )}
               {/* {selectedPrompt === index + 1 && (
                 <div className="absolute top-2 right-2">
                   <ThumbsUp className="w-4 h-4 text-purple-600" />
@@ -321,10 +340,25 @@ console.log("checkstance",stance)
                hover:bg-[#FFA96D] hover:text-white
              `}
            >
-             <p className="text-sm leading-snug">{prompt}</p>
-             <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
-  Prompt {String.fromCharCode(65 + index)}
-</p>
+             {feedback && feedback.index === index + 1 ? (
+                feedback.correct ? (
+                  <div className="flex h-full items-center justify-center">
+                    <img src="/try.svg" className="max-h-20 md:max-h-24 w-auto object-contain pointer-events-none" alt="Good Job" />
+                  </div>
+                ) : (
+                  <div className="flex h-full items-center justify-center relative">
+                    <div className="absolute -inset-2 rounded-3xl bg-black/5" />
+                    <img src="/trynot.svg" className="max-h-20 md:max-h-24 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
+                  </div>
+                )
+              ) : (
+                <>
+                  <p className="text-sm leading-snug">{prompt}</p>
+                  <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
+                    Prompt {String.fromCharCode(65 + index)}
+                  </p>
+                </>
+              )}
 
              {/* {selectedPrompt === index + 1 && (
                <div className="absolute top-2 right-2">

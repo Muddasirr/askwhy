@@ -18,7 +18,7 @@ const Login = () => {
       {/* Left Side */}
       <div className="flex flex-col justify-start items-start w-1/2 p-24">
         <div>
-          <img src="/logo.svg" className="w-[60%] object-contain" />
+          <img src="/logo.svg" className="w-[70%] object-contain" />
           <p className="text-[#39154A] font-bold text-[1.5vw]  leading-[100%]  pt-20">
             We are excited to have you here!
           </p>

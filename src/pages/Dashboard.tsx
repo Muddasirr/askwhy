@@ -13,7 +13,8 @@ const Dashboard = () => {
       level: " Beginner Level",
       duration: " 2 min",
       path: "/interest",
-      src:"/framee.svg"
+      // Updated cover image to M1 asset
+      src: "/M1.png"
     },
     {
       title: "Pick & Flick",
@@ -101,7 +102,7 @@ const Dashboard = () => {
 
   return (
     <div className="p-8">
-<div className="flex h-[90vh] pt-4 px-0 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto">
+<div className="flex h-[90vh] pt-4 px-0 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto custom-scrollbar scrollbar-arrows relative">
 {/* Make inner container fill width with 10% padding on each side */}
 <div className="w-full flex flex-col  ">
         {/* Header Bar */}

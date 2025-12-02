@@ -38,7 +38,7 @@ const[showIntroModal,setShowIntroModal] = useState(true);
 showIntroModal={showIntroModal}
 moduleId={"M6"}
 setShowIntroModal={setShowIntroModal}
-src={"/opening16.png"}
+src={"/newDB.png"}
 phase="III"
 module="Module 6: Debate Switch"
 description={description}
@@ -63,9 +63,30 @@ level="Advanced"
         "{props.debate?.Heading}"
       </h2>
       
-      <p className="text-[#150800] mb-3  leading-relaxed">
-    {props.debate?.Scenario?.split(".")[0]}
-      </p>
+      {(() => {
+        const scenario: string = props.debate?.Scenario || "";
+        const marker = "During a 2016 documentary";
+        const name = "Hayao Miyazaki";
+        const idx = scenario.indexOf(marker);
+        const firstPara = (idx >= 0 ? scenario.slice(0, idx) : scenario).trim();
+        const secondPara = (idx >= 0 ? scenario.slice(idx) : "").trim();
+        const nameIdx = firstPara.indexOf(name);
+        return (
+          <div className="text-[#150800] mb-3 leading-relaxed">
+            <p>
+              {nameIdx >= 0 ? (
+                <>
+                  <span className="font-bold">{name}</span>
+                  {firstPara.slice(nameIdx + name.length)}
+                </>
+              ) : (
+                firstPara
+              )}
+            </p>
+            {secondPara && <p className="mt-3">{secondPara}</p>}
+          </div>
+        );
+      })()}
       <div className="rounded-md bg-[#F8F1E7] p-3 mt-8 mb-10">
         <p className="text-[1.25vw] text-[#5F237B] ">The Debate:</p>
         <p className="text-[#150800] font-normal text-[1.25vw] leading-snug">
@@ -83,14 +104,18 @@ level="Advanced"
       </button>
     </div>
   </div>
-  {/* Left Column - Image */}
-  <div className="flex justify-end items-center rounded-lg bg-transparent">
+  {/* Left Column - Image + badge */}
+  <div className="flex justify-end items-end rounded-lg bg-transparent">
     <img
       src={props.imageUrl}
       alt="AI is an insult to life itself - Miyazaki's predictions come true"
-      className="h-full  w-[25vw] object-contain"
+      className="w-[25vw] object-contain"
     />
-  
+    <img
+      src="/breakd.png"
+      alt="debate badge"
+      className="ml-4 h-[14vh] self-end"
+    />
   </div>
 
  

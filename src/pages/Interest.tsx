@@ -94,7 +94,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
     exit={{ opacity: 0, scale: 0.95 }}
     transition={{ duration: 0.8, ease: "easeInOut" }}
   >
-            <ClosingModal module={1} text={"7/7 Interests selected!"} src={"/exercise"} ending={"GOOOD JOB! We’ll start calculating from the next module...."} 
+            <ClosingModal module={1} text={"5/5 Interests selected!"} src={"/exercise"} ending={"GOOOD JOB! We’ll start calculating from the next module...."} 
             score={score} />
 
 
@@ -118,7 +118,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
         {/* Header - Horizontal Layout */}
 <ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120} started={!showIntroModal}  left={Math.max(5-selectedCount,0)}/>
 
-        <div><h1 className="text-[black] text-center text-[24px]">Pick 7 interests to continue</h1></div>
+        <div><h1 className="text-[black] text-center text-[24px]">Pick 5 interests to continue</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {topics.map((topic) => (
           <Card
