@@ -175,7 +175,7 @@ if (isComplete ||done) {
               <div
                 key={answer.id}
                 className={`rounded-tl-[42px] h-[16vh] rounded-tr-[42px] rounded-br-[42px] 
-                  p-2 cursor-pointer transition-all bg-[#EFE8DD] px-4 hover:bg-[#FFA96D]
+                  p-4 cursor-pointer transition-all bg-[#EFE8DD]  hover:bg-[#FFA96D]
                   
                 `}
                 onClick={() => handleSelect(answer.Word, isCorrect)}
