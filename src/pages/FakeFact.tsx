@@ -300,9 +300,14 @@ const FakeFact = () => {
           total={4}
         />
 
-        {currentQuestionIndex < totalQuestions && (
+        {currentQuestionIndex < totalQuestions && (currentQuestionIndex === 0 ||currentQuestionIndex === 1 ||currentQuestionIndex === 3 ) && (
           <h2 className="text-2xl text-center my-8  font-normal">
-            Click to identify which one is Fact
+            Click to identify which one is <span className="text-[#5F237B] font-semibold" >Fact</span>
+          </h2>
+        )}
+        {currentQuestionIndex < totalQuestions && (currentQuestionIndex === 2  ) && (
+          <h2 className="text-2xl text-center my-8  font-normal">
+            Click to identify which one is <span className="text-[#D0193E] font-semibold" >Fake</span>
           </h2>
         )}
 
