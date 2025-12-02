@@ -305,7 +305,7 @@ const FakeFact = () => {
             currentQuestionIndex === 1 ||
             currentQuestionIndex === 3) && (
             <h2 className="text-2xl text-center my-8  font-normal">
-              Click to identify which one is{" "}
+              Click to identify which one is a{" "}
               <span className="text-[#5F237B] font-semibold">Fact</span>
             </h2>
           )}

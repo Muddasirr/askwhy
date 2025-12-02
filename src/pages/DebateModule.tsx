@@ -49,12 +49,14 @@ level="Advanced"
 
 }
 
-  <div className="max-w-7xl mx-auto">
+  <div className=" flex  max-w-7xl mx-auto">
     {/* Header Section */}
     
-    <div className="justify-center items-center text-center pb-8 pt-2 font-medium text-[1.5vw] ">Headline #1</div>
     {/* Main Content - Two Column Layout */}
-    <div className="flex justify-center items-stretch gap-10">
+    <div className="w-full">
+    <div className="justify-center items-center text-center pb-8 pt-2 font-medium text-[1.5vw] ">Headline #1</div>
+
+    <div className="flex relative justify-center items-stretch gap-10">
        {/* Right Column - Scenario Card */}
   <div className="bg-white rounded-lg p-4  w-[25vw] flex flex-col ">
     <div>
@@ -105,17 +107,20 @@ level="Advanced"
     </div>
   </div>
   {/* Left Column - Image + badge */}
-  <div className="flex justify-end items-end rounded-lg bg-transparent">
+  <div className="flex relative justify-end items-end rounded-lg bg-transparent">
     <img
       src={props.imageUrl}
       alt="AI is an insult to life itself - Miyazaki's predictions come true"
       className="w-[25vw] object-contain"
     />
-    <img
-      src="/breakd.png"
-      alt="debate badge"
-      className="ml-4 h-[14vh] self-end"
-    />
+    
+   
+  </div>
+  <img
+    src="/breakd.png"
+    alt="debate badge"
+    className="absolute bottom-10 right-20 mr-10 h-[14vh] translate-x-1/4 translate-y-1/4"
+  />
   </div>
 
  
@@ -123,7 +128,9 @@ level="Advanced"
 
 
 
+
   </div>
+ 
 </main>
 
 
