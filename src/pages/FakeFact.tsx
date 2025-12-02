@@ -613,7 +613,7 @@ console.log("check",selectedIncorrectImage)
                 (src, i) =>
                   src && (
                     <CarouselItem key={i}>
-                      <div className={`bg-[#EFE8DD] ${selectedIncorrectImage?"p-8":""}  relative flex items-center justify-center h-[50vh]   `}>
+                      <div className={`bg-[#EFE8DD] ${selectedIncorrectImage?"p-8":""}  relative flex items-center justify-center h-[40vh]   `}>
                         <img
                           src={isCorrectAnswer?"/try.svg":(!selectedIncorrectImage?src.src:"/trynot.svg")}
                           alt={`Carousel image ${i + 1}`}
