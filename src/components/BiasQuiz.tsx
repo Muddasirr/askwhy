@@ -236,7 +236,7 @@ const dispatch = useDispatch();
       // If marked as text color, apply green to font instead of background
       if (selection.textColor) {
         return {
-          color:"white" ,
+          color: selection.color ,
           padding: '4px 8px',
           borderRadius: '20px',
           margin: '0 2px'
@@ -448,7 +448,6 @@ import { decreaseScore } from "@/store/topicsSlice";
 import TooltipCarousel from "./TooltipCarousel";
 import ModuleHeader from "./ModuleHeader";
 import OpeningModal from "./OpeningModal";
-import { color } from "framer-motion";
 
 
 
