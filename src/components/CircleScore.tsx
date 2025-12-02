@@ -126,7 +126,7 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10, animateFrom 
             lineHeight: 1,
           }}
         >
-          {Math.round(displayScore)}%
+          {displayScore}%
         </span>
       </div>
     </div>

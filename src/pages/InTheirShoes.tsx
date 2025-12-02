@@ -79,13 +79,13 @@ insertscore()}
 
       // Score update logic
       if (color === "#FFC700") {
-          dispatch(decreaseScore(2))
+          dispatch(decreaseScore(6))
       }
       if (color === "#FF9348") {
-          dispatch(decreaseScore(4))
+          dispatch(decreaseScore(12))
       }
       if (color === "#5F237B") {
-          dispatch(decreaseScore(6))
+          dispatch(decreaseScore(18))
       }
 
       // ⭐ TOOLTIP LOGIC IMPLEMENTATION

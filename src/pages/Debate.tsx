@@ -59,7 +59,7 @@ const Debate = () => {
             <ModuleHeader
               setDone={setDone}
               module={6}
-              src={"/newDB.png"}
+              src={"/opening16.png"}
               heading={"Debate Switch"}
               headingColor="#FF9348"
               description={"Trace the spark that sets your feed on fire!"}

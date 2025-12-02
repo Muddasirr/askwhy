@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Timer, ThumbsUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = "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";
 
 
 const DebateSwitch = (props) => {
@@ -16,8 +16,7 @@ const DebateSwitch = (props) => {
   const [timeLeft, setTimeLeft] = useState(90); // 2 minutes
   const [stance, setStance] = useState("against");
   const score= useSelector((state:RootState)=>state.topics.score)
-  const DEBATE_TOPIC =props?.debate?.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
-  louder struggles?"`;
+  const DEBATE_TOPIC ="Was Miyazaki right to call AI an insult to life — or is it actually expanding what life can create?" 
  
 
   useEffect(() => {
@@ -61,6 +60,13 @@ const DebateSwitch = (props) => {
     };
     init();
   }, []);
+  useEffect(() => {
+    const init = async () => {
+      await getLlmArgument([]);
+      await generateUserPrompts();
+    };
+    init();
+  }, [stance]);
 
   // --- Prompt generator ---
   const parsePrompts = (text: string): string[] => {
@@ -86,7 +92,7 @@ const DebateSwitch = (props) => {
         l
           .replace(/^[\d\.\)\-]+\s*/, "")
           .replace(/^["']|["']$/g, "")
-          .trim(),
+          .trim().replace("[","").replace("]",""),
       )
       .filter(Boolean);
     if (cleaned.length >= 3) return cleaned.slice(0, 3);
@@ -100,6 +106,13 @@ const DebateSwitch = (props) => {
 
   const generateUserPrompts = async () => {
     try {
+      const userStance = stance === "against" ? "for" : "against";
+console.log(stance)
+console.log(userStance)
+console.log("stance",{
+  stance,
+  userStance
+})
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -112,11 +125,18 @@ const DebateSwitch = (props) => {
             {
               role: "system",
               content: `
-            Return ONLY a JSON array of 3 short, powerful, persuasive strings which consit of arguments (max 15 words each) 
-            that strongly and convincingly argue ${playerSide} the topic: ${DEBATE_TOPIC}.
-            Make each argument concrete, impactful, and easy to understand.
-            Use easy words.
-            Do NOT include filler words. Keep it short but strong.
+              <Strict_Instructions>
+              Return ONLY a  array of 3 short, powerful arguments (max 15 words)
+
+              that argue **${userStance === "for" ? "AGAINST OF Miyazaki" : "IN FAVOR OF Miyazaki"}** the topic:
+              "${DEBATE_TOPIC}".
+              Make each argument concrete, impactful, simple.
+              Use easy words.
+              You should verify if you are returning  array of 3 arguments
+              No commentary at all, just the array, and no numbering or extra stuff
+                            </Strict_Instructions>
+
+
             `
             }
             
@@ -146,10 +166,13 @@ const DebateSwitch = (props) => {
   
     const SYSTEM_MESSAGE =
   stance === "against"
-    ? `You are arguing AGAINST the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
+    ? `You are arguing AGAINST the topic: ${DEBATE_TOPIC} You should be in favor of Miyazaki. Respond in 1 short, powerful, persuasive sentence. 
        Make the argument concrete, impactful, and convincing. Keep it simple but strong.use easy words at maximum 20 words`
-    : `You are arguing IN FAVOR of the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
-       Make the argument concrete, impactful, and convincing. Keep it simple but strong. use easy words at maximum 20 words`;
+    : `You are arguing IN FAVOR of the topic: ${DEBATE_TOPIC} You should be in against of Miyazaki. Respond in 1 short, powerful, persuasive sentence. 
+       Make the argument concrete, impactful, and convincing. Keep it simple but strong. use easy words at maximum 20 words `
+       +`<OPPONENT_ARGUMENT> ${userPrompts[selectedPrompt-1]}
+</OPPONENT_ARGUMENT> `
+       ;
 
   
     try {
@@ -187,8 +210,8 @@ const DebateSwitch = (props) => {
   
   console.log(score)
 const dispatch = useDispatch();
-  const CORRECT_PROMPT_INDEX = 2; // Treat Prompt B as correct
-  const handlePromptClick = (i: number) => {
+const CORRECT_PROMPT_INDEX = Math.floor(Math.random() * 3) + 1; 
+  const handlePromptClick =  async (i: number) => {
     const isCorrect = i === CORRECT_PROMPT_INDEX;
     if (!isCorrect) {
       dispatch(decreaseScore(0.1));
@@ -196,10 +219,16 @@ const dispatch = useDispatch();
     setSelectedPrompt(i);
     setFeedback({ index: i, correct: isCorrect });
     // Show feedback in the selected option, then complete and move on
+   setTimeout(async ()=>{
+    await getLlmArgument([]);
+    await generateUserPrompts();
+   },300)
+   
+   
+   
     setTimeout(() => {
       setFeedback(null);
-      props.setIsCompleted(true);
-    }, 900);
+    }, 1000);
   };
 
   useEffect(()=>{

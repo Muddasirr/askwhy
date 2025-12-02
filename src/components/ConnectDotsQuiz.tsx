@@ -46,11 +46,8 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
   useEffect(() => {
     if (!behind) return;
     // Prefer a direct public URL when provided
-    if (behind.ImagePublicUrl) {
-      setImageUrl(behind.ImagePublicUrl);
-      return;
-    }
-    loadImage(`${behind.Image}.png`);
+    
+    loadImage(behind.ImagePublicUrl);
   }, [currentIndex]);
 
   const loadImage = async (filename: string) => {
@@ -77,8 +74,9 @@ const dispatch = useDispatch();
 if(isCorrect){
   console.log(isCorrect)
   console.log(score)
-  dispatch(decreaseScore(3))
+  
 }
+dispatch(decreaseScore(15))
     setTimeout(() => {
       if (currentIndex < rounds.length - 1) {
         setCurrentIndex((prev) => prev + 1);
@@ -103,7 +101,7 @@ if (isComplete ||done) {
     return (
 
       
-    <ClosingModal module={5} text={"5/5 motivations behind a creator’s mind figured!"} src={"/debate"} ending={ending} score={56} animateFrom={71} />
+    <ClosingModal module={5} text={"5/5 motivations behind a creator’s mind figured!"} src={"/debate"} ending={ending} score={score} animateFrom={71} />
       
     );
   }
@@ -134,7 +132,7 @@ if (isComplete ||done) {
           
         />
       {/* <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} /> */}
-      <ModuleHeader time={120} started={!showIntroModal} src={"/opening15.png"} heading="Behind the buzz" headingColor="#D0193E" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={1-currentIndex} polarizationScore={71} />
+      <ModuleHeader time={120} started={!showIntroModal} src={"/opening15.png"} heading="Behind the buzz" headingColor="#D0193E" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={1-currentIndex} polarizationScore={score} />
 
 
         {/* Round/Question Header */}
