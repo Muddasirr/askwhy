@@ -108,3 +108,42 @@ All colors MUST be HSL.
     @apply bg-background text-foreground font-sans;
   }
 }
+
+/* Custom vertical gradient scrollbar used in dashboard module blocks */
+@layer components {
+  .custom-scrollbar {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #5F237B #ffffff; /* Fallback solid color for thumb/track */
+  }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 18px; /* wider track for capsule look */
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 999px;
+      padding: 4px; /* not rendered directly; mimic gap via thumb border */
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg,#5F237B 0%,#D0193E 55%,#FF803E 100%);
+      border-radius: 999px;
+      border: 5px solid #ffffff; /* creates thick white ring like screenshot */
+      background-clip: content-box; /* keep gradient capsule */
+      min-height: 64px;
+    }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg,#5F237B 0%,#D0193E 40%,#FF803E 90%);
+  }
+  /* Decorative top & bottom arrows */
+  .scrollbar-arrows { position: relative; }
+  .scrollbar-arrows::before, .scrollbar-arrows::after {
+    content: '';
+    position: absolute;
+    right: 4px; /* position just inside container */
+    z-index: 10;
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+  }
+  .scrollbar-arrows::before { top: 6px; border-bottom: 10px solid #5F237B; }
+  .scrollbar-arrows::after { bottom: 6px; border-top: 10px solid #5F237B; }
+}

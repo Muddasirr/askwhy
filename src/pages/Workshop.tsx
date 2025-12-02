@@ -28,7 +28,7 @@ const Workshop = () => {
           level: "Beginner Level",
           duration: "5:00",
           locked: false, // UNLOCKED
-          iconSrc: "/m1.2.svg",
+          iconSrc: "/M1.jpg",
         },
         {
           id: "module-2",
@@ -86,17 +86,17 @@ const Workshop = () => {
           description: "One debate, two sides, endless perspectives",
           level: "Advanced Level",
           duration: "5:00",
-          locked: false, // UNLOCKED
+          locked: true,
           iconSrc: "/M6.jpg",
         },
         {
-          id: "module-2",
-          title: "Pick & Flick",
-          description: "Let's help you build your newsfeed!",
+          id: "module-7",
+          title: "In Their Shoes",
+          description: "Step into another perspective",
           level: "Advanced Level",
           duration: "5:00",
           locked: true,
-          iconSrc: "/M2.jpg",
+          iconSrc: "/M7.jpg",
         },
       ],
     },
@@ -190,7 +190,7 @@ const Workshop = () => {
                     background: 'linear-gradient(180deg, #D0193E 0%, #5F237B 100%)', // Set gradient background
                     border: '4px solid white', // Use border to simulate padding around the thumb
                 },
-              }}>
+              } as any}>
                 {phases.map((phase) => (
                   <div key={phase.id} className="mb-6">
                     {/* Phase Header */}

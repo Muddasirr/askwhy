@@ -144,41 +144,19 @@ if (isComplete ||done) {
         <p className=" font-normal text-[24px] leading-[100%] tracking-normal text-center py-8 text-gray-800">
   What might have made the creator post something that got so much attention?
 </p>
-<div className="w-full flex justify-center items-center" >
-<div className="relative inline-block mb-8 rounded-2xl overflow-hidden">
+<div className="w-full flex justify-center items-end mb-8 md:mb-10" >
+<div className="relative inline-block rounded-2xl overflow-hidden">
   {/* The Image */}
   {behind?.Image && (
     <img
       src={imageUrl}
       alt="TikTok Post"
-      className="h-[30vh] relative w-auto object-contain"
+      className="h-[40vh] relative w-auto object-contain"
     />
   )}
-
-  {/* TOP-LEFT BADGE */}
-  <div className="absolute top-2 right-3 flex items-center gap-2 border border-black rounded-tl-[8px] rounded-tr-[8px]">
-  <div
-  className="
-    w-[5vw]
-    bg-[#E00040] text-white 
-    flex flex-col items-center justify-center gap-[10px]
-    rounded-tl-[8px] rounded-tr-[8px]
-    border border-white/30
-    text-xs font-semibold shadow-md
-    py-5 px-2
-    font-semibold text-[1.75vw]
-  "
->     
- {behind?.Reach.split(" ")[0]} <span className="font-normal text-[1vw]">{behind?.Reach.split(" ")[1]}</span>
-    </div>
-
-    {/* <img
-      src="/your-character.png"
-      className="w-5 h-5"
-      alt=""
-    /> */}
-  </div>
 </div>
+{/* Views badge graphic placed next to image (bottom-aligned) */}
+<img src="/Group181.svg" alt="views badge" className="-ml-20 h-[43vh] self-end z-10" />
 </div>
 
 
@@ -245,9 +223,10 @@ if (isComplete ||done) {
                 }
                 {
                   isSelected && !isCorrect &&
-                  <div className="flex h-full justify-center items-center">
-                    <img src="/trynot.svg" className="h-[15vh] object-contain"/>
-                    </div>
+                  <div className="flex h-full justify-center items-center relative">
+                    <div className="absolute -inset-2 rounded-3xl bg-black/5" />
+                    <img src="/trynot.svg" className="h-[15vh] object-contain relative"/>
+                  </div>
                 }
 
 

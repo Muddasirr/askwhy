@@ -280,7 +280,7 @@ calculated={""}
       <div className="flex-1 flex items-start justify-center relative">
       {/* Feedback overlay that shows after images fade out */}
       {showResult && (
-        <div className="absolute inset-0 flex items-center justify-center z-10">
+        <div className="absolute inset-0 flex items-center justify-center z-10 bg-black/5">
           <div className="text-center">
             {isCorrectAnswer ? (
               <div className="bg-[#EFE8DD] h-[60vh] px-4 items-center justify-center border border-[#D9D9D9] flex flex-col items-center gap-4 rounded-[12px]" >
@@ -314,7 +314,10 @@ calculated={""}
                     <Tooltip description={selectedImageTooltip} />
                   </div>
                 )}
-                <img src="/trynot.svg" alt="Try Again" className="w-64 h-64 animate-fade-in" />
+                <div className="relative">
+                  <div className="absolute -inset-4 rounded-xl bg-black/5 pointer-events-none" />
+                  <img src="/trynot.svg" alt="Try Again" className="w-64 h-64 animate-fade-in relative" />
+                </div>
                 
                 {/* Orange arrow button positioned on the right for wrong answers */}
                 <div className="absolute right-8 top-1/2 -translate-y-1/2">
