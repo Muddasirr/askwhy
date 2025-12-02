@@ -278,7 +278,9 @@ const [check,setCheck] = useState(false)
   const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
 console.log("imagecode",question?.Image_Code)
-  return (<div className="p-12">
+  return (
+  
+  <div className="p-12">
 <div className="min-h-[90vh] px-24 pt-8  bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
             <ModuleHeader started={!showIntroModal} setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} headingColor="#D0193E" description={"What if words echo louder than actions?"}
              time={120}   left={1-currentQuestionIndex}    polarizationScore={score} />
@@ -337,9 +339,10 @@ calculated={""}
         setCheck(false)
         onComplete && onComplete()
       }}
+      
       className="absolute cursor-pointer top-1/2 right-0 -translate-y-1/2 z-20 w-16 h-16 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg transition-colors"
     >
-      <ChevronRight className="w-14 h-14" />
+      <ChevronRight className="w-8 h-8" />
     </div>}
   </div>
 </div>
@@ -355,8 +358,8 @@ calculated={""}
           <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px]
  relative p-4 w-[80%] mx-auto bg-[#EFE8DD] flex flex-col items-center  ">
             
-          <div className="absolute   z-50" style={{ top: '-80px', left:'-3vh' }}>
- {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
+          <div className="absolute   z-50" style={{ bottom: '170px', left:'-3vh' }}>
+ { selections.length >= Object.keys(biasedPhrases).length && <TooltipCarousel
       slides={[
         { heading: question?.Bias_Type, description: question?.Tooltip1 },
         { description: question?.Tooltip2 }
