@@ -13,7 +13,7 @@ import { decreaseScore } from "@/store/topicsSlice";
 
 const SpotTheBias = () => {
   const topic = useSelector((state: RootState) => state.topics.topics);
-const score = useSelector((state:RootState)=>state.topics.score)
+  const score = useSelector((state: RootState) => state.topics.score)
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [biasQuizComplete, setBiasQuizComplete] = useState(false);
@@ -26,22 +26,22 @@ const score = useSelector((state:RootState)=>state.topics.score)
     }
 
     if (!data || data.length === 0) return;
-console.log("checkkk",data)
+    console.log("checkkk", data)
     // Pick 5 random questions
-     const selectedQuestions = data?.filter(d=>d.Topic==7)
-//     const firstTopicOne = data.find(q => q.Topic === 1);
+    const selectedQuestions = data?.filter(d => d.Topic == 7)
+    //     const firstTopicOne = data.find(q => q.Topic === 1);
 
-// // Filter out all other questions (except the one we already picked)
-// const remaining = data.filter(q => q !== firstTopicOne);
+    // // Filter out all other questions (except the one we already picked)
+    // const remaining = data.filter(q => q !== firstTopicOne);
 
-// // Shuffle the remaining questions
-// const shuffled = remaining.sort(() => Math.random() - 0.5);
+    // // Shuffle the remaining questions
+    // const shuffled = remaining.sort(() => Math.random() - 0.5);
 
-// // Pick 4 random questions from remaining
-// const randomFour = shuffled.slice(0, 4);
+    // // Pick 4 random questions from remaining
+    // const randomFour = shuffled.slice(0, 4);
 
-// // Final list of 5 questions
-// const selectedQuestions = [firstTopicOne, ...randomFour]
+    // // Final list of 5 questions
+    // const selectedQuestions = [firstTopicOne, ...randomFour]
 
     setQuestions(selectedQuestions);
   }, []);
@@ -67,7 +67,7 @@ console.log("checkkk",data)
     fetchSpotTheBiass();
     // fetchSpotTheBias();
   }, [fetchSpotTheBias]);
-const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const handleComplete = () => {
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
@@ -77,13 +77,13 @@ const dispatch = useDispatch()
     }
   };
   const currentQuestion = questions[currentQuestionIndex];
-  console.log("check",questions)
+  console.log("check", questions)
   const imageUrl = "https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/YTH_7b.png";
-const[done,setDone] = useState(false)
- const ending = <div className="font-normal">Look at that — your <span className="text-[#5F237B]"> score’s low and your thinking’s leveling out.</span> That’s what real awareness looks like. 
- Stay  <span className="text-[#D0193E]">curious</span>, stay <span className="text-[#D0193E]">open</span>, and keep the <span className="text-[#D0193E]"> balance strong</span>.</div>
-  if (biasQuizComplete || done ) return <ClosingModal  module={4} ending= {ending}
-  src={"/behind-the-buzz"} text={"✓ 1/1 Thumbnail spotted!"} score={score} animateFrom={87} />;
+  const [done, setDone] = useState(false)
+  const ending = <div className="font-normal">Look at that — your <span className="text-[#5F237B]"> score’s low and your thinking’s leveling out.</span> That’s what real awareness looks like.
+    Stay  <span className="text-[#D0193E]">curious</span>, stay <span className="text-[#D0193E]">open</span>, and keep the <span className="text-[#D0193E]"> balance strong</span>.</div>
+  if (biasQuizComplete || done) return <ClosingModal module={4} ending={ending}
+    src={"/behind-the-buzz"} text={"✓ 1/1 Thumbnail spotted!"} score={score} animateFrom={87} />;
 
   if (questions.length === 0)
     return (
@@ -92,13 +92,13 @@ const[done,setDone] = useState(false)
       </div>
     );
 
- 
+
   return (
     <BiasQuiz
-    setCurrentQuestionIndex={setCurrentQuestionIndex}
-    setDone={setDone}
-    length={questions?.length}
-    currentQuestionIndex={currentQuestionIndex}
+      setCurrentQuestionIndex={setCurrentQuestionIndex}
+      setDone={setDone}
+      length={questions?.length}
+      currentQuestionIndex={currentQuestionIndex}
       question={currentQuestion}
       imageUrl={imageUrl}
       headline={currentQuestion.headline}
@@ -112,7 +112,7 @@ const[done,setDone] = useState(false)
 
 
 // const ClosingModal = (props) => {
-  
+
 //   const navigate = useNavigate();
 
 

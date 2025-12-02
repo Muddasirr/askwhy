@@ -193,6 +193,19 @@ const [done,setDone] = useState(false)
     "Influencer": "/Influencer.svg",
   };
 
+//   <OpeningModal
+//   showIntroModal={showIntroModal}
+//   moduleId={"M6"}
+//   setShowIntroModal={setShowIntroModal}
+//   src={"/opening16.png"}
+//   phase="III"
+//   module="Module 6: Debate Switch"
+//   description={description}
+//   time="2:00"
+//   calculated=""
+//   level="Advanced"
+//   />
+
   
   if (currentScreen === "roleSelection") {
       return (
