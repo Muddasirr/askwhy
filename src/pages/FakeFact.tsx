@@ -457,7 +457,7 @@ const FakeFact = () => {
                   </div>
                 ))}
             </div>
-          ) : currentQuestionIndex === 2 ? (
+          ) : currentQuestionIndex === 3 ? (
             <div
               className={cn(
                 "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
@@ -489,7 +489,7 @@ const FakeFact = () => {
                   </div>
                 ))}
             </div>
-          ) : currentQuestionIndex === 3 ? (
+          ) : currentQuestionIndex === 2 ? (
             <div
               className={cn(
                 "transition-all duration-500",
