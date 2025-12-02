@@ -23,7 +23,7 @@ import {
   MessageCircle,
   Share2,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const FakeFact = () => {
@@ -59,7 +59,6 @@ const FakeFact = () => {
 
     for (const code of codes) {
       const prefix = code.split("_")[0].toUpperCase();
-      console.log(code);
       if (prefix === "IG") ig.push(code);
       else if (prefix === "CAR") car.push(code);
       else last.push(code); // TT, TR, IGR, etc
@@ -109,8 +108,6 @@ const FakeFact = () => {
 
     setToolTips(tooltip.data);
 
-    console.log("Fetched data from supabase:", data);
-    console.log(filterByTopic(data, topics));
     setGames(filterByTopic(data, topics));
     if (error) {
       console.error("Error fetching fake fact:", error);
@@ -186,6 +183,7 @@ const FakeFact = () => {
     imageSrc?: string
   ) => {
     if (showResult) return;
+    console.log(tooltip,imageSrc)
     setSelectedCarouselIndex(index);
     setShowResult(true);
     setIsCorrectAnswer(isCorrect);
@@ -226,7 +224,6 @@ const FakeFact = () => {
       return null;
     }
   }
-  console.log("check game", game);
   const allQuestions = buildAllQuestions([
     game?.filter((g) => g.topic == 1)[0],
     game?.filter((g) => g.topic == 7)[0],
@@ -236,7 +233,6 @@ const FakeFact = () => {
   const allQuestions1 = buildAllQuestions([game[3], game[2], game[0], game[1]]);
   allQuestions.question0 = pickFactAndFake(allQuestions.question0);
   allQuestions1.question0 = pickFactAndFake(allQuestions1.question0);
-  console.log(allQuestions);
   const ending = (
     <div>
       Nice! Your{" "}
@@ -322,16 +318,16 @@ const FakeFact = () => {
 
         <div className="flex-1 flex items-start justify-center relative">
           {/* Feedback overlay that shows after images fade out */}
-          {showResult && (
+          {showResult  && (
             <div className="absolute inset-0 flex items-center justify-center z-10">
               <div className="text-center">
-                {isCorrectAnswer ? (
-                  <div className="bg-[#EFE8DD] h-[60vh] px-4 items-center justify-center border border-[#D9D9D9] flex flex-col items-center gap-4 rounded-[12px]">
-                    <img
+                {isCorrectAnswer   ? (
+                  <div className={`${ currentQuestionIndex != 2?"bg-[#EFE8DD] border border-[#D9D9D9]":""} h-[60vh] px-4 items-center justify-center    flex flex-col items-center gap-4 rounded-[12px] `}>
+                   { currentQuestionIndex != 2 && <img
                       src="/module3tt.svg"
                       alt="Good Job!"
                       className="w-64 h-64 animate-fade-in"
-                    />
+                    />}
                     {/* Orange arrow button positioned on the right */}
                     <div className="absolute right-8 top-1/2 -translate-y-1/2">
                       <div
@@ -345,7 +341,7 @@ const FakeFact = () => {
                 ) : (
                   <div className="flex items-center gap-52">
                     {/* Show the incorrect image that was clicked */}
-                    {selectedIncorrectImage && (
+                    {selectedIncorrectImage && currentQuestionIndex != 2 &&(
                       <div className="animate-fade-in">
                         <div className="relative" id="imageContainer">
                           <img
@@ -368,14 +364,14 @@ const FakeFact = () => {
                         <Tooltip description={selectedImageTooltip} />
                       </div>
                     )} */}
-                    <div className="relative">
+              {  currentQuestionIndex != 2 &&    <div className="relative">
                       <div className="absolute -inset-4 rounded-xl bg-black/5 pointer-events-none" />
                       <img
                         src="/trynot.svg"
                         alt="Try Again"
                         className="w-64 h-[68vh] animate-fade-in relative"
                       />
-                    </div>
+                    </div>}
 
                     {/* Orange arrow button positioned on the right for wrong answers */}
                     <div className="absolute right-0 top-1/2 -translate-y-1/2">
@@ -514,150 +510,42 @@ const FakeFact = () => {
             <div
               className={cn(
                 "transition-all duration-500",
-                showResult && "opacity-0 pointer-events-none"
               )}
             >
               <Question3Carousel
+              isCorrectAnswer={isCorrectAnswer}
                 showResult={showResult}
                 selectedCarouselIndex={selectedCarouselIndex}
                 handleCarouselClick={handleCarouselClick}
-                carouselImages={allQuestions?.question3} // dynamically passed array
+                carouselImages={allQuestions?.question3}
+                selectedIncorrectImage={selectedIncorrectImage}
+                selectedImageTooltip={selectedImageTooltip}
+                 // dynamically passed array
               />
             </div>
           ) : null}
-          {currentQuestionIndex === 4 && allQuestions.question0 ? (
-            <div
-              className={cn(
-                "flex items-center justify-center gap-24 transition-all duration-500",
-                showResult && "opacity-0 pointer-events-none"
-              )}
-            >
-              {/* Left Image */}
-              <div className="relative flex justify-center max-w-[40%] overflow-visible">
-                <img
-                  src={allQuestions1.question0[0].src}
-                  alt="Left Post"
-                  className={cn(
-                    "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-                    !showResult && "hover:scale-105 hover:shadow-lg"
-                  )}
-                  onClick={() =>
-                    handlePostClick(
-                      `question0-post1`,
-                      allQuestions1.question0[0].correct,
-                      allQuestions1.question0[0].tooltip,
-                      allQuestions1.question0[0].src
-                    )
-                  }
-                />
-              </div>
 
-              {/* VS label */}
-              <div className="flex items-center justify-center">
-                <span className="font-semibold text-[24px] leading-[100%] tracking-[0] text-center">
-                  VS
-                </span>
-              </div>
 
-              {/* Right Image */}
-              <div className="relative flex justify-center max-w-[40%] overflow-visible">
-                <img
-                  src={allQuestions1.question0[1].src}
-                  alt="Right Post"
-                  className={cn(
-                    "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-                    !showResult && "hover:scale-105 hover:shadow-lg"
-                  )}
-                  onClick={() =>
-                    handlePostClick(
-                      `question0-post2`,
-                      allQuestions1.question0[1].correct,
-                      allQuestions1.question0[1].tooltip,
-                      allQuestions1.question0[1].src
-                    )
-                  }
-                />
-              </div>
-            </div>
-          ) : currentQuestionIndex === 5 ? (
-            <div
-              className={cn(
-                "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
-                showResult && "opacity-0 pointer-events-none"
-              )}
-            >
-              {allQuestions1.question1 &&
-                allQuestions1?.question1?.map((post, i) => (
-                  <div
-                    key={i}
-                    className="relative flex justify-center max-w-[30%]"
-                  >
-                    <img
-                      src={post.src}
-                      alt={`Post ${i + 1}`}
-                      className={cn(
-                        "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-                        !showResult && "hover:scale-105 hover:shadow-lg"
-                      )}
-                      onClick={() =>
-                        handlePostClick(
-                          `post1-${i}`,
-                          post.correct,
-                          post.tooltip,
-                          post.src
-                        )
-                      }
-                    />
-                  </div>
-                ))}
-            </div>
-          ) : currentQuestionIndex === 6 ? (
-            <div
-              className={cn(
-                "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
-                showResult && "opacity-0 pointer-events-none"
-              )}
-            >
-              {allQuestions1?.question2 &&
-                allQuestions1?.question2?.map((post, i) => (
-                  <div
-                    key={i}
-                    className="relative flex justify-center max-w-[30%]"
-                  >
-                    <img
-                      src={post.src}
-                      alt={`Post ${i + 1}`}
-                      className={cn(
-                        "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
-                        !showResult && "hover:scale-105 hover:shadow-lg"
-                      )}
-                      onClick={() =>
-                        handlePostClick(
-                          `post2-${i}`,
-                          post.correct,
-                          post.tooltip,
-                          post.src
-                        )
-                      }
-                    />
-                  </div>
-                ))}
-            </div>
-          ) : currentQuestionIndex === 7 ? (
-            <div
-              className={cn(
-                "transition-all duration-500",
-                showResult && "opacity-0 pointer-events-none"
-              )}
-            >
-              <Question3Carousel
-                showResult={showResult}
-                selectedCarouselIndex={selectedCarouselIndex}
-                handleCarouselClick={handleCarouselClick}
-                carouselImages={allQuestions1?.question3} // dynamically passed array
-              />
-            </div>
-          ) : null}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           {/* Completion screen */}
         </div>
@@ -669,27 +557,33 @@ const FakeFact = () => {
 export default FakeFact;
 
 function Question3Carousel({
+  isCorrectAnswer,
   showResult,
   selectedCarouselIndex,
   handleCarouselClick,
-  carouselImages, // now an array of images
+  carouselImages,
+  selectedIncorrectImage,selectedImageTooltip // now an array of images
 }) {
   const introImage = carouselImages.find((img) => img.src.includes("z.png"));
   const otherImages = carouselImages.filter(
     (img) => !img.src.includes("z.png")
   );
-
+  
+console.log("check",selectedIncorrectImage)
   const orderedImages = [
     introImage ? { ...introImage, intro: true } : null,
     ...otherImages.map((img) => ({ ...img, intro: false })),
   ].filter(Boolean);
   const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
+  const cardRef = useRef(null);
 
   return (
-    <div className="flex justify-center  items-center bg-[#f9f9f9] ">
+    <div className="flex relative justify-center  items-center bg-[#f9f9f9] ">
       <div
+        ref={cardRef}
+
         className={cn(
-          "bg-white rounded-xl shadow-sm border p-2  w-[40vw] overflow-hidden transition-all duration-500",
+          "bg-white relative rounded-xl shadow-sm border p-2  w-[40vw] overflow-hidden transition-all duration-500",
           showResult && "animate-fade-out"
         )}
       >
@@ -719,14 +613,15 @@ function Question3Carousel({
                 (src, i) =>
                   src && (
                     <CarouselItem key={i}>
-                      <div className="relative flex items-center justify-center h-full">
+                      <div className={`bg-[#EFE8DD] ${selectedIncorrectImage?"p-5":""}  relative flex items-center justify-center h-full   `}>
                         <img
-                          src={src.src}
+                          src={isCorrectAnswer?"/try.svg":(!selectedIncorrectImage?src.src:"/trynot.svg")}
                           alt={`Carousel image ${i + 1}`}
                           className={cn(
-                            "object-cover w-full h-full cursor-pointer transition-all duration-300",
+                            "object-cover  w-full h-full cursor-pointer transition-all duration-300",
                             !showResult && !src.intro && "hover:scale-[1.02]",
-                            src.intro && "cursor-default"
+                            src.intro && "cursor-default",
+                            
                           )}
                           onClick={() => {
                             if (!src.intro)
@@ -739,20 +634,39 @@ function Question3Carousel({
                           }}
                         />
                       </div>
+                      {/* {selectedIncorrectImage && (
+                      <div className="animate-fade-in">
+                        <div className="relative" id="imageContainer">
+                          <img
+                            src={selectedIncorrectImage}
+                            alt="Selected incorrect image"
+                            className="h-[70vh] w-auto max-w-2xl object-contain rounded-lg"
+                          />
+                          {selectedImageTooltip && (
+                            <div className="animate-fade-in absolute left-0 -top-10">
+                              <Tooltip description={selectedImageTooltip} />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )} */}
+                    
                     </CarouselItem>
                   )
               )}
             </CarouselContent>
 
-            <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-[#FF803E] hover:bg-[#FFA96D] shadow-md text-white rounded-full p-2 z-10" />
-            <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#FF803E] hover:bg-[#FFA96D] shadow-md text-white rounded-full p-2 z-10" />
+  
+      {!selectedIncorrectImage &&  <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-[#FF803E] hover:bg-[#FFA96D] shadow-md text-white rounded-full p-2 z-10" />}
+      {!selectedIncorrectImage &&  <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#FF803E] hover:bg-[#FFA96D] shadow-md text-white rounded-full p-2 z-10" />}
           </Carousel>
-
+          
           {/* Bottom Overlay Caption */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
             <p className="text-white font-semibold text-center text-sm"></p>
           </div>
         </div>
+       
 
         {/* Reaction Bar */}
         <div className="flex justify-between items-center px-4 py-3 text-sm text-gray-700">
@@ -773,6 +687,12 @@ function Question3Carousel({
           <Bookmark className="w-5 h-5" />
         </div>
       </div>
+      {selectedImageTooltip && (
+  <div className="absolute top-0 right-full mr-2">
+    <Tooltip description={selectedImageTooltip} />
+  </div>
+)}
+
     </div>
   );
 }

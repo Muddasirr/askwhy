@@ -265,7 +265,7 @@ const [check,setCheck] = useState(false)
   useEffect(() => {
     console.log(selections.length)
     console.log(Object.keys(biasedPhrases).length)
-    if (selections.length -1 >= Object.keys(biasedPhrases).length) {
+    if (selections.length  >= Object.keys(biasedPhrases).length) {
       // Switch to green font color for correct answers once completed
       setSelections(prev => prev.map(sel => ({ ...sel, color: "#0D5623", textColor: true })));
       setCheck(true); // reveal the orange next button on the right
@@ -356,7 +356,7 @@ calculated={""}
  relative p-4 w-[80%] mx-auto bg-[#EFE8DD] flex flex-col items-center  ">
             
           <div className="absolute   z-50" style={{ top: '-80px', left:'-3vh' }}>
- {selections.length-1 >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
+ {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
       slides={[
         { heading: question?.Bias_Type, description: question?.Tooltip1 },
         { description: question?.Tooltip2 }
