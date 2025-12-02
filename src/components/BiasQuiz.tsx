@@ -359,8 +359,9 @@ calculated={""}
           <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px]
  relative p-4 w-[80%] mx-auto bg-[#EFE8DD] flex flex-col items-center  ">
             
-          <div className="absolute   z-50" style={{ bottom: '170px', left:'-3vh' }}>
- { selections.length >= Object.keys(biasedPhrases).length && <TooltipCarousel
+          <div className="absolute   z-50" style={{ top: '-16vh', left:'-3vh' }}>
+ { selections.length >= Object.keys(biasedPhrases).length &&
+  <TooltipCarousel
       slides={[
         { heading: question?.Bias_Type, description: question?.Tooltip1 },
         { description: question?.Tooltip2 }
