@@ -347,7 +347,7 @@ const FakeFact = () => {
                           <img
                             src={selectedIncorrectImage}
                             alt="Selected incorrect image"
-                            className="h-[70vh] w-auto max-w-2xl object-contain rounded-lg"
+                            className="h-[75vh] w-auto max-w-2xl object-contain rounded-lg"
                           />
                           {selectedImageTooltip && (
                             <div className="animate-fade-in absolute left-0 -top-10">
@@ -364,12 +364,12 @@ const FakeFact = () => {
                         <Tooltip description={selectedImageTooltip} />
                       </div>
                     )} */}
-              {  currentQuestionIndex != 2 &&    <div className="relative">
-                      <div className="absolute -inset-4 rounded-xl bg-black/5 pointer-events-none" />
+              {  currentQuestionIndex != 2 &&    <div className=" bg-[#EFE8DD] relative">
+                      <div className="absolute bg-[#EFE8DD] rounded-xl  pointer-events-none" />
                       <img
                         src="/trynot.svg"
                         alt="Try Again"
-                        className="w-64 h-[68vh] animate-fade-in relative"
+                        className="w-80 h-[75vh] animate-fade-in relative"
                       />
                     </div>}
 

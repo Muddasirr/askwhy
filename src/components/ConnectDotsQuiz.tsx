@@ -159,30 +159,13 @@ if (isComplete ||done) {
 
 
 
-        {/* Text Box */}
-        {/* <div className="bg-[#EDE1D0] px-6 pb-8 pt-2 text-center">
-          <p className="text-[black] text-lg font-normal">
-            {behind?.Image_Text}
-          </p>
-        </div>
-
-       
-        <div className="bg-white flex justify-center items-center gap-10 py-2 mt-8">
-          <div className="text-center">
-            <p className="text-[#D0193E] font-bold text-3xl">
-              {behind?.Reach?.split(" ")[0]}
-            </p>
-            <p className="text-gray-700 text-sm font-medium">
-              {behind?.Reach?.split(" ")[1]}
-            </p>
-          </div>
-        </div> */}
+      
 
         {/* Question */}
         
 
         {/* Answer Options */}
-        <div className="grid grid-cols-3 gap-4 mx-48">
+        <div className="grid grid-cols-3 gap-4 mx-36">
           {answers.map((answer: any, index: number) => {
             const optionLabel = String.fromCharCode(65 + index); // A, B, C
             const isCorrect = answer.Word === behind.Correct_Answer;
@@ -191,7 +174,7 @@ if (isComplete ||done) {
             return (
               <div
                 key={answer.id}
-                className={`rounded-tl-3xl h-[20vh] rounded-tr-3xl rounded-br-3xl 
+                className={`rounded-tl-[42px] h-[20vh] rounded-tr-[42px] rounded-br-[42px] 
                   p-2 cursor-pointer transition-all bg-[#EFE8DD] px-4 hover:bg-[#FFA96D]
                   
                 `}
@@ -199,16 +182,16 @@ if (isComplete ||done) {
               >
              {!isSelected &&  <div className="group">
   <div className="flex items-center gap-4 mb-1">
-    <h3 className="font-normal text-black text-[24px] bg-white rounded-full w-10 h-10 flex items-center justify-center group-hover:text-[#FFA96D]">
+    <h3 className="font-normal text-black text-[1.5vw] bg-white rounded-full w-10 h-10 flex items-center justify-center group-hover:text-[#FFA96D]">
       {optionLabel}
     </h3>
 
-    <h3 className="font-medium text-[24px] text-black group-hover:text-white">
+    <h3 className="font-medium text-[1.5vw] text-black group-hover:text-white">
       {answer.Word}
     </h3>
   </div>
 
-  <p className="text-[#130719] text-sm group-hover:text-white">
+  <p className="text-[#130719] text-[0.9vw] group-hover:text-white">
     {answer.Description}
   </p>
 </div>
