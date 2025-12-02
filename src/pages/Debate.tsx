@@ -12,12 +12,13 @@ const Debate = () => {
     // Static single debate content (no Supabase)
     const [currentIndex, setCurrentIndex] = useState(0);
     const imageUrl = "/newDB.png";
-        const debate = {
-          Heading: "“AI is an insult to life itself.”",
-          Scenario: `Hayao Miyazaki — the legendary Japanese filmmaker once called AI “an insult to life itself.”
-    During a 2016 documentary, after seeing an AI-generated animation that, to him, lacked humanity and soul. Nearly a decade later, AI-generated “Ghibli-style” art has gone viral — reviving the same question he raised back then.`,
-          Debate_Question: "Was Miyazaki right to call AI an insult to life — or is it actually expanding what life can create?",
-        };
+    const debate = {
+      Heading: "“AI is an insult to life itself.”",
+      Scenario:
+      "Hayao Miyazaki — the legendary Japanese filmmaker once called AI “an insult to life itself.” During a 2016 documentary, after seeing an AI-generated animation that, to him, lacked humanity and soul. Nearly a decade later, AI-generated “Ghibli-style” art has gone viral — reviving the same question he raised back then.",
+      Debate_Question:
+      "Was Miyazaki right to call AI an insult to life — or is it actually expanding what life can create?",
+    };
     const [show, setShow] = useState(true);
     const [isCompleted, setIsCompleted] = useState(false);
     // No Supabase; single-topic flow
