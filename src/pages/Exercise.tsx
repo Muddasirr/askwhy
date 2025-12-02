@@ -108,7 +108,7 @@ const [done,setDone] = useState(false)
       const shuffled = filtered.sort(() => Math.random() - 0.5);
       setAllPosts(shuffled);
       setVisiblePosts(shuffled.slice(0, MAX_VISIBLE));
-      setIsLoading(false);
+      setIsLoading(true);
     };
   
     fetchImages();
@@ -378,19 +378,26 @@ const score = useSelector((state:RootState)=>state.topics.score)
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.6 }}
-        className="min-h-screen flex  justify-center bg-[#F8F1E7]"
+        className="min-h-screen flex  items-center justify-center bg-[#F8F1E7]"
       >
-        <div className="text-center">
+        <div className="text-center justify-center items-center flex flex-col">
           <img
             src="/loading.svg" // replace with the actual path to the uploaded character image
             alt="Loading character"
             className="w-24 h-24 mb-4"
           />
-          <p className="text-xl font-semibold">Scanning pixels... Just a min</p>
-          <div className="flex justify-center items-center mt-4">
-            <div className="w-16 h-2 bg-gradient-to-r from-pink-500 to-red-500 rounded-full animate-pulse"></div>
-          </div>
-          <p className="mt-2">Please wait while we prepare the feed!</p>
+          <div className="w-[20vw] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1">
+              <div
+                className="h-full rounded-full"
+                style={{
+                  width: `${70}%`,
+                  background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+                }}
+              />
+              
+            </div>
+          <p className="mt-4 font-[16px]">Scanning pixels... Just a min</p>
+         
         </div>
       </motion.div>):(<div>
           
