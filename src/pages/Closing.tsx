@@ -21,7 +21,7 @@ export default function CelebrationScreen() {
       {/* Stats Section */}
       <div className="text-center mb-8 ">
         <p className="text-[#1a1a1a] font-medium tracking-wide  text-[1.5vw]">
-          You're now only <span className=" font-bold  text-[#D0193E] ">{score}</span> Polarized! Good Job, you did it!
+          You're now only <span className=" font-bold  text-[#D0193E] ">{score}%</span> Polarized! Good Job, you did it!
         </p>
       </div>
 

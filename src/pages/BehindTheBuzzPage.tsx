@@ -13,29 +13,29 @@ const BehindTheBuzzPage = () => {
     // Build a single static round using the provided public image and options
     const staticRound = {
       behind: {
-        ImagePublicUrl: "/rr.png",
+        ImagePublicUrl: "YTT_6b.png",
         Image: "rr",
         Reach: "1M Views", // placeholder; adjust if you have a specific value
-        Correct_Answer: "Clout", // middle option is correct
+        Correct_Answer: "Sensationalize", // middle option is correct
       },
       answers: [
         {
           id: "A",
-          Word: "Propaganda",
+          Word: "Sensationalize",
           Description:
-            "Propaganda is when someone twists facts or shares biased information to make others believe their side of the story.",
+            "People often make up news to sound way more dramatic or shocking than it really is, just to get clicks, reactions, or go viral — even if the facts get stretched in the process.",
         },
         {
           id: "B",
-          Word: "Clout",
+          Word: "Clickbait",
           Description:
-            "When people do something “for clout,” it means they’re doing it to get attention, followers, or fame — not because they truly believe in it.",
+            "People (or pages) often post shocking headlines because controversy drives clicks, comments, and followers",
         },
         {
           id: "C",
-          Word: "Exaggeration",
+          Word: "Validation",
           Description:
-            "People share exaggerated news online because it sounds exciting, grabs attention, and helps their posts get more reach, likes, and shares.",
+            "People often post or share things to get approval from others, even if it’s biased or fake, just to feel seen, smart, or part of the crowd..",
         },
       ],
     };
