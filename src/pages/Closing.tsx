@@ -8,7 +8,7 @@ export default function CelebrationScreen() {
   const score = useSelector((state:RootState)=>state.topics.score)
   return (
     <div className="p-8 ">
-    <div className="flex flex-col items-center  min-h-[90vh]  bg-[#f5f1e8] px-10 font-sans">
+    <div className="flex flex-col items-center  min-h-[90vh]  bg-[#f5f1e8] px-10 font-sans rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
       
       {/* Banner Wrapper */}
       {/* Note: The original CSS had specific styles for a .banner child, 

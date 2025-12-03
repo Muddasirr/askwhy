@@ -123,7 +123,7 @@ insertscore()}
                     // Show celebration screen before final results
                     setCurrentScreen("celebration");
                 }
-            }, 3000);
+            }, 1000);
   };
 
 
@@ -346,8 +346,8 @@ const [done,setDone] = useState(false)
                   <ModuleHeader src={"/opening17.png"} headingColor="#FF803E"  setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
 
                       {/* Question Header */}
-                      <div className="text-center ">
-                          <h3 className="text-xl   text-[#201E1C] ">
+                      <div className="text-center pt-4 ">
+                          <h3 className="text-xl   text-[#201E1C] font-medium ">
                               {`Scenario #${round}`}
                           </h3>
                       </div>

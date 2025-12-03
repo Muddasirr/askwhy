@@ -340,8 +340,8 @@ calculated={""}
         setCheck(false)
         onComplete && onComplete()
       }}
-      
-      className="absolute cursor-pointer top-1/2 right-0 -translate-y-1/2 z-20 w-16 h-16 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg transition-colors"
+
+      className="absolute cursor-pointer top-1/2 right-0 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-[#FF6B35] text-white rounded-full  transition-colors"
     >
       <ChevronRight className="w-8 h-8" />
     </div>}
