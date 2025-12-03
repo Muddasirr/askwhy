@@ -50,7 +50,7 @@ export default function Exercise() {
   const [visiblePosts, setVisiblePosts] = useState<Post[]>([]);
   const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
   const [savedIds, setSavedIds] = useState<Set<number>>(new Set());
-  const [isComplete, setIsComplete] = useState(true);
+  const [isComplete, setIsComplete] = useState(false);
   const [replacingIds, setReplacingIds] = useState<Set<number>>(new Set());
   const [code,setCodes] = useState<any>([]);
   const topic = useSelector((state:RootState)=>state.topics.topics)
