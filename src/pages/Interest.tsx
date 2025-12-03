@@ -121,16 +121,17 @@ const score = useSelector((state:RootState)=>state.topics.score)
         <div><h1 className="text-[black] text-center text-[24px]">Pick 5 interests to continue</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {topics.map((topic) => (
-          <Card
+          <div
           key={topic.id}
-          className="p-4 bg-white border-gray-200 hover:shadow-md transition-shadow flex flex-col items-center justify-center text-center"
+          className="p-4 bg-[#EFE8DD] rounded-tl-[16px] rounded-tr-[16px] rounded-br-[16px] rounded-bl-none
+  hover:shadow-md transition-shadow flex flex-col items-center justify-center text-center"
         >
           {/* Category Tag */}
           <div>
             <span
-              className="inline-block p-1 text-xs font-normal rounded-[21px]"
+              className="inline-block p-1 text-xs font-medium rounded-tl-[8px] rounded-tr-[8px] rounded-br-[8px] rounded-bl-none "
               style={{
-                backgroundColor: "#DFD3E5",
+                backgroundColor: "#FFFFFF",
                 color: "#32302E",
               }}
             >
@@ -149,7 +150,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
             <Button
   size="sm"
   onClick={() => handleVote(topic.id, "interested", topic.title)}
-  className="relative overflow-hidden font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 px-0 py-0 bg-transparent"
+  className="relative overflow-hidden justify-center items-center font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 px-0 py-0 bg-transparent"
   asChild
 >
   <motion.div
@@ -162,20 +163,20 @@ const score = useSelector((state:RootState)=>state.topics.score)
       duration: 0.35,
       ease: "easeInOut",
     }}
-    className="flex cursor-pointer items-center justify-center px-6 py-2 rounded-md"
+    className="flex cursor-pointer items-center justify-center  px-12 py-2 rounded-md"
   >
     {topic.voted !== "interested" ? (
       <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
     ) : (
       <img src="/whitelove.svg" className="w-1.75 h-1.75 mr-1.5" />
     )}
-    Interested
+    <span className="font-medium text-[1.25vw]">Interested</span>
   </motion.div>
 </Button>
 
           </div>
 
-        </Card>
+        </div>
         
           ))}
         </div>
