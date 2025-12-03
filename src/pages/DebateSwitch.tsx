@@ -303,7 +303,7 @@ console.log("checkstance",stance)
               key={index}
               onClick={() => handlePromptClick(index + 1)}
               className={`w-full bg-[#EFE8DD] h-[15vh] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
-                hover:bg-[#FFA96D] hover:text-white
+                ${!feedback && "hover:bg-[#FFA96D]"} hover:text-white
               `}
             >
               {feedback && feedback.index === index + 1 ? (
@@ -313,7 +313,7 @@ console.log("checkstance",stance)
                   </div>
                 ) : (
                   <div className="flex h-full items-center justify-center relative">
-                    <div className="absolute -inset-2 rounded-3xl bg-black/5" />
+                    <div className="absolute rounded-3xl" />
                     <img src="/try.svg" className="max-h-18 md:max-h-20 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
                   </div>
                 )
@@ -366,17 +366,17 @@ console.log("checkstance",stance)
              key={index}
              onClick={() => handlePromptClick(index + 1)}
              className={`w-full bg-[#EFE8DD] h-[15vh] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
-               hover:bg-[#FFA96D] hover:text-white
+                ${!feedback  && "hover:bg-[#FFA96D]"} hover:text-white
              `}
            >
              {feedback && feedback.index === index + 1 ? (
-                feedback.correct ? (
+                feedback?.correct ? (
                   <div className="flex h-full items-center justify-center">
                     <img src="/try.svg" className="max-h-20 md:max-h-24 w-auto object-contain pointer-events-none" alt="Good Job" />
                   </div>
                 ) : (
                   <div className="flex h-full items-center justify-center relative">
-                    <div className="absolute -inset-2 rounded-3xl bg-black/5" />
+                    <div className="absolute  rounded-3xl " />
                     <img src="/try.svg" className="max-h-20 md:max-h-24 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
                   </div>
                 )

@@ -84,7 +84,7 @@ dispatch(decreaseScore(15))
       } else {
         setIsComplete(true);
       }
-    }, 800);
+    }, 1000);
   };
 
   // ----------------------------------------
@@ -175,7 +175,7 @@ if (isComplete ||done) {
               <div
                 key={answer.id}
                 className={`rounded-tl-[42px] h-[16vh] rounded-tr-[42px] rounded-br-[42px] 
-                  p-4 cursor-pointer transition-all bg-[#EFE8DD]  hover:bg-[#FFA96D]
+                  p-4 cursor-pointer transition-all bg-[#EFE8DD] ${!isSelected &&  "hover:bg-[#FFA96D]"}
                   
                 `}
                 onClick={() => handleSelect(answer.Word, isCorrect)}
@@ -205,7 +205,7 @@ if (isComplete ||done) {
                 {
                   isSelected && !isCorrect &&
                   <div className="flex h-full justify-center items-center relative">
-                    <div className="absolute -inset-2 rounded-3xl bg-black/5" />
+                    <div className="absolute rounded-3xl " />
                     <img src="/try.svg" className="h-[15vh] object-contain relative"/>
                   </div>
                 }
