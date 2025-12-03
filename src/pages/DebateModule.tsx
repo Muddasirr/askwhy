@@ -57,11 +57,11 @@ level="Advanced"
     <div className="justify-center items-center text-center pb-8 pt-2 font-medium text-[1.5vw] ">Headline #1</div>
 
     <div className="flex relative justify-center items-stretch gap-10">
-       {/* Right Column - Scenario Card */}
-  <div className="bg-white rounded-[1.25vw] p-4   w-[25vw] flex flex-col ">
+       {/* Left Column - Scenario Card */}
+  <div className="bg-white  rounded-[1.25vw] p-4   w-[25vw] flex flex-col ">
     <div>
       <p className="text-[#150800] font-normal  mx-4 text-[1.25vw]">Scenario 1</p>
-      <h2 className="text-[#150800] text-[1.3vw] mx-2  font-bold  my-10 leading-snug">
+      <h2 className="text-[#150800] text-[1.5vw] mx-2  font-bold  my-8 leading-snug">
         {props.debate?.Heading}
       </h2>
       
@@ -75,7 +75,7 @@ level="Advanced"
         const nameIdx = firstPara.indexOf(name);
         return (
           <div className="text-[#150800] mb-3 leading-relaxed">
-            <p>
+            <p className="font-normal text-[1.1vw]">
               {nameIdx >= 0 ? (
                 <>
                   <span className="font-bold">{name}</span>
@@ -85,7 +85,7 @@ level="Advanced"
                 firstPara
               )}
             </p>
-            {secondPara && <p className="mt-3">{secondPara}</p>}
+            {secondPara && <p className=" font-normal text-[1.1vw] mt-3">{secondPara}</p>}
           </div>
         );
       })()}
@@ -97,16 +97,16 @@ level="Advanced"
 }        </p>
       </div>
     </div>
-    <div>
+    <div className="mt-auto">
       <button
-        className="w-full py-2.5 rounded-md text-white font-medium text-base bg-[#FF803E] transition-colors"
+        className="w-full py-2.5 rounded-md text-white flex-end font-medium text-base bg-[#FF803E] transition-colors"
         onClick={() => props.setShow(false)}
       >
         Start Now
       </button>
     </div>
   </div>
-  {/* Left Column - Image + badge */}
+  {/* Right Column - Image + badge */}
   <div className="flex relative justify-end items-end rounded-lg bg-transparent">
     <img
       src={props.imageUrl}
