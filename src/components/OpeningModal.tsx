@@ -47,10 +47,10 @@ const OpeningModal = (props: any) => {
 
   return (
     <Dialog open={props.showIntroModal} onOpenChange={props.setShowIntroModal}>
-      <DialogContent className="max-w-[1100px] p-0 overflow-hidden bg-white grid grid-cols-[320px_1fr] gap-0 rounded-[12px] border-none">
+      <DialogContent className="max-w-[330px] md:max-w-[1100px] h-[80vh] p-0 overflow-y-scroll bg-white grid grid-cols-[320px_1fr] gap-0 rounded-[12px] border-none">
         
         {/* LEFT COLUMN: Arc counter */}
-        <div className="relative h-full w-full bg-white select-none">
+        <div className="relative h-full w-full bg-white select-none hidden md:flex">
           <svg
             className="absolute left-0 top-0 h-full w-full"
             viewBox="0 0 320 700"
@@ -148,7 +148,7 @@ const OpeningModal = (props: any) => {
             })()}
           </div>
           <p className="text-[#1E1E2F] text-[16px] leading-relaxed mb-8 max-w-[90%]">{props.description}</p>
-          <div className="flex items-center gap-6 mb-8 text-sm text-[#130719]">
+          <div className="flex items-left flex-col md:flex-row justify-left  gap-6 mb-8 text-sm text-[#130719]">
             <div className="flex items-center gap-2 text-[16px]">
               <img src="/I_1b.svg" className="w-5 h-5" alt="" />
               <span>{props.level} Level</span>
@@ -173,7 +173,7 @@ const OpeningModal = (props: any) => {
                 } catch (e) {}
                 props.setShowIntroModal(false);
               }}
-              className={`bg-[#FF803E] hover:bg-[#e58440] text-white rounded-md px-12 py-3 text-[1vw] font-medium flex justify-center items-center gap-2 transition-colors`}
+              className={`bg-[#FF803E] hover:bg-[#e58440] text-white rounded-md px-12 py-3 text-[4vw] md:text-[1vw] font-medium flex justify-center items-center gap-2 transition-colors`}
             >
               Start <ChevronRight size={20} />
             </Button>
