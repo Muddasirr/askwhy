@@ -113,7 +113,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
      calculated="not"
      level="Beginner"
      src={"/opening11.svg"} showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
-      <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
+      <div className={` px-4 pt-8 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
 <ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120} started={!showIntroModal}  left={Math.max(5-selectedCount,0)}/>

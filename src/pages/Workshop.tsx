@@ -131,16 +131,16 @@ const Workshop = () => {
             <StatBox number="3" label="Difficulty Levels" />
             {/* Pass unitFont for 'hr' style */}
             <StatBox number="1 hr" label="Total Duration" unitFont="Gabarito" />
-            <div onClick={()=>navigate("/interest")} className="flex w-[16vw] cursor-pointer justify-center items-center gap-4 bg-[#FF803E] hover:bg-[#ff7e1a] text-white px-6 py-3  rounded-[16px]  rounded-bl-none font-semibold  transition">
+            <div onClick={()=>navigate("/interest")} className="flex w-[16vw] cursor-pointer justify-center items-center gap-8 bg-[#FF803E] hover:bg-[#ff7e1a] text-white px-6 py-4  rounded-[16px]  rounded-bl-none font-semibold  transition">
               <div>
-                <div className="text-left font-normal">Click here to</div>
+                <div className="text-left font-normal text-[1.1vw]">Click here to</div>
                 <div className="text-left font-semibold text-[2vw]">
                   {" "}
                   Start
                 </div>
               </div>
               <div>
-                <ChevronRight size={60} />
+                <ChevronRight size={32} />
               </div>
             </div>
           </div>
