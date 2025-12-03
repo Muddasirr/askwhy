@@ -206,7 +206,7 @@ if (isComplete ||done) {
                   isSelected && !isCorrect &&
                   <div className="flex h-full justify-center items-center relative">
                     <div className="absolute -inset-2 rounded-3xl bg-black/5" />
-                    <img src="/trynot.svg" className="h-[15vh] object-contain relative"/>
+                    <img src="/try.svg" className="h-[15vh] object-contain relative"/>
                   </div>
                 }
 
