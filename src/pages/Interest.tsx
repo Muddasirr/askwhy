@@ -163,7 +163,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
       duration: 0.35,
       ease: "easeInOut",
     }}
-    className="flex cursor-pointer items-center justify-center  px-12 py-2 rounded-md"
+    className="flex cursor-pointer items-center justify-center  px-6 py-2 rounded-md"
   >
     {topic.voted !== "interested" ? (
       <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
