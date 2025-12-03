@@ -125,7 +125,7 @@ const Workshop = () => {
 
 
         {/* ================= STATS BAR ================= */}
-        <div className="flex items-center justify-center px-16  py-6 flex-col">
+        <div className="flex items-center justify-center px-12  py-6 flex-col" style={{ display:"block"}}>
           <div className="flex gap-8 flex-col md:flex-row lg:flex-row">
             <StatBox number="7" label="Total Modules" />
             <StatBox number="3" label="Total Phases" />
