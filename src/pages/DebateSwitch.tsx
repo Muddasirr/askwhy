@@ -302,7 +302,7 @@ console.log("checkstance",stance)
               <button
               key={index}
               onClick={() => handlePromptClick(index + 1)}
-              className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
+              className={`w-full bg-[#EFE8DD] h-[15vh] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
                 hover:bg-[#FFA96D] hover:text-white
               `}
             >
@@ -314,12 +314,12 @@ console.log("checkstance",stance)
                 ) : (
                   <div className="flex h-full items-center justify-center relative">
                     <div className="absolute -inset-2 rounded-3xl bg-black/5" />
-                    <img src="/trynot.svg" className="max-h-18 md:max-h-20 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
+                    <img src="/try.svg" className="max-h-18 md:max-h-20 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
                   </div>
                 )
               ) : (
                 <>
-                  <p className="text-sm leading-snug">{prompt}</p>
+                  <p className="text-[1vw] leading-snug">{prompt}</p>
                   <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
                     Prompt {String.fromCharCode(65 + index)}
                   </p>
@@ -365,7 +365,7 @@ console.log("checkstance",stance)
              <button
              key={index}
              onClick={() => handlePromptClick(index + 1)}
-             className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
+             className={`w-full bg-[#EFE8DD] h-[15vh] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
                hover:bg-[#FFA96D] hover:text-white
              `}
            >
@@ -377,12 +377,12 @@ console.log("checkstance",stance)
                 ) : (
                   <div className="flex h-full items-center justify-center relative">
                     <div className="absolute -inset-2 rounded-3xl bg-black/5" />
-                    <img src="/trynot.svg" className="max-h-20 md:max-h-24 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
+                    <img src="/try.svg" className="max-h-20 md:max-h-24 w-auto object-contain relative pointer-events-none" alt="Uh oh" />
                   </div>
                 )
               ) : (
                 <>
-                  <p className="text-sm leading-snug">{prompt}</p>
+                  <p className="text-[1vw] leading-snug">{prompt}</p>
                   <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
                     Prompt {String.fromCharCode(65 + index)}
                   </p>

@@ -124,17 +124,17 @@ const Workshop = () => {
 
 
         {/* ================= STATS BAR ================= */}
-        <div className="flex items-center justify-center px-16  py-6">
+        <div className="flex items-center justify-center px-12  py-6">
           <div className="flex gap-8">
             <StatBox number="7" label="Total Modules" />
             <StatBox number="3" label="Total Phases" />
             <StatBox number="3" label="Difficulty Levels" />
             {/* Pass unitFont for 'hr' style */}
             <StatBox number="1 hr" label="Total Duration" unitFont="Gabarito" />
-            <div onClick={()=>navigate("/interest")} className="flex w-[15vw] cursor-pointer justify-center items-center gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-6 py-3  rounded-[16px]  rounded-bl-none font-semibold  transition">
+            <div onClick={()=>navigate("/interest")} className="flex w-[16vw] cursor-pointer justify-center items-center gap-4 bg-[#FF803E] hover:bg-[#ff7e1a] text-white px-6 py-3  rounded-[16px]  rounded-bl-none font-semibold  transition">
               <div>
                 <div className="text-left font-normal">Click here to</div>
-                <div className="text-left font-semibold text-[1.5vw]">
+                <div className="text-left font-semibold text-[2vw]">
                   {" "}
                   Start
                 </div>
@@ -148,8 +148,8 @@ const Workshop = () => {
 
         {/* ================= DESCRIPTION ================= */}
         <div className="flex flex-col gap-8">
-          <div className="flex justify-center px-16 gap-16"> 
-            <div className="py-6 text-gray-700 leading-relaxed">
+          <div className="flex justify-center  px-12 gap-42"> 
+            <div className="py-6 text-gray-700 leading-relaxed mr-24 w-[40%]">
               <p className="mb-4 text-[#4C1C62] font-gabarito font-normal text-2xl leading-none tracking-normal">
                 A glow up for your brain. How does that <br></br>sound?
               </p>
@@ -184,6 +184,7 @@ const Workshop = () => {
                 /* Custom scrollbar thumb */
                 '&::-webkit-scrollbar': {
                     width: '17px', // Set width
+                    background: 'linear-gradient(180deg, #D0193E 0%, #5F237B 100%)',
                 },
                 '&::-webkit-scrollbar-thumb': {
                     borderRadius: '15px', // Set border-radius
@@ -198,7 +199,7 @@ const Workshop = () => {
                       className="flex items-center gap-3 cursor-pointer mb-4 group"
                       onClick={() => togglePhase(phase.id)}
                     >
-                      <div className="w-4 h-4 rounded-full bg-purple-700"></div>
+                      <div className="w-4 h-4 rounded-full bg-[#5F237B]"></div>
                       <h3 className={`font-gabarito font-semibold text-2xl leading-none ${phase.color}`}>
                         {phase.title}
                       </h3>
@@ -212,7 +213,7 @@ const Workshop = () => {
                     {/* Modules List */}
                     {expandedPhases.includes(phase.id) && (
                       <div
-                       className="space-y-4 pl-8 border-left" 
+                       className="space-y-4 pl-4 ml-2 border-left -mt-6 pt-6" 
                       style={{ borderLeftColor: '#D9D9D9', borderLeftWidth: '1px' }}>
                         {phase.modules.map((module) => (
                           <ModuleCard key={module.id} module={module} />
@@ -243,7 +244,7 @@ const StatBox = (props: { number: string; label: string; highlight?: boolean; un
     <div
     className={`px-6 py-2 flex items-center justify-center bg-white gap-4 text-center
       ${props.highlight ? "border-purple-500 bg-purple-50" : "border-gray-300"}
-      rounded-[16px] rounded-bl-none w-[15vw]
+      rounded-[16px] rounded-bl-none w-[16vw]
     `}
   >
   
@@ -273,11 +274,13 @@ const StatBox = (props: { number: string; label: string; highlight?: boolean; un
 
 const ModuleCard = ({ module }: { module: any }) => {
   // Determine text color based on locked status
-  const textColor = module.locked ? 'text-[#757888]' : 'text-purple-900';
+  const headingColor = module.locked ? 'text-[#757888]' : 'text-[#5F237B]';
+
+  const textColor = module.locked ? 'text-[#757888]' : 'text-[#150800]';
   // Determine card background color
-  const cardBg = module.locked ? 'bg-[#F1F5F9] border-gray-200' : 'bg-amber-50';
+  const cardBg = module.locked ? 'bg-[#EDE1D0] border-gray-200' : 'bg-[#F8F1E7]';
   // Determine icon container background color
-  const iconBg = module.locked ? 'bg-[#F1F5F9] border-gray-400' : 'bg-white border-gray-900';
+  const iconBg = module.locked ? 'bg-[#F1F5F9] border-gray-400' : 'bg-[white border-gray-900]';
   // Determine clock icon color (for text/span element wrapping the icon)
   const clockColor = module.locked ? 'text-[#D9D9D9]' : 'text-black-500';
 
@@ -300,18 +303,18 @@ const ModuleCard = ({ module }: { module: any }) => {
       {/* Content Section */}
       <div className="flex-1">
         {/* Title text color */}
-        <h3 className={`text-xl font-bold mb-1 ${textColor}`}>{module.title}</h3>
+        <h3 className={`text-[1.75vw] font-semibold  ${headingColor}`}>{module.title}</h3>
         {/* Description text color */}
-        <p className={`mb-3 text-sm ${textColor}`}>{module.description}</p>
+        <p className={`mb-3 font-normal text-[1.25vw] ${textColor}`}>{module.description}</p>
 
         <div className="flex items-center gap-4">
           {/* Level text color */}
-          <div className={`flex items-center gap-2 font-medium text-sm ${textColor}`}>
+          <div className={`flex items-center gap-2 font-normal text-sm ${textColor}`}>
             <img src={"/Level.svg"} className="w-4 h-4" /> 
             <span>{module.level}</span>
           </div>
           {/* Duration/Clock text and icon color */}
-          <div className={`flex items-center gap-2 font-medium text-sm ${clockColor}`}>
+          <div className={`flex items-center gap-2 font-normal text-sm ${clockColor}`}>
             {/* The clock icon color is now handled by the parent div's text color */}
             <img src={"/uim_clock.svg"} className={`w-4 h-4`} /> 
             <span>{module.duration}</span>

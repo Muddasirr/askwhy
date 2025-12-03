@@ -18,8 +18,8 @@ const TooltipCarousel = ({ slides, onClose,header }) => {
       <div className="p-2 flex-1">
         <div className="flex items-start ">
           {/* Icon */}
-          <div className="w-6 h-6 flex-shrink-0 rounded-full bg-[#FF9348] flex items-center justify-center">
-            <img src="/tooltip.svg" className="w-6 h-6" />
+          <div className="w-10 h-10 flex-shrink-0 rounded-full bg-[#FF9348] flex items-center justify-center">
+            <img src="/tooltip.svg" className="w-10 h-10" />
           </div>
 
           {/* Text */}

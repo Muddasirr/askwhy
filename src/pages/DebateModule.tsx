@@ -58,11 +58,11 @@ level="Advanced"
 
     <div className="flex relative justify-center items-stretch gap-10">
        {/* Right Column - Scenario Card */}
-  <div className="bg-white rounded-lg p-4  w-[25vw] flex flex-col ">
+  <div className="bg-white rounded-[1.25vw] p-4   w-[25vw] flex flex-col ">
     <div>
       <p className="text-[#150800] font-normal  mx-4 text-[1.25vw]">Scenario 1</p>
       <h2 className="text-[#150800] text-[1.3vw] mx-2  font-bold  my-10 leading-snug">
-        "{props.debate?.Heading}"
+        {props.debate?.Heading}
       </h2>
       
       {(() => {
