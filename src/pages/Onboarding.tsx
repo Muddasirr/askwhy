@@ -129,15 +129,15 @@ export default function Onboarding() {
           </div>
 
           {/* Text content */}
-          <div className="relative z-10 pl-16 w-[50%]">
-            <h1 className="text-[84px] font-bold text-black leading-tight mb-6">
+          <div className="relative z-10 pl-32 w-[60%]">
+            <h1 className="text-[7vw] font-bold text-black leading-tight mb-12">
               What if we start navigating it through?
             </h1>
             <button
               onClick={() => navigate("/login")}
-              className="bg-[#FF7A00] text-white text-lg flex justify-center items-center px-6 py-2 rounded-md hover:bg-[#e86a00] transition"
+              className="bg-[#FF803E] font-medium text-white text-[1.25vw]  flex justify-center items-center px-6 py-2 rounded-md hover:bg-[#e86a00] transition"
             >
-              Click here to start <ChevronRight/>
+             <span> Click here to start</span>  <ChevronRight/>
             </button>
           </div>
         </div>
