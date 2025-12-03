@@ -32,7 +32,7 @@ if (question.Keyword2) {
 }
 
 if (question.Keyword3!="") {
-  biasedPhrases[question.Keyword3] = { difficulty: "hard", color: "#FFA96D" };
+  biasedPhrases[question.Keyword3] = { difficulty: "difficult", color: "#FFA96D" };
 }
 console.log(biasedPhrases)
 
