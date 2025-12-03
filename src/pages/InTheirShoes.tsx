@@ -211,7 +211,7 @@ const [done,setDone] = useState(false)
   if (currentScreen === "roleSelection") {
       return (
           <div className="p-12">
-              <main className="h-[90vh] bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] ">
+              <main className="h-[90vh] pt-8 bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] ">
                   <OpeningModal
                       showIntroModal={showIntroModal}
                       moduleId={"M7"}
@@ -269,7 +269,7 @@ const [done,setDone] = useState(false)
       return (
 
           <div className="p-12">
-              <main className=" rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] h-[90vh] bg-[#F8F1E7] ">
+              <main className=" rounded-[24px] pt-8 shadow-[0px_0px_25px_0px_#0000001A_inset] h-[90vh] bg-[#F8F1E7] ">
                   <div className="max-w-7xl mx-auto flex flex-col">
                       {/* Header */}
                       <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score}  headingColor="#FF803E"   module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
@@ -319,7 +319,7 @@ const [done,setDone] = useState(false)
 
       return (
           <div className="p-12">
-              <main className=" rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] min-h-[90vh] bg-[#F8F1E7]  ">
+              <main className=" rounded-[24px] pt-8 shadow-[0px_0px_25px_0px_#0000001A_inset] min-h-[90vh] bg-[#F8F1E7]  ">
            
                   <div className="max-w-7xl mx-auto relative">
                   {/* <button
