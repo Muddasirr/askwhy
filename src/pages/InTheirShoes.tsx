@@ -31,7 +31,7 @@ const InTheirShoes = () => {
   const [usedRoles, setUsedRoles] = useState<string[]>([]);
   const [questionStep, setQuestionStep] = useState<1 | 2>(1);
   const [showIntroModal, setShowIntroModal] = useState<boolean>(true);
-  
+  console.log("select",selectedRole)
   // ⭐ NEW STATE: Map answer label (A, B, C) to the tooltip text that should appear
   const [tooltipMapping, setTooltipMapping] = useState<{ [key: string]: string | null }>({});
 
@@ -274,8 +274,8 @@ const [done,setDone] = useState(false)
                       {/* Header */}
                       <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score}  headingColor="#FF803E"   module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
                       <div className="text-center ">
-                          <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
-                          <p className="text-lg text-[#201E1C]">
+                          <h2 className="text-[1.25vw] font-medium text-[#201E1C] ">Choose Your Role:</h2>
+                          <p className="text-[1.25vw]  font-medium text-[#201E1C]">
                               Each scenario puts you in a different position of power and perspective
                           </p>
                       </div>
@@ -292,17 +292,17 @@ const [done,setDone] = useState(false)
 
                           {/* Right: Scenario Text */}
                           <div className="w-2/3 flex flex-col   px-8">
-                              <h2 className="text-[1.25vw] bg-white font-normal text-gray-900 mb-8 w-fit px-[16px] py-[4px] rounded-[40px]">
-                                  Scenario {round}
+                              <h2 className="text-[1.25vw] font-normal  mb-8 w-fit text-[#150800] py-[4px] rounded-[40px]">
+                                  #01 {selectedRole}
                               </h2>
 
-                              <p className="text-[1.25vw] text-gray-800 leading-relaxed mb-8 max-w-lg">
+                              <p className="text-[1.5vw] text-[#260E31]  mb-8 font-medium">
                                   {roleDetails.Scenario}
                               </p>
                               <button onClick={() => { setCurrentScreen("question") }}
-                                  className="bg-[#FF9348] flex items-center justify-center
-              w-[10vw] text-white font-medium px-6 py-2 gap-4 rounded-lg hover:opacity-90 transition">
-                                  <div>   Next  </div> <ChevronRight size={16} />
+                                  className="bg-[#FF803E] flex items-center justify-center
+              w-[10vw] text-white font-medium px-6 py-2 gap-4 rounded-[6px] hover:opacity-90 transition">
+                                  <div>   Next  </div> 
                               </button>
                           </div>
                       </div>
@@ -374,13 +374,49 @@ const [done,setDone] = useState(false)
                               {/* Image */}
                               {/* Image with Next button */}
                               <div className="relative mb-2 w-full flex justify-center items-center">
-  <img
+{selectedRole!="Family" && selectedRole!="Team Captain" && selectedRole!="School Editor" && <img
+
     src="/module7.svg"
     alt="Teacher"
     width={144}
     height={144}
     className="rounded-md"
-  />
+  />}
+   {selectedRole=="Family" && 
+   <img
+
+   src="/grandma.svg"
+   alt="Teacher"
+   width={144}
+   height={144}
+   className="rounded-md"
+ />
+  }
+   {selectedRole=="Team Captain" && 
+   <img
+
+   src="/captain.svg"
+   alt="Teacher"
+   width={144}
+   height={144}
+   className="rounded-md"
+ />
+  }
+   {selectedRole=="School Editor" && 
+   <img
+
+   src="/editor.svg"
+   alt="Teacher"
+   width={144}
+   height={144}
+   className="rounded-md"
+ />
+  }
+ 
+
+
+
+
   
  {check && <button
     onClick={()=>{
