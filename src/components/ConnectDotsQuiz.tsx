@@ -111,7 +111,7 @@ if (isComplete ||done) {
   // ----------------------------------------
   
   return (<div className="p-12">
-    <div className=" bg-[#F8F1E7] min-h-screen overflow-auto py-2  px-24 flex flex-col rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] ">
+    <div className=" bg-[#F8F1E7] min-h-screen overflow-auto py-8 px-24 flex flex-col rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] ">
 
       <div className="   ">
 
