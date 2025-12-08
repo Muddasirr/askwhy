@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Timer, ThumbsUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = "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";
 
 
 const DebateSwitch = (props) => {
