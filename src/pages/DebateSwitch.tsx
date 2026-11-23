@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Timer, ThumbsUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const GROQ_API_KEY = "***REMOVED***";
+// Groq is called through /api/groq so the API key stays on the server.
 
 
 const DebateSwitch = (props) => {
@@ -113,10 +113,9 @@ console.log("stance",{
   stance,
   userStance
 })
-      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      const res = await fetch("/api/groq", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${GROQ_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -176,10 +175,9 @@ console.log("stance",{
 
   
     try {
-      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      const res = await fetch("/api/groq", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${GROQ_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
