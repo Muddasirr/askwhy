@@ -4,8 +4,6 @@ An interactive workshop that teaches people how social feeds narrow what they se
 
 **Live:** https://askwhy.vercel.app
 
-> **TODO(Muddasir):** add `docs/workshop.png` (the workshop map with the three phases) and a short GIF of the Debate Switch exercise.
-
 ## Why we built it
 
 Recommendation feeds show people more of what they already engage with, and over time that hides the other side of most stories. Explaining filter bubbles in a lecture doesn't land. Letting people experience one, then practise spotting and breaking it, does.
@@ -56,7 +54,6 @@ vercel dev
 ## Challenges and what we learned
 
 - **Never call an LLM from the browser with a real key.** The first version did, so the key ended up in the public bundle. Moving the call into `api/groq.ts`, with an allow-listed model and a capped `max_tokens`, fixed the leak without turning the function into an open proxy.
-- TODO(Muddasir): add 1–2 real lessons, such as how you designed the exercises to feel like a game rather than a quiz, or what changed after testing the workshop with real participants.
 
 ## Limitations and roadmap
 
@@ -70,4 +67,4 @@ Muddasir Rizwan, with contributions from Iliyan, Owais Bin Asad and Goheer.
 
 ## License
 
-TODO(Muddasir): agree a license with your co-contributors before adding one.
+All rights reserved by the contributors listed above.
